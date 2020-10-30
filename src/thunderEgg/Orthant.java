@@ -1,4 +1,4 @@
-package meshCreator;
+package thunderEgg;
 
 public class Orthant {
 	/**

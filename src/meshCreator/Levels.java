@@ -6,6 +6,11 @@ import java.util.LinkedList;
 import java.util.Queue;
 import java.util.Set;
 
+import thunderEgg.Neighbor;
+import thunderEgg.Orthant;
+import thunderEgg.Patch;
+import thunderEgg.Side;
+
 public class Levels {
 	public ArrayList<ArrayList<Patch>> levels;
 	public Forest forest;

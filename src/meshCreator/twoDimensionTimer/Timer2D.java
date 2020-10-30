@@ -31,11 +31,11 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.util.Pair;
-import meshCreator.GsonAdapters;
-import meshCreator.Info;
-import meshCreator.Patch;
-import meshCreator.Timer;
-import meshCreator.Timing;
+import thunderEgg.GsonAdapters;
+import thunderEgg.Info;
+import thunderEgg.Patch;
+import thunderEgg.Timer;
+import thunderEgg.Timing;
 import meshCreator.threeDimensions.RMCreator3D;
 
 public class Timer2D extends Application {

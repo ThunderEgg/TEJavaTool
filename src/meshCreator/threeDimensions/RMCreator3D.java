@@ -1,26 +1,11 @@
 package meshCreator.threeDimensions;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.nio.ByteBuffer;
-import java.nio.ByteOrder;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -28,20 +13,17 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import meshCreator.Forest;
-import meshCreator.GsonAdapters;
+import thunderEgg.GsonAdapters;
 import meshCreator.Levels;
-import meshCreator.Side;
+import thunderEgg.Side;
 import meshCreator.twoDimensions.RMCreator2D;
 
 public class RMCreator3D extends Application {
@@ -73,24 +55,24 @@ public class RMCreator3D extends Application {
 		scene.setOnKeyTyped(new EventHandler<KeyEvent>() {
 			public void handle(KeyEvent e) {
 				switch (e.getCharacter()) {
-				case "a":
-					panel.moveSelected(Side.WEST());
-					break;
-				case "q":
-					panel.moveSelected(Side.EAST());
-					break;
-				case "s":
-					panel.moveSelected(Side.SOUTH());
-					break;
-				case "w":
-					panel.moveSelected(Side.NORTH());
-					break;
-				case "d":
-					panel.moveSelected(Side.BOTTOM());
-					break;
-				case "e":
-					panel.moveSelected(Side.TOP());
-					break;
+					case "a":
+						panel.moveSelected(Side.WEST());
+						break;
+					case "q":
+						panel.moveSelected(Side.EAST());
+						break;
+					case "s":
+						panel.moveSelected(Side.SOUTH());
+						break;
+					case "w":
+						panel.moveSelected(Side.NORTH());
+						break;
+					case "d":
+						panel.moveSelected(Side.BOTTOM());
+						break;
+					case "e":
+						panel.moveSelected(Side.TOP());
+						break;
 				}
 			}
 		});

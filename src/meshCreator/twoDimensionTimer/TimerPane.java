@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.function.Consumer;
 
-import org.hsqldb.util.FontDialogSwing;
-
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
@@ -18,7 +16,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
-import meshCreator.Patch;
+import thunderEgg.Patch;
 
 public class TimerPane extends Pane {
 

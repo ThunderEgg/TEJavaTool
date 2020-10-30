@@ -22,8 +22,8 @@ import javafx.scene.transform.Scale;
 import javafx.scene.transform.Translate;
 import meshCreator.Forest;
 import meshCreator.Node;
-import meshCreator.Orthant;
-import meshCreator.Side;
+import thunderEgg.Orthant;
+import thunderEgg.Side;
 
 public class RMScenePane extends Pane {
 

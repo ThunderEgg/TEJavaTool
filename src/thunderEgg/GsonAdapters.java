@@ -1,4 +1,4 @@
-package meshCreator;
+package thunderEgg;
 
 import java.lang.reflect.Type;
 

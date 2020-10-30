@@ -1,4 +1,4 @@
-package meshCreator;
+package thunderEgg;
 
 import java.util.ArrayList;
 
@@ -31,10 +31,12 @@ public class Neighbor {
 
 	/**
 	 * Create new Neighbor
-	 * @param side the side that the neighbor is on
-	 * @param type the type of neighbor can be "coarse", "fine", or "normal"
-	 * @param ids the ids of the neighbors
-	 * @param ranks the ranks of the neighbors 
+	 * 
+	 * @param side           the side that the neighbor is on
+	 * @param type           the type of neighbor can be "coarse", "fine", or
+	 *                       "normal"
+	 * @param ids            the ids of the neighbors
+	 * @param ranks          the ranks of the neighbors
 	 * @param orth_on_coarse the orthant on the neighbor if "coarse", null otherwise
 	 */
 	public Neighbor(Side side, String type, ArrayList<Integer> ids, ArrayList<Integer> ranks, Orthant orth_on_coarse) {

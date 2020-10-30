@@ -1,11 +1,6 @@
 package meshCreator.twoDimensions;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
 
 import javafx.event.EventHandler;
 import javafx.geometry.VPos;
@@ -18,12 +13,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Translate;
-import meshCreator.Forest;
 import meshCreator.Levels;
 import meshCreator.Node;
-import meshCreator.Orthant;
-import meshCreator.Patch;
-import meshCreator.Side;
+import thunderEgg.Patch;
 
 public class RMBalancePane extends Pane {
 

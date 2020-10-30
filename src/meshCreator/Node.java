@@ -1,5 +1,8 @@
 package meshCreator;
 
+import thunderEgg.Orthant;
+import thunderEgg.Side;
+
 /**
  * Represents a node in a tree
  * 
@@ -251,6 +254,7 @@ public class Node {
 
 	/**
 	 * Get the dimension
+	 * 
 	 * @returnt the dimension
 	 */
 	public int getDimension() {

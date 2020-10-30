@@ -6,7 +6,7 @@ import java.util.Map;
 
 import javafx.scene.Node;
 import javafx.scene.paint.Color;
-import meshCreator.Patch;
+import thunderEgg.Patch;
 
 public class TimerPaneSupplier extends PaneSupplier {
     private Map<Integer, String> text_map = new HashMap<Integer, String>();

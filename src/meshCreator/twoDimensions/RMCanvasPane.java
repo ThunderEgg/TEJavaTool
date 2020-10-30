@@ -1,15 +1,8 @@
 package meshCreator.twoDimensions;
 
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.Pane;
@@ -17,8 +10,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.transform.Translate;
 import meshCreator.Forest;
 import meshCreator.Node;
-import meshCreator.Orthant;
-import meshCreator.Side;
+import thunderEgg.Orthant;
 
 public class RMCanvasPane extends Pane {
 
@@ -74,15 +66,15 @@ public class RMCanvasPane extends Pane {
 					double y = (size - (me.getY() - y_trans)) / (double) size;
 					if (mode != null) {
 						switch (mode) {
-						case add:
-							addNbrAt(x, y);
-							break;
-						case coarsen:
-							coarsenAt(x, y);
-							break;
-						case refine:
-							refineAt(x, y);
-							break;
+							case add:
+								addNbrAt(x, y);
+								break;
+							case coarsen:
+								coarsenAt(x, y);
+								break;
+							case refine:
+								refineAt(x, y);
+								break;
 						}
 					}
 				}
