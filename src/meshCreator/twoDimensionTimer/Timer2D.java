@@ -6,22 +6,15 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
-
 import com.google.gson.Gson;
 import com.google.gson.JsonIOException;
-
 import javafx.application.Application;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-import javafx.scene.control.Toggle;
-import javafx.scene.control.ToggleButton;
-import javafx.scene.control.ToggleGroup;
 import javafx.scene.control.ToolBar;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
@@ -36,7 +29,6 @@ import thunderEgg.Info;
 import thunderEgg.Patch;
 import thunderEgg.Timer;
 import thunderEgg.Timing;
-import meshCreator.threeDimensions.RMCreator3D;
 
 public class Timer2D extends Application {
 
@@ -62,8 +54,9 @@ public class Timer2D extends Application {
 
 		treeView = new TreeView<PaneSupplier>();
 		treeView.setShowRoot(false);
-		treeView.getSelectionModel().selectedItemProperty()
-				.addListener((observable, oldValue, newValue) -> root.setCenter(newValue.getValue().get()));
+		treeView.getSelectionModel().selectedItemProperty().addListener((observable, oldValue, newValue) -> {
+			root.setCenter(newValue.getValue().get());
+		});
 		root.setLeft(treeView);
 
 		VBox vbox = new VBox();
@@ -103,15 +96,6 @@ public class Timer2D extends Application {
 	}
 
 	private void setTimer(Timer timer) {
-		panel.setPatches(timer.domains.get(0));
-		Map<Integer, String> text_map = new HashMap<Integer, String>();
-		for (Timing timing : timer.timings.get(2).timings.get(0).timings.get(0).timings) {
-			String s = "min: " + Double.toString(timing.infos.get(0).min) + "\n";
-			s += "max: " + Double.toString(timing.infos.get(0).max) + "\n";
-			s += "avg: " + Double.toString(timing.infos.get(0).sum / timing.infos.get(0).num_calls);
-			text_map.put(timing.patch_id, s);
-		}
-		panel.setPatchText(text_map);
 		TreeItem<PaneSupplier> root = new TreeItem<>();
 		AddTimingsToItem(timer.domains, timer.timings, root);
 		treeView.setRoot(root);

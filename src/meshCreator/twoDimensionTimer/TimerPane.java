@@ -22,10 +22,8 @@ public class TimerPane extends Pane {
 
 	private double cursor_x = 0;
 	private double cursor_y = 0;
-	private double scroll = 0;
-	private int x_trans = 10;
-	private int y_trans = 10;
 	private double size = 300;
+	private Position position = new Position();
 	private Canvas canvas;
 	private Map<Integer, Color> rank_color_map;
 	private ArrayList<Patch> patches;
@@ -45,8 +43,8 @@ public class TimerPane extends Pane {
 		canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
 			public void handle(MouseEvent me) {
 				if (!me.isStillSincePress()) {
-					x_trans += (me.getX() - cursor_x);
-					y_trans += (me.getY() - cursor_y);
+					position.x_trans += (me.getX() - cursor_x);
+					position.y_trans += (me.getY() - cursor_y);
 					cursor_x = me.getX();
 					cursor_y = me.getY();
 					paint();
@@ -63,10 +61,10 @@ public class TimerPane extends Pane {
 			public void handle(MouseEvent me) {
 				if (me.isStillSincePress()) {
 					if (patch_click_callback != null) {
-						int size = (int) (300 * Math.pow(1.1, scroll));
+						int size = (int) (300 * Math.pow(1.1, position.scroll));
 						double[] coord = new double[2];
-						coord[0] = (me.getX() - x_trans) / (double) size;
-						coord[1] = (size - (me.getY() - y_trans)) / (double) size;
+						coord[0] = (me.getX() - position.x_trans) / (double) size;
+						coord[1] = (size - (me.getY() - position.y_trans)) / (double) size;
 						Patch patch = getPatchAt(coord);
 						if (patch != null) {
 							patch_click_callback.accept(patch);
@@ -79,10 +77,10 @@ public class TimerPane extends Pane {
 		canvas.setOnScroll(new EventHandler<ScrollEvent>() {
 			public void handle(ScrollEvent e) {
 				double delta = e.getDeltaY() / e.getMultiplierY();
-				scroll += delta;
-				size = (int) (300 * Math.pow(1.1, scroll));
-				x_trans = (int) ((x_trans - e.getX()) * Math.pow(1.1, delta) + e.getX());
-				y_trans = (int) ((y_trans - e.getY()) * Math.pow(1.1, delta) + e.getY());
+				position.scroll += delta;
+				size = (int) (300 * Math.pow(1.1, position.scroll));
+				position.x_trans = (int) ((position.x_trans - e.getX()) * Math.pow(1.1, delta) + e.getX());
+				position.y_trans = (int) ((position.y_trans - e.getY()) * Math.pow(1.1, delta) + e.getY());
 				paint();
 			}
 		});
@@ -91,9 +89,9 @@ public class TimerPane extends Pane {
 
 	public void paint() {
 		GraphicsContext g = canvas.getGraphicsContext2D();
-		Translate r = new Translate(x_trans, y_trans);
+		Translate r = new Translate(position.x_trans, position.y_trans);
 		g.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
-		g.clearRect(-x_trans, -y_trans, canvas.getWidth(), canvas.getHeight());
+		g.clearRect(-position.x_trans, -position.y_trans, canvas.getWidth(), canvas.getHeight());
 		drawPatches(g);
 	}
 
