@@ -1,6 +1,7 @@
 package dev.thunderegg.meshcreator.twodimensiontimer;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Consumer;
 
@@ -34,10 +35,18 @@ public class TimerPane extends Pane {
 		this.patches = patches;
 		this.rank_color_map = rank_color_map;
 
-		/*
-		 * move_adapter=new MoveAdapter(this); addMouseListener(move_adapter);
-		 * addMouseMotionListener(move_adapter);
-		 */
+		addCanvas(patch_click_callback);
+		paint();
+	}
+
+	public TimerPane() {
+		rank_color_map = new HashMap<>();
+		patches = new ArrayList<>();
+		addCanvas(null);
+		paint();
+	}
+
+	private void addCanvas(Consumer<Patch> patch_click_callback) {
 		canvas = new Canvas();
 		getChildren().add(canvas);
 		canvas.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -84,7 +93,6 @@ public class TimerPane extends Pane {
 				paint();
 			}
 		});
-		paint();
 	}
 
 	public void paint() {
