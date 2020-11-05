@@ -1,7 +1,5 @@
 package dev.thunderegg;
 
-import java.util.ArrayList;
-
 /**
  * Represents the neighbor of a patch
  * 
