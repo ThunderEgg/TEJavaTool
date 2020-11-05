@@ -19,11 +19,11 @@ public class Neighbor {
 	/**
 	 * The ids of the neighboring patches
 	 */
-	public ArrayList<Integer> ids;
+	public int[] ids;
 	/**
 	 * The ranks of the neighboring patches
 	 */
-	public ArrayList<Integer> ranks;
+	public int[] ranks;
 	/**
 	 * The orthant of the neighboring patch
 	 */
@@ -39,7 +39,7 @@ public class Neighbor {
 	 * @param ranks          the ranks of the neighbors
 	 * @param orth_on_coarse the orthant on the neighbor if "coarse", null otherwise
 	 */
-	public Neighbor(Side side, String type, ArrayList<Integer> ids, ArrayList<Integer> ranks, Orthant orth_on_coarse) {
+	public Neighbor(Side side, String type, int[] ids, int[] ranks, Orthant orth_on_coarse) {
 		this.side = side;
 		this.type = type;
 		this.ids = ids;

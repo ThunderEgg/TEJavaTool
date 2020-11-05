@@ -29,9 +29,9 @@ public class Patch {
 
 	public void updateNbrRankFor(int nbr_id, int new_rank) {
 		for (Neighbor nbr : nbrs) {
-			for (int i = 0; i < nbr.ids.size(); i++) {
-				if (nbr.ids.get(i) == nbr_id) {
-					nbr.ranks.set(i, new_rank);
+			for (int i = 0; i < nbr.ids.length; i++) {
+				if (nbr.ids[i] == nbr_id) {
+					nbr.ranks[i] = new_rank;
 				}
 			}
 		}

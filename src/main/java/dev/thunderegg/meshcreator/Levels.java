@@ -123,30 +123,32 @@ public class Levels {
 	}
 
 	private Neighbor getNormalNbr(Node node, Side s) {
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		ArrayList<Integer> ranks = new ArrayList<Integer>();
-		ids.add(node.getNbrId(s));
-		ranks.add(0);
+		int[] ids = new int[1];
+		int[] ranks = new int[1];
+		ids[0] = node.getNbrId(s);
+		ranks[0] = 0;
 		return new Neighbor(s, "NORMAL", ids, ranks, null);
 	}
 
 	private Neighbor getFinerNbr(Node node, Side s) {
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		ArrayList<Integer> ranks = new ArrayList<Integer>();
+		int[] ids = new int[Orthant.getNumOrthantsForDimension(node.getDimension()) / 2];
+		int[] ranks = new int[ids.length];
+		int index = 0;
+		Node nbr = forest.getNode(node.getNbrId(s));
 		for (Orthant o : Orthant.GetValuesOnSide(node.getDimension(), s.getOpposite())) {
-			Node nbr = forest.getNode(node.getNbrId(s));
-			ids.add(nbr.getChildId(o));
-			ranks.add(0);
+			ids[index] = nbr.getChildId(o);
+			ranks[index] = 0;
+			index++;
 		}
 		return new Neighbor(s, "FINE", ids, ranks, null);
 	}
 
 	private Neighbor getCoarserNbr(Node node, Side s) {
-		ArrayList<Integer> ids = new ArrayList<Integer>();
-		ArrayList<Integer> ranks = new ArrayList<Integer>();
+		int[] ids = new int[1];
+		int[] ranks = new int[1];
 		Node parent = forest.getNode(node.getParentId());
-		ids.add(parent.getNbrId(s));
-		ranks.add(0);
+		ids[0] = parent.getNbrId(s);
+		ranks[0] = 0;
 		Orthant orth_on_coarse = null;
 		for (Orthant o : Orthant.GetValuesOnSide(node.getDimension(), s)) {
 			if (node.getId() == parent.getChildId(o)) {
@@ -191,7 +193,7 @@ public class Levels {
 		return forest;
 	}
 
-	public Integer getNumLevels() {
+	public int getNumLevels() {
 		return levels.size();
 	}
 }

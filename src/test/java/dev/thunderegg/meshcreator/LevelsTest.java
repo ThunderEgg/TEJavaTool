@@ -129,16 +129,16 @@ class LevelsTest {
 				assertEquals(2, p.nbrs.size());
 				Neighbor east = getNeighbor(p, Side.EAST());
 				assertEquals("NORMAL", east.type);
-				assertEquals(1, east.ids.size());
-				assertEquals(node.getNbrId(Side.EAST()), east.ids.get(0));
-				assertEquals(1, east.ranks.size());
-				assertEquals(0, east.ranks.get(0));
+				assertEquals(1, east.ids.length);
+				assertEquals(node.getNbrId(Side.EAST()), east.ids[0]);
+				assertEquals(1, east.ranks.length);
+				assertEquals(0, east.ranks[0]);
 				Neighbor north = getNeighbor(p, Side.NORTH());
 				assertEquals("NORMAL", north.type);
-				assertEquals(1, north.ids.size());
-				assertEquals(node.getNbrId(Side.NORTH()), north.ids.get(0));
-				assertEquals(1, north.ranks.size());
-				assertEquals(0, north.ranks.get(0));
+				assertEquals(1, north.ids.length);
+				assertEquals(node.getNbrId(Side.NORTH()), north.ids[0]);
+				assertEquals(1, north.ranks.length);
+				assertEquals(0, north.ranks[0]);
 			}
 		}
 	}
@@ -204,24 +204,24 @@ class LevelsTest {
 
 				Neighbor east = getNeighbor(p, Side.EAST());
 				assertEquals("NORMAL", east.type);
-				assertEquals(1, east.ids.size());
-				assertEquals(node.getNbrId(Side.EAST()), east.ids.get(0));
-				assertEquals(1, east.ranks.size());
-				assertEquals(0, east.ranks.get(0));
+				assertEquals(1, east.ids.length);
+				assertEquals(node.getNbrId(Side.EAST()), east.ids[0]);
+				assertEquals(1, east.ranks.length);
+				assertEquals(0, east.ranks[0]);
 
 				Neighbor north = getNeighbor(p, Side.NORTH());
 				assertEquals("NORMAL", north.type);
-				assertEquals(1, north.ids.size());
-				assertEquals(node.getNbrId(Side.NORTH()), north.ids.get(0));
-				assertEquals(1, north.ranks.size());
-				assertEquals(0, north.ranks.get(0));
+				assertEquals(1, north.ids.length);
+				assertEquals(node.getNbrId(Side.NORTH()), north.ids[0]);
+				assertEquals(1, north.ranks.length);
+				assertEquals(0, north.ranks[0]);
 
 				Neighbor top = getNeighbor(p, Side.TOP());
 				assertEquals("NORMAL", top.type);
-				assertEquals(1, top.ids.size());
-				assertEquals(node.getNbrId(Side.TOP()), top.ids.get(0));
-				assertEquals(1, top.ranks.size());
-				assertEquals(0, top.ranks.get(0));
+				assertEquals(1, top.ids.length);
+				assertEquals(node.getNbrId(Side.TOP()), top.ids[0]);
+				assertEquals(1, top.ranks.length);
+				assertEquals(0, top.ranks[0]);
 			}
 		}
 	}
@@ -262,22 +262,22 @@ class LevelsTest {
 		Patch lv1_se_patch = getChildPatch(levels, 1, root, Orthant.SE());
 		Neighbor fine_nbr = getNeighbor(lv0_sw_patch, Side.EAST());
 		assertEquals("FINE", fine_nbr.type);
-		assertEquals(2, fine_nbr.ids.size());
-		assertEquals(lv1_se_patch.child_ids[0], fine_nbr.ids.get(0));
-		assertEquals(lv1_se_patch.child_ids[2], fine_nbr.ids.get(1));
-		assertEquals(2, fine_nbr.ranks.size());
-		assertEquals(0, fine_nbr.ranks.get(0));
-		assertEquals(0, fine_nbr.ranks.get(1));
+		assertEquals(2, fine_nbr.ids.length);
+		assertEquals(lv1_se_patch.child_ids[0], fine_nbr.ids[0]);
+		assertEquals(lv1_se_patch.child_ids[2], fine_nbr.ids[1]);
+		assertEquals(2, fine_nbr.ranks.length);
+		assertEquals(0, fine_nbr.ranks[0]);
+		assertEquals(0, fine_nbr.ranks[1]);
 		assertEquals(null, fine_nbr.orth_on_coarse);
 
 		// check coarse neighbor
 		Patch lv0_mid_south = getChildPatch(levels, 0, lv1_se_patch, Orthant.SW());
 		Neighbor coarse_nbr = getNeighbor(lv0_mid_south, Side.WEST());
 		assertEquals("COARSE", coarse_nbr.type);
-		assertEquals(1, coarse_nbr.ids.size());
-		assertEquals(lv0_sw_patch.id, coarse_nbr.ids.get(0));
-		assertEquals(1, coarse_nbr.ranks.size());
-		assertEquals(0, coarse_nbr.ranks.get(0));
+		assertEquals(1, coarse_nbr.ids.length);
+		assertEquals(lv0_sw_patch.id, coarse_nbr.ids[0]);
+		assertEquals(1, coarse_nbr.ranks.length);
+		assertEquals(0, coarse_nbr.ranks[0]);
 		assertEquals(Orthant.Lower(), coarse_nbr.orth_on_coarse);
 	}
 
@@ -359,10 +359,10 @@ class LevelsTest {
 		assertEquals(1, lv0_sw_child.parent_rank);
 
 		Patch lv1_se_child = getChildPatch(levels, 1, root, Orthant.SE());
-		assertEquals(1, getNeighbor(lv1_se_child, Side.WEST()).ranks.get(0));
+		assertEquals(1, getNeighbor(lv1_se_child, Side.WEST()).ranks[0]);
 
 		Patch lv1_nw_child = getChildPatch(levels, 1, root, Orthant.NW());
-		assertEquals(1, getNeighbor(lv1_nw_child, Side.SOUTH()).ranks.get(0));
+		assertEquals(1, getNeighbor(lv1_nw_child, Side.SOUTH()).ranks[0]);
 	}
 
 	private Neighbor getNeighbor(Patch p, Side side) {

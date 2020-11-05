@@ -98,33 +98,25 @@ class PatchTest {
 	void UpdateNbrRankForDoesNotExists() {
 		Patch p = new Patch(3);
 
-		ArrayList<Integer> nbr1_ids = new ArrayList<Integer>();
-		nbr1_ids.add(1);
-		nbr1_ids.add(2);
-		ArrayList<Integer> nbr1_ranks = new ArrayList<Integer>();
-		nbr1_ranks.add(0);
-		nbr1_ranks.add(0);
+		int[] nbr1_ids = new int[] { 1, 2 };
+		int[] nbr1_ranks = new int[] { 0, 0 };
 		Neighbor nbr1 = new Neighbor(Side.WEST(), "normal", nbr1_ids, nbr1_ranks, null);
 		p.nbrs.add(nbr1);
 		p.updateNbrRankFor(9, 1);
-		assertEquals(0, p.nbrs.get(0).ranks.get(0));
-		assertEquals(0, p.nbrs.get(0).ranks.get(1));
+		assertEquals(0, p.nbrs.get(0).ranks[0]);
+		assertEquals(0, p.nbrs.get(0).ranks[1]);
 	}
 
 	@Test
 	void UpdateNbrRankForExists() {
 		Patch p = new Patch(3);
 
-		ArrayList<Integer> nbr1_ids = new ArrayList<Integer>();
-		nbr1_ids.add(1);
-		nbr1_ids.add(2);
-		ArrayList<Integer> nbr1_ranks = new ArrayList<Integer>();
-		nbr1_ranks.add(0);
-		nbr1_ranks.add(0);
+		int[] nbr1_ids = new int[] { 1, 2 };
+		int[] nbr1_ranks = new int[] { 0, 0 };
 		Neighbor nbr1 = new Neighbor(Side.WEST(), "normal", nbr1_ids, nbr1_ranks, null);
 		p.nbrs.add(nbr1);
 		p.updateNbrRankFor(2, 1);
-		assertEquals(0, p.nbrs.get(0).ranks.get(0));
-		assertEquals(1, p.nbrs.get(0).ranks.get(1));
+		assertEquals(0, p.nbrs.get(0).ranks[0]);
+		assertEquals(1, p.nbrs.get(0).ranks[1]);
 	}
 }

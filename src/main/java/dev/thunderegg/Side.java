@@ -138,7 +138,7 @@ public class Side {
 	 * 
 	 * @return the axis
 	 */
-	public Integer getAxis() {
+	public int getAxis() {
 		return val >> 1;
 	}
 
