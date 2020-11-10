@@ -9,6 +9,9 @@ import javafx.scene.control.Button;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+
+import java.io.IOException;
+
 import dev.thunderegg.meshcreator.threedimensions.RMCreator3D;
 import dev.thunderegg.meshcreator.twodimensions.RMCreator2D;
 import dev.thunderegg.meshcreator.twodimensiontimer.Timer2D;
@@ -32,7 +35,12 @@ public class RMStart extends Application {
 			public void handle(ActionEvent t) {
 				Stage stage = new Stage();
 				Timer2D amc = new Timer2D();
-				amc.start(stage);
+				try {
+					amc.start(stage);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				((Node) (t.getSource())).getScene().getWindow().hide();
 			}
 		});

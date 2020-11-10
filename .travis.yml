@@ -1,8 +1,4 @@
 language: java
-services:
-  - xvfb
-before_script:
-  - "export DISPLAY=:99.0"
 script: 
   - mvn clean verify
   - bash <(curl -s https://codecov.io/bash)

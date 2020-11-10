@@ -33,6 +33,12 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest</artifactId>
+			<version>2.2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.8.6</version>
@@ -43,16 +49,9 @@
 			<version>13</version>
 		</dependency>
 		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>testfx-core</artifactId>
-			<version>4.0.16-alpha</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.testfx</groupId>
-			<artifactId>testfx-junit5</artifactId>
-			<version>4.0.16-alpha</version>
-			<scope>test</scope>
+			<groupId>org.openjfx</groupId>
+			<artifactId>javafx-fxml</artifactId>
+			<version>13</version>
 		</dependency>
 	</dependencies>
 
@@ -117,7 +116,7 @@
 						<!-- Default configuration for running -->
 						<id>default-cli</id>
 						<configuration>
-							<mainClass>meshCreator.RMStart</mainClass>
+							<mainClass>dev.thunderegg.meshcreator.RMStart</mainClass>
 						</configuration>
 					</execution>
 					<execution>
@@ -126,8 +125,9 @@
 						<configuration>
 							<options>
 								<option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
+								<option>-Dsun.awt.disablegrab=true</option>
 							</options>
-							<mainClass>dev.thunderegg.meshCreator.RMStart</mainClass>
+							<mainClass>dev.thunderegg.meshcreator.RMStart</mainClass>
 						</configuration>
 					</execution>
 				</executions>

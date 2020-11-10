@@ -16,15 +16,6 @@
             "name": "Debug (Launch) - Current File",
             "request": "launch",
             "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Debug (Launch)-RMStart<AmrMeshCreator>",
-            "request": "launch",
-            "mainClass": "meshCreator.RMStart",
-            "projectName": "AmrMeshCreator",
-            "shortenCommandLine": "jarmanifest",
-            ""
         }
     ]
 }
