@@ -32,7 +32,7 @@ public class Timer2DController {
 	@FXML
 	private TimerPane timerPane;
 	@FXML
-	TreeView<PaneSupplier> treeView;
+	private TreeView<PaneSupplier> treeView;
 
 	@FXML
 	private void initialize() {
@@ -50,7 +50,11 @@ public class Timer2DController {
 		File in_file = fileChooser.showOpenDialog(timerPane.getScene().getWindow());
 		if (in_file != null) {
 			try {
-				readTimer(in_file);
+				Gson gson = GsonAdapters.getNewGson();
+				FileReader reader = new FileReader(in_file);
+				Timer timer = gson.fromJson(reader, Timer.class);
+				reader.close();
+				setTimer(timer);
 			} catch (RuntimeException | IOException e) {
 				Alert alert = new Alert(AlertType.ERROR);
 				alert.setTitle("Error");
@@ -117,13 +121,5 @@ public class Timer2DController {
 				AddTimingsToItem(domains, timing.timings, item);
 			}
 		}
-	}
-
-	private void readTimer(File in_file) throws IOException {
-		Gson gson = GsonAdapters.getNewGson();
-		FileReader reader = new FileReader(in_file);
-		Timer timer = gson.fromJson(reader, Timer.class);
-		reader.close();
-		setTimer(timer);
 	}
 }
