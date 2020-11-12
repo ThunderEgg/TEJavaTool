@@ -18,19 +18,19 @@ public class DomainStatisticsTest {
     @Test
     public void getDomainsEmpty() {
         Collection<Integer> domains = stats.getDomainsForName("hello");
-        assertThat(domains, is(nullValue()));
+        assertThat(domains.size(), is(0));
     }
 
     @Test
     public void getStatForDomainEmptyIsNull() {
-        Statistic stat = stats.getStatisticForDomain("Hello", 1);
+        Statistic stat = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(stat, is(nullValue()));
     }
 
     @Test
     public void addDomainStatThenGetNames() {
         Statistic stat = new Statistic();
-        stats.addStatisticForDomain("Hello", 1, stat);
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
         Collection<String> names = stats.getNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(1)));
@@ -40,8 +40,8 @@ public class DomainStatisticsTest {
     @Test
     public void addDomainStatThenGetStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForDomain("Hello", 1, stat);
-        Statistic stat2 = stats.getStatistic("Hello");
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
+        Statistic stat2 = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(stat2, is(equalTo(stat)));
     }
 
@@ -58,9 +58,9 @@ public class DomainStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForDomain("Hello", 1, stat1);
-        stats.addStatisticForDomain("Hello", 1, stat2);
-        Statistic result = stats.getStatistic("Hello");
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat2);
+        Statistic result = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
@@ -77,34 +77,34 @@ public class DomainStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForDomain("Hello", 1, stat1);
-        stats.addStatisticForDomain("Hello", 2, stat2);
-        Statistic result = stats.getStatistic("Hello");
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);
+        stats.addStatisticForDomain(new DomainKey("Hello", 2), stat2);
+        Statistic result = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
     @Test
     public void addDomainStatThenGetNonExistantStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForDomain("Hello", 1, stat);
-        Statistic stat2 = stats.getStatistic("fjsal");
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
+        Statistic stat2 = stats.getStatistic(new UnassociatedKey("fjsal"));
         assertThat(stat2, is(nullValue()));
     }
 
     @Test
     public void addDomainStatThenGetNonExistantDomainStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForDomain("Hello", 1, stat);
-        Statistic stat2 = stats.getStatisticForDomain("fjsal", 1);
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
+        Statistic stat2 = stats.getStatisticForDomain(new DomainKey("fjsal", 1));
         assertThat(stat2, is(nullValue()));
     }
 
     @Test
     public void addDomainStatEncapsulated() {
         Statistic stat = new Statistic();
-        stats.addStatisticForDomain("Hello", 1, stat);
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
         stat.min = 0;
-        Statistic stat2 = stats.getStatisticForDomain("Hello", 1);
+        Statistic stat2 = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(stat2, is(not(nullValue())));
         assertThat(stat2, is(not(sameInstance(stat))));
         assertThat(stat2, is(not(equalTo(stat))));
@@ -112,9 +112,9 @@ public class DomainStatisticsTest {
 
     @Test
     public void getDomainStatEncapulated() {
-        stats.addStatisticForDomain("Hello", 1, new Statistic());
-        Statistic stat1 = stats.getStatisticForDomain("Hello", 1);
-        Statistic stat2 = stats.getStatisticForDomain("Hello", 1);
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
+        Statistic stat1 = stats.getStatisticForDomain(new DomainKey("Hello", 1));
+        Statistic stat2 = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(stat2, is(not(sameInstance(stat1))));
     }
 
@@ -122,7 +122,7 @@ public class DomainStatisticsTest {
     public void getDomainsEncapsulated() {
         Statistic stat = new Statistic();
         String name = "Hello";
-        stats.addStatisticForDomain(name, 1, stat);
+        stats.addStatisticForDomain(new DomainKey(name, 1), stat);
         Collection<Integer> domains1 = stats.getDomainsForName("Hello");
         Collection<Integer> domains2 = stats.getDomainsForName("Hello");
         assertThat(domains1, is(not(nullValue())));
@@ -136,10 +136,10 @@ public class DomainStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForDomain("Hello", 1, helloStat);
-        stats.addStatisticForDomain("Bye", 1, byeStat);
-        assertThat(stats.getStatistic("Hello"), is(equalTo(helloStat)));
-        assertThat(stats.getStatistic("Bye"), is(equalTo(byeStat)));
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), helloStat);
+        stats.addStatisticForDomain(new DomainKey("Bye", 1), byeStat);
+        assertThat(stats.getStatistic(new UnassociatedKey("Hello")), is(equalTo(helloStat)));
+        assertThat(stats.getStatistic(new UnassociatedKey("Bye")), is(equalTo(byeStat)));
     }
 
     @Test
@@ -148,10 +148,10 @@ public class DomainStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForDomain("Hello", 1, helloStat);
-        stats.addStatisticForDomain("Bye", 1, byeStat);
-        assertThat(stats.getStatisticForDomain("Hello", 1), is(equalTo(helloStat)));
-        assertThat(stats.getStatisticForDomain("Bye", 1), is(equalTo(byeStat)));
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), helloStat);
+        stats.addStatisticForDomain(new DomainKey("Bye", 1), byeStat);
+        assertThat(stats.getStatisticForDomain(new DomainKey("Hello", 1)), is(equalTo(helloStat)));
+        assertThat(stats.getStatisticForDomain(new DomainKey("Bye", 1)), is(equalTo(byeStat)));
     }
 
     @Test
@@ -160,8 +160,8 @@ public class DomainStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForDomain("Hello", 1, new Statistic());
-        stats.addStatisticForDomain("Bye", 1, new Statistic());
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
+        stats.addStatisticForDomain(new DomainKey("Bye", 1), new Statistic());
         Collection<String> names = stats.getNames();
         assertThat(names.size(), is(equalTo(2)));
         assertThat(names, containsInAnyOrder("Hello", "Bye"));
@@ -174,8 +174,8 @@ public class DomainStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForDomain("Hello", 1, new Statistic());
-        stats.addStatisticForDomain("Hello", 2, new Statistic());
+        stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
+        stats.addStatisticForDomain(new DomainKey("Hello", 2), new Statistic());
         Collection<Integer> domains = stats.getDomainsForName("Hello");
         assertThat(domains.size(), is(equalTo(2)));
         assertThat(domains, containsInAnyOrder(1, 2));

@@ -17,14 +17,14 @@ public class PatchStatisticsTest {
 
     @Test
     public void getStatForPatchEmptyIsNull() {
-        Statistic stat = stats.getStatisticForPatch("Hello", 1, 2);
+        Statistic stat = stats.getStatisticForPatch(new PatchKey("Hello", 1, 2));
         assertThat(stat, is(nullValue()));
     }
 
     @Test
     public void addPatchStatThenGetNames() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 2, stat);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 2), stat);
         Collection<String> names = stats.getNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(1)));
@@ -34,16 +34,16 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatThenGetStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 2, stat);
-        Statistic stat2 = stats.getStatistic("Hello");
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 2), stat);
+        Statistic stat2 = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(stat2, is(equalTo(stat)));
     }
 
     @Test
     public void addPatchStatThenGetDomainStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 2, stat);
-        Statistic stat2 = stats.getStatisticForDomain("Hello", 1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 2), stat);
+        Statistic stat2 = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(stat2, is(equalTo(stat)));
     }
 
@@ -60,9 +60,9 @@ public class PatchStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForPatch("Hello", 1, 0, stat1);
-        stats.addStatisticForPatch("Hello", 1, 0, stat2);
-        Statistic result = stats.getStatistic("Hello");
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat2);
+        Statistic result = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
@@ -79,9 +79,9 @@ public class PatchStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForPatch("Hello", 1, 0, stat1);
-        stats.addStatisticForPatch("Hello", 1, 0, stat2);
-        Statistic result = stats.getStatisticForDomain("Hello", 1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat2);
+        Statistic result = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
@@ -98,9 +98,9 @@ public class PatchStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForPatch("Hello", 1, 0, stat1);
-        stats.addStatisticForPatch("Hello", 1, 0, stat2);
-        Statistic result = stats.getStatisticForPatch("Hello", 1, 0);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat2);
+        Statistic result = stats.getStatisticForPatch(new PatchKey("Hello", 1, 0));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
@@ -117,9 +117,9 @@ public class PatchStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForPatch("Hello", 1, 0, stat1);
-        stats.addStatisticForPatch("Hello", 1, 1, stat2);
-        Statistic result = stats.getStatistic("Hello");
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 1), stat2);
+        Statistic result = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
@@ -136,42 +136,42 @@ public class PatchStatisticsTest {
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 
-        stats.addStatisticForPatch("Hello", 1, 0, stat1);
-        stats.addStatisticForPatch("Hello", 2, 0, stat2);
-        Statistic result = stats.getStatistic("Hello");
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 2, 0), stat2);
+        Statistic result = stats.getStatistic(new UnassociatedKey("Hello"));
         assertThat(result, is(equalTo(Statistic.merge(stat1, stat2))));
     }
 
     @Test
     public void addPatchStatThenGetNonExistantStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 0, stat);
-        Statistic stat2 = stats.getStatistic("fjsal");
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat);
+        Statistic stat2 = stats.getStatistic(new UnassociatedKey("fjsal"));
         assertThat(stat2, is(nullValue()));
     }
 
     @Test
     public void addPatchStatThenGetNonExistantDomainStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 0, stat);
-        Statistic stat2 = stats.getStatisticForDomain("Hello", 2);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat);
+        Statistic stat2 = stats.getStatisticForDomain(new DomainKey("Hello", 2));
         assertThat(stat2, is(nullValue()));
     }
 
     @Test
     public void addPatchStatThenGetNonExistantPatchStat() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 0, stat);
-        Statistic stat2 = stats.getStatisticForPatch("Hello", 1, 1);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat);
+        Statistic stat2 = stats.getStatisticForPatch(new PatchKey("Hello", 1, 1));
         assertThat(stat2, is(nullValue()));
     }
 
     @Test
     public void addPatchStatEncapsulated() {
         Statistic stat = new Statistic();
-        stats.addStatisticForPatch("Hello", 1, 0, stat);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat);
         stat.min = 0;
-        Statistic stat2 = stats.getStatisticForPatch("Hello", 1, 0);
+        Statistic stat2 = stats.getStatisticForPatch(new PatchKey("Hello", 1, 0));
         assertThat(stat2, is(not(nullValue())));
         assertThat(stat2, is(not(sameInstance(stat))));
         assertThat(stat2, is(not(equalTo(stat))));
@@ -179,9 +179,9 @@ public class PatchStatisticsTest {
 
     @Test
     public void getPatchStatEncapulated() {
-        stats.addStatisticForPatch("Hello", 1, 0, new Statistic());
-        Statistic stat1 = stats.getStatisticForPatch("Hello", 1, 0);
-        Statistic stat2 = stats.getStatisticForPatch("Hello", 1, 0);
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), new Statistic());
+        Statistic stat1 = stats.getStatisticForPatch(new PatchKey("Hello", 1, 0));
+        Statistic stat2 = stats.getStatisticForPatch(new PatchKey("Hello", 1, 0));
         assertThat(stat2, is(not(sameInstance(stat1))));
     }
 
@@ -191,10 +191,10 @@ public class PatchStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForPatch("Hello", 1, 0, helloStat);
-        stats.addStatisticForPatch("Bye", 1, 0, byeStat);
-        assertThat(stats.getStatistic("Hello"), is(equalTo(helloStat)));
-        assertThat(stats.getStatistic("Bye"), is(equalTo(byeStat)));
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), helloStat);
+        stats.addStatisticForPatch(new PatchKey("Bye", 1, 0), byeStat);
+        assertThat(stats.getStatistic(new UnassociatedKey("Hello")), is(equalTo(helloStat)));
+        assertThat(stats.getStatistic(new UnassociatedKey("Bye")), is(equalTo(byeStat)));
     }
 
     @Test
@@ -203,10 +203,10 @@ public class PatchStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForPatch("Hello", 1, 0, helloStat);
-        stats.addStatisticForPatch("Bye", 1, 0, byeStat);
-        assertThat(stats.getStatisticForDomain("Hello", 1), is(equalTo(helloStat)));
-        assertThat(stats.getStatisticForDomain("Bye", 1), is(equalTo(byeStat)));
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), helloStat);
+        stats.addStatisticForPatch(new PatchKey("Bye", 1, 0), byeStat);
+        assertThat(stats.getStatisticForDomain(new DomainKey("Hello", 1)), is(equalTo(helloStat)));
+        assertThat(stats.getStatisticForDomain(new DomainKey("Bye", 1)), is(equalTo(byeStat)));
     }
 
     @Test
@@ -215,10 +215,10 @@ public class PatchStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForPatch("Hello", 1, 0, helloStat);
-        stats.addStatisticForPatch("Bye", 1, 0, byeStat);
-        assertThat(stats.getStatisticForPatch("Hello", 1, 0), is(equalTo(helloStat)));
-        assertThat(stats.getStatisticForPatch("Bye", 1, 0), is(equalTo(byeStat)));
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), helloStat);
+        stats.addStatisticForPatch(new PatchKey("Bye", 1, 0), byeStat);
+        assertThat(stats.getStatisticForPatch(new PatchKey("Hello", 1, 0)), is(equalTo(helloStat)));
+        assertThat(stats.getStatisticForPatch(new PatchKey("Bye", 1, 0)), is(equalTo(byeStat)));
     }
 
     @Test
@@ -227,8 +227,8 @@ public class PatchStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForPatch("Hello", 1, 0, new Statistic());
-        stats.addStatisticForPatch("Bye", 1, 0, new Statistic());
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), new Statistic());
+        stats.addStatisticForPatch(new PatchKey("Bye", 1, 0), new Statistic());
         Collection<String> names = stats.getNames();
         assertThat(names.size(), is(equalTo(2)));
         assertThat(names, containsInAnyOrder("Hello", "Bye"));
@@ -241,8 +241,8 @@ public class PatchStatisticsTest {
         helloStat.numCalls = 1;
         Statistic byeStat = new Statistic();
         byeStat.numCalls = 2;
-        stats.addStatisticForPatch("Hello", 1, 0, new Statistic());
-        stats.addStatisticForPatch("Hello", 2, 0, new Statistic());
+        stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), new Statistic());
+        stats.addStatisticForPatch(new PatchKey("Hello", 2, 0), new Statistic());
         Collection<Integer> domains = stats.getDomainsForName("Hello");
         assertThat(domains.size(), is(equalTo(2)));
         assertThat(domains, containsInAnyOrder(1, 2));

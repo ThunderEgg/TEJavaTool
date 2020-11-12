@@ -2,25 +2,25 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 /**
  * A collection of statistics that do not have a domain or patch associated with
  * it.
  */
 public class UnassociatedStatistics {
-    private Map<String, Statistic> stats = new TreeMap<>();
+    private TreeMap<UnassociatedKey, Statistic> stats = new TreeMap<>(UnassociatedKey::compare);
 
     /**
      * Add a statistic to this timing if the statistic is already added, it merges
      * with the exiting statistic
      * 
-     * @param name the name of statistic to add
+     * @param key  the key
      * @param stat the statistic to add
      */
-    public void addStatistic(String name, Statistic stat) {
-        stats.merge(name, new Statistic(stat), Statistic::merge);
+    public void addStatistic(UnassociatedKey key, Statistic stat) {
+        stats.merge(key, new Statistic(stat), Statistic::merge);
     }
 
     /**
@@ -29,18 +29,22 @@ public class UnassociatedStatistics {
      * @return the names of the statistics
      */
     public Collection<String> getNames() {
-        return new ArrayList<String>(stats.keySet());
+        ArrayList<String> list = new ArrayList<String>(stats.size());
+        for (UnassociatedKey key : stats.keySet()) {
+            list.add(key.name);
+        }
+        return list;
     }
 
     /**
      * Get a particular statistic
      * 
-     * @param name the name of the statistic
+     * @param key the key
      * @return the statistic, or null if there is no statistic associated with the
      *         name
      */
-    public Statistic getStatistic(String name) {
-        Statistic stat = stats.get(name);
+    public Statistic getStatistic(UnassociatedKey key) {
+        Statistic stat = stats.get(key);
         Statistic ret = null;
         if (stat != null) {
             ret = new Statistic(stat);
