@@ -13,6 +13,15 @@ public class PatchStatistics extends DomainStatistics {
     private Map<PatchKey, Statistic> domainStats = new TreeMap<>(PatchKey::compare);
 
     /**
+     * Construct a new UnassociatedStatistics object
+     * 
+     * @param name the of this group of statistics
+     */
+    public PatchStatistics(String name) {
+        super(name);
+    }
+
+    /**
      * Get a patch specific statistic
      * 
      * @param key the key

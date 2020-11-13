@@ -1,9 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import dev.thunderegg.meshcreator.twodimensiontimer.TimerPane?>
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.ChoiceBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.control.TreeView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
@@ -27,7 +32,39 @@
                   <TreeView fx:id="treeView" prefHeight="200.0" prefWidth="200.0" showRoot="false" BorderPane.alignment="CENTER" />
                </left>
                <center>
-                  <TimerPane fx:id="timerPane" BorderPane.alignment="CENTER" />
+                  <TabPane prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+                    <tabs>
+                      <Tab text="Overall">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                      <Tab text="Domains">
+                        <content>
+                          <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                        </content>
+                      </Tab>
+                        <Tab text="Patches">
+                          <content>
+                            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                 <children>
+                                    <VBox layoutX="129.0" layoutY="69.0" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <ToolBar prefHeight="40.0" prefWidth="200.0">
+                                             <items>
+                                                <Label text="Domain" />
+                                                <ChoiceBox prefWidth="150.0" />
+                                             </items>
+                                          </ToolBar>
+                                          <Canvas fx:id="patchCanvas" height="292.0" width="440.0" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </AnchorPane>
+                          </content>
+                        </Tab>
+                    </tabs>
+                  </TabPane>
                </center>
             </BorderPane>
       </children>

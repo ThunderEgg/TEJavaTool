@@ -3,14 +3,24 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.TreeMap;
-import java.util.TreeSet;
 
 /**
  * A collection of statistics that do not have a domain or patch associated with
  * it.
  */
 public class UnassociatedStatistics {
+
+    private final String name;
     private TreeMap<UnassociatedKey, Statistic> stats = new TreeMap<>(UnassociatedKey::compare);
+
+    /**
+     * Construct a new UnassociatedStatistics object
+     * 
+     * @param name the of this group of statistics
+     */
+    public UnassociatedStatistics(String name) {
+        this.name = name;
+    }
 
     /**
      * Add a statistic to this timing if the statistic is already added, it merges
@@ -28,7 +38,7 @@ public class UnassociatedStatistics {
      * 
      * @return the names of the statistics
      */
-    public Collection<String> getNames() {
+    public Collection<String> getStatisticNames() {
         ArrayList<String> list = new ArrayList<String>(stats.size());
         for (UnassociatedKey key : stats.keySet()) {
             list.add(key.name);
@@ -52,4 +62,17 @@ public class UnassociatedStatistics {
         return ret;
     }
 
+    /**
+     * Get the name for this group of statistics
+     * 
+     * @return the name
+     */
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -2,7 +2,6 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 import java.util.NavigableMap;
 import java.util.TreeMap;
 
@@ -15,6 +14,15 @@ public class DomainStatistics extends UnassociatedStatistics {
      * Map from domain to name to stat
      */
     private TreeMap<DomainKey, Statistic> domainStats = new TreeMap<>(DomainKey::compare);
+
+    /**
+     * Construct a new DomainStatistics object
+     * 
+     * @param name the of this group of statistics
+     */
+    public DomainStatistics(String name) {
+        super(name);
+    }
 
     /**
      * Get a list of domains that have statistics

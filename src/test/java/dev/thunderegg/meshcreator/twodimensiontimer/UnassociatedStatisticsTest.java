@@ -12,14 +12,24 @@ public class UnassociatedStatisticsTest {
 
     @BeforeEach
     public void setup() {
-        stats = new UnassociatedStatistics();
+        stats = new UnassociatedStatistics("Test");
     }
 
     @Test
     public void getNamesEmpty() {
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(0)));
+    }
+
+    @Test
+    public void getNameEmpty() {
+        assertThat(stats.getName(), is("Test"));
+    }
+
+    @Test
+    public void toStringEmpty() {
+        assertThat(stats.toString(), is("Test"));
     }
 
     @Test
@@ -32,7 +42,7 @@ public class UnassociatedStatisticsTest {
     public void addStatThenGetName() {
         Statistic stat = new Statistic();
         stats.addStatistic(new UnassociatedKey("Hello"), stat);
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(1)));
         assertThat(names, contains("Hello"));
@@ -97,8 +107,8 @@ public class UnassociatedStatisticsTest {
         Statistic stat = new Statistic();
         UnassociatedKey key = new UnassociatedKey("Hello");
         stats.addStatistic(key, stat);
-        Collection<String> names1 = stats.getNames();
-        Collection<String> names2 = stats.getNames();
+        Collection<String> names1 = stats.getStatisticNames();
+        Collection<String> names2 = stats.getStatisticNames();
         assertThat(names1, is(not(nullValue())));
         assertThat(names2, is(not(nullValue())));
         assertThat(names1, is(not(sameInstance(names2))));
@@ -124,7 +134,7 @@ public class UnassociatedStatisticsTest {
         byeStat.numCalls = 2;
         stats.addStatistic(new UnassociatedKey("Hello"), new Statistic());
         stats.addStatistic(new UnassociatedKey("Bye"), new Statistic());
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names.size(), is(equalTo(2)));
         assertThat(names, containsInAnyOrder("Hello", "Bye"));
 

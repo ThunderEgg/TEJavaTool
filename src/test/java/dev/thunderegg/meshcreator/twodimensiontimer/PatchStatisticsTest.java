@@ -12,7 +12,17 @@ public class PatchStatisticsTest {
 
     @BeforeEach
     public void setup() {
-        stats = new PatchStatistics();
+        stats = new PatchStatistics("Test");
+    }
+
+    @Test
+    public void getNameEmpty() {
+        assertThat(stats.getName(), is("Test"));
+    }
+
+    @Test
+    public void toStringEmpty() {
+        assertThat(stats.toString(), is("Test"));
     }
 
     @Test
@@ -25,7 +35,7 @@ public class PatchStatisticsTest {
     public void addPatchStatThenGetNames() {
         Statistic stat = new Statistic();
         stats.addStatisticForPatch(new PatchKey("Hello", 1, 2), stat);
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(1)));
         assertThat(names, contains("Hello"));
@@ -229,7 +239,7 @@ public class PatchStatisticsTest {
         byeStat.numCalls = 2;
         stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), new Statistic());
         stats.addStatisticForPatch(new PatchKey("Bye", 1, 0), new Statistic());
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names.size(), is(equalTo(2)));
         assertThat(names, containsInAnyOrder("Hello", "Bye"));
 

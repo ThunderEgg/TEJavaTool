@@ -12,7 +12,17 @@ public class DomainStatisticsTest {
 
     @BeforeEach
     public void setup() {
-        stats = new DomainStatistics();
+        stats = new DomainStatistics("Test");
+    }
+
+    @Test
+    public void getNameEmpty() {
+        assertThat(stats.getName(), is("Test"));
+    }
+
+    @Test
+    public void toStringEmpty() {
+        assertThat(stats.toString(), is("Test"));
     }
 
     @Test
@@ -31,7 +41,7 @@ public class DomainStatisticsTest {
     public void addDomainStatThenGetNames() {
         Statistic stat = new Statistic();
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names, is(not(nullValue())));
         assertThat(names.size(), is(equalTo(1)));
         assertThat(names, contains("Hello"));
@@ -162,7 +172,7 @@ public class DomainStatisticsTest {
         byeStat.numCalls = 2;
         stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
         stats.addStatisticForDomain(new DomainKey("Bye", 1), new Statistic());
-        Collection<String> names = stats.getNames();
+        Collection<String> names = stats.getStatisticNames();
         assertThat(names.size(), is(equalTo(2)));
         assertThat(names, containsInAnyOrder("Hello", "Bye"));
 
