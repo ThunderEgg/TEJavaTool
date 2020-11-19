@@ -1,5 +1,8 @@
 package dev.thunderegg.meshcreator.twodimensiontimer;
 
+import dev.thunderegg.Info;
+import dev.thunderegg.Timing;
+
 /**
  * Represents a statistic about something
  */
@@ -38,6 +41,30 @@ public class Statistic {
         max = statistic.max;
         sum = statistic.sum;
         numCalls = statistic.numCalls;
+    }
+
+    /**
+     * Create a time statistic form a timing
+     * 
+     * @param timing the timing to create the statistic from
+     */
+    public Statistic(Timing timing) {
+        min = timing.min;
+        max = timing.max;
+        sum = timing.sum;
+        numCalls = timing.num_calls;
+    }
+
+    /**
+     * Create a time statistic form a info object
+     * 
+     * @param info the info object to create the statistic from
+     */
+    public Statistic(Info info) {
+        min = info.min;
+        max = info.max;
+        sum = info.sum;
+        numCalls = info.num_calls;
     }
 
     @Override

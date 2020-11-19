@@ -1,6 +1,10 @@
 package dev.thunderegg.meshcreator.twodimensiontimer;
 
 import org.junit.jupiter.api.Test;
+
+import dev.thunderegg.Info;
+import dev.thunderegg.Timing;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -222,5 +226,39 @@ public class StatisticTest {
         stat2.numCalls = 96;
         Statistic result = Statistic.merge(stat1, stat2);
         assertThat(result.numCalls, is(equalTo(107)));
+    }
+
+    @Test
+    public void timingConstructor() {
+        Timing timing = new Timing();
+        timing.name = "Child";
+        timing.domain_id = 1;
+        timing.patch_id = Integer.MAX_VALUE;
+        timing.min = 1;
+        timing.max = 10;
+        timing.sum = 11;
+        timing.num_calls = 100;
+
+        Statistic stat = new Statistic(timing);
+        assertThat(stat.min, is(equalTo(timing.min)));
+        assertThat(stat.max, is(equalTo(timing.max)));
+        assertThat(stat.sum, is(equalTo(timing.sum)));
+        assertThat(stat.numCalls, is(equalTo(timing.num_calls)));
+    }
+
+    @Test
+    public void infoConstructor() {
+        Info info = new Info();
+        info.name = "Child";
+        info.min = 1;
+        info.max = 10;
+        info.sum = 11;
+        info.num_calls = 100;
+
+        Statistic stat = new Statistic(info);
+        assertThat(stat.min, is(equalTo(info.min)));
+        assertThat(stat.max, is(equalTo(info.max)));
+        assertThat(stat.sum, is(equalTo(info.sum)));
+        assertThat(stat.numCalls, is(equalTo(info.num_calls)));
     }
 }
