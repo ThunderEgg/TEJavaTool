@@ -1,7 +1,10 @@
 package dev.thunderegg.meshcreator.twodimensiontimer;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.TreeMap;
+
+import dev.thunderegg.Patch;
 
 /**
  * A collection of statistics that have a patch and domain associated with it.

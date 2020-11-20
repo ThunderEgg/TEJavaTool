@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
-import java.util.List;
 
 import dev.thunderegg.Info;
 import dev.thunderegg.Timer;
@@ -27,11 +26,14 @@ public class Statistics extends PatchStatistics {
     }
 
     private void addChildStats(Collection<Timing> timings) {
+        LinkedList<Statistics> newChildStats = new LinkedList<>();
         HashMap<String, Statistics> nameToStat = new HashMap<>();
         HashMap<String, LinkedList<Timing>> nameToChildren = new HashMap<>();
         for (Timing timing : timings) {
             if (!nameToStat.containsKey(timing.name)) {
-                nameToStat.put(timing.name, new Statistics(timing.name));
+                Statistics newStats = new Statistics(timing.name);
+                newChildStats.add(newStats);
+                nameToStat.put(timing.name, newStats);
                 nameToChildren.put(timing.name, new LinkedList<>());
             }
             nameToStat.get(timing.name).addStatsFromTiming(timing);
@@ -39,7 +41,7 @@ public class Statistics extends PatchStatistics {
                 nameToChildren.get(timing.name).addAll(timing.timings);
             }
         }
-        childStats = new ArrayList<>(nameToStat.values());
+        childStats = new ArrayList<>(newChildStats);
         for (Statistics stats : childStats) {
             stats.addChildStats(nameToChildren.get(stats.getName()));
         }

@@ -67,8 +67,10 @@
                                              <children>
                                                 <ToolBar prefHeight="40.0" prefWidth="200.0">
                                                    <items>
+                                                      <Label text="Label" />
+                                                      <ChoiceBox fx:id="statChoice" prefWidth="150.0" />
                                                       <Label text="Domain" />
-                                                      <ChoiceBox fx:id="domainChoice" prefWidth="150.0" />
+                                                      <ChoiceBox fx:id="domainChoice" prefHeight="26.0" prefWidth="56.0" />
                                                    </items>
                                                 </ToolBar>
                                                 <Canvas fx:id="patchCanvas" height="292.0" onMouseDragged="#handleMouseDraggedOnCanvas" onScroll="#handleScrollOnCanvas" width="440.0" />
