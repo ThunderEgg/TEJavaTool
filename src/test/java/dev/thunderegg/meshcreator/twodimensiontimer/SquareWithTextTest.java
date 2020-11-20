@@ -54,4 +54,40 @@ public class SquareWithTextTest {
         assertThat(rectangle2.y_length, is(patch2.lengths[1]));
     }
 
+    @Test
+    public void getRectanglesForDomainWithText() {
+        ArrayList<Patch> domain = new ArrayList<>();
+        Patch patch1 = new Patch(2);
+        patch1.lengths = new double[] { 1, 2 };
+        patch1.starts = new double[] { 3, 4 };
+        Patch patch2 = new Patch(2);
+        patch2.lengths = new double[] { 5, 6 };
+        patch2.starts = new double[] { 7, 8 };
+        domain.add(patch1);
+        domain.add(patch2);
+
+        Collection<SquareWithText> rectangles = SquareWithText.getRectanglesForDomain(domain,
+                (Patch p) -> Double.toString(p.starts[0]));
+        SquareWithText rectangle1 = null;
+        SquareWithText rectangle2 = null;
+        for (SquareWithText rectangle : rectangles) {
+            if (rectangle.x == 3.0) {
+                rectangle1 = rectangle;
+            }
+            if (rectangle.x == 7.0) {
+                rectangle2 = rectangle;
+            }
+        }
+        assertThat(rectangle1.x, is(patch1.starts[0]));
+        assertThat(rectangle1.y, is(patch1.starts[1]));
+        assertThat(rectangle1.x_length, is(patch1.lengths[0]));
+        assertThat(rectangle1.y_length, is(patch1.lengths[1]));
+        assertThat(rectangle1.text, is(Double.toString(patch1.starts[0])));
+        assertThat(rectangle2.x, is(patch2.starts[0]));
+        assertThat(rectangle2.y, is(patch2.starts[1]));
+        assertThat(rectangle2.x_length, is(patch2.lengths[0]));
+        assertThat(rectangle2.y_length, is(patch2.lengths[1]));
+        assertThat(rectangle2.text, is(Double.toString(patch2.starts[0])));
+    }
+
 }

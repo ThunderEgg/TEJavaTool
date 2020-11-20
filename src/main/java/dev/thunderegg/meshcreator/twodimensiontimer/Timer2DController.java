@@ -49,6 +49,8 @@ public class Timer2DController {
 	Integer selectedDomain;
 	private PatchStatistics currentStats;
 	private String selectedStat;
+	private double lastMouseX;
+	private double lastMouseY;
 
 	@FXML
 	private void initialize() {
@@ -77,7 +79,10 @@ public class Timer2DController {
 
 	private void setSelectedDomain(Integer domainId) {
 		selectedDomain = domainId;
-		canvasPainter.setPatches(SquareWithText.getRectanglesForDomain(domains.get(domainId)));
+		canvasPainter.setPatches(SquareWithText.getRectanglesForDomain(domains.get(domainId), (Patch patch) -> {
+			Statistic stat = currentStats.getStatisticForPatch(new PatchKey(selectedStat, domainId, patch.id));
+			return String.format("%4e", stat.sum / (double) stat.numCalls);
+		}));
 	}
 
 	private void setSelectedStat(String name) {
@@ -136,11 +141,39 @@ public class Timer2DController {
 	}
 
 	@FXML
+	public void handleMousePressedOnCanvas(MouseEvent me) {
+		lastMouseX = me.getSceneX();
+		lastMouseY = me.getSceneY();
+	}
+
+	@FXML
 	public void handleMouseDraggedOnCanvas(MouseEvent me) {
+		double newMouseX = me.getSceneX();
+		double newMouseY = me.getSceneY();
+		canvasPainter.translate(newMouseX - lastMouseX, newMouseY - lastMouseY);
+		canvasPainter.paint();
+		lastMouseX = newMouseX;
+		lastMouseY = newMouseY;
+	}
+
+	@FXML
+	public void redrawCanvas() {
+		canvasPainter.paint();
 	}
 
 	@FXML
 	public void handleScrollOnCanvas(ScrollEvent se) {
+		double scale = canvasPainter.getScale();
+		double delta = se.getDeltaY() / se.getMultiplierY();
+		double deltaScale = scale * (1 - Math.pow(1.1, delta));
+		scale += deltaScale;
+		canvasPainter.setScale(scale);
+		double xOrigin = canvasPainter.getXTranslate();
+		double yOrigin = canvasPainter.getYTranslate();
+		double xTranslate = xOrigin - ((xOrigin - se.getX()) * Math.pow(1.1, delta) + se.getX());
+		double yTranslate = yOrigin - ((yOrigin - se.getY()) * Math.pow(1.1, delta) + se.getY());
+		canvasPainter.translate(xTranslate, yTranslate);
+		canvasPainter.paint();
 	}
 
 }
