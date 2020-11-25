@@ -6,7 +6,13 @@ import javafx.scene.paint.Color;
 
 public class ColorListColorMap implements ColorMap {
 
-    public ColorListColorMap(List<Color> asList) {
+    public ColorListColorMap(String name, List<Color> asList) {
+    }
+
+    @Override
+    public Color getColor(double x) {
+        // TODO Auto-generated method stub
+        return null;
     }
 
 }
