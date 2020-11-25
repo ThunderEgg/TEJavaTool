@@ -2,6 +2,7 @@ package dev.thunderegg.colormaps;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.function.DoubleUnaryOperator;
 
 import javafx.scene.paint.Color;
 
@@ -280,24 +281,30 @@ class ColorMaps {
                 return 2 * x - 1;
         }
 
-        public static ColorMap gnuplot = new FunctionColorMap("gnuplot", ColorMaps::g7, ColorMaps::g5, ColorMaps::g15);
+        private static DoubleUnaryOperator[] gfunc = { ColorMaps::g0, ColorMaps::g1, ColorMaps::g2, ColorMaps::g3,
+                        ColorMaps::g4, ColorMaps::g5, ColorMaps::g6, ColorMaps::g7, ColorMaps::g8, ColorMaps::g9,
+                        ColorMaps::g10, ColorMaps::g11, ColorMaps::g12, ColorMaps::g13, ColorMaps::g14, ColorMaps::g15,
+                        ColorMaps::g16, ColorMaps::g17, ColorMaps::g18, ColorMaps::g19, ColorMaps::g20, ColorMaps::g21,
+                        ColorMaps::g22, ColorMaps::g23, ColorMaps::g24, ColorMaps::g25, ColorMaps::g26, ColorMaps::g27,
+                        ColorMaps::g28, ColorMaps::g29, ColorMaps::g30, ColorMaps::g31, ColorMaps::g32, ColorMaps::g33,
+                        ColorMaps::g34, ColorMaps::g35, ColorMaps::g36 };
 
-        public static ColorMap gnuplot2 = new FunctionColorMap("gnuplot2", ColorMaps::g30, ColorMaps::g31,
-                        ColorMaps::g32);
+        public static ColorMap gnuplot = new FunctionColorMap("gnuplot", gfunc[7], gfunc[5], gfunc[15]);
 
-        public static ColorMap ocean = new FunctionColorMap("ocean", ColorMaps::g23, ColorMaps::g28, ColorMaps::g3);
+        public static ColorMap gnuplot2 = new FunctionColorMap("gnuplot2", gfunc[30], gfunc[31], gfunc[32]);
 
-        public static ColorMap afmhot = new FunctionColorMap("afmhot", ColorMaps::g34, ColorMaps::g35, ColorMaps::g36);
+        public static ColorMap ocean = new FunctionColorMap("ocean", gfunc[23], gfunc[28], gfunc[3]);
 
-        public static ColorMap rainbow = new FunctionColorMap("rainbow", ColorMaps::g33, ColorMaps::g13,
-                        ColorMaps::g10);
+        public static ColorMap afmhot = new FunctionColorMap("afmhot", gfunc[34], gfunc[35], gfunc[36]);
+
+        public static ColorMap rainbow = new FunctionColorMap("rainbow", gfunc[33], gfunc[13], gfunc[10]);
 
         public static ColorMap seismic = new ColorListColorMap("seismic",
                         Arrays.asList(new Color(0.0, 0.0, 0.3, 1.0), new Color(0.0, 0.0, 1.0, 1.0),
                                         new Color(1.0, 1.0, 1.0, 1.0), new Color(1.0, 0.0, 0.0, 1.0),
                                         new Color(0.5, 0.0, 0.0, 1.0)));
 
-        public static ColorMap terrain = new RGBPointListColorMap("terrain",
+        public static ColorMap terrain = new RGBListColorMap("terrain",
                         Arrays.asList(new RGBPoint(0.00, new Color(0.2, 0.2, 0.6, 1.0)),
                                         new RGBPoint(0.15, new Color(0.0, 0.6, 1.0, 1.0)),
                                         new RGBPoint(0.25, new Color(0.0, 0.8, 0.4, 1.0)),
@@ -1087,7 +1094,7 @@ class ColorMaps {
                                         new SinglePoint(0.8980, 0.9341, 0.9341),
                                         new SinglePoint(1.0000, 0.9961, 0.9961)));
 
-        public static ColorMap gist_rainbow = new RGBPointListColorMap("gist_rainbow",
+        public static ColorMap gist_rainbow = new RGBListColorMap("gist_rainbow",
                         Arrays.asList(new RGBPoint(0.000, new Color(1.00, 0.00, 0.16, 1.0)),
                                         new RGBPoint(0.030, new Color(1.00, 0.00, 0.00, 1.0)),
                                         new RGBPoint(0.215, new Color(1.00, 1.00, 0.00, 1.0)),

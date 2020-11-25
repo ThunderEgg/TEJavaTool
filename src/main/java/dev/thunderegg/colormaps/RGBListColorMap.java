@@ -1,12 +1,12 @@
 package dev.thunderegg.colormaps;
 
-import java.util.List;
+import java.util.Collection;
 
 import javafx.scene.paint.Color;
 
-public class RGBPointListColorMap implements ColorMap {
+public class RGBListColorMap implements ColorMap {
 
-    public RGBPointListColorMap(String name, List<RGBPoint> asList) {
+    public RGBListColorMap(String name, Collection<RGBPoint> points) {
     }
 
     @Override
