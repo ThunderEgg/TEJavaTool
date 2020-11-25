@@ -91,4 +91,22 @@ public class Statistic {
         return ret;
     }
 
+    public double getStatistic(String stat) {
+        double ret;
+        switch (stat) {
+            case "Average":
+                ret = sum / numCalls;
+                break;
+            case "Min":
+                ret = min;
+                break;
+            case "Max":
+                ret = max;
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid argument of " + stat);
+        }
+        return ret;
+    }
+
 }

@@ -1,5 +1,6 @@
 package dev.thunderegg.meshcreator.twodimensiontimer;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import dev.thunderegg.Info;
@@ -260,5 +261,48 @@ public class StatisticTest {
         assertThat(stat.max, is(equalTo(info.max)));
         assertThat(stat.sum, is(equalTo(info.sum)));
         assertThat(stat.numCalls, is(equalTo(info.num_calls)));
+    }
+
+    @Test
+    public void getStatisticAverage() {
+        Statistic stat = new Statistic();
+        stat.min = -2;
+        stat.max = 23;
+        stat.sum = -2390;
+        stat.numCalls = 100;
+        assertThat(stat.getStatistic("Average"), is(stat.sum / stat.numCalls));
+    }
+
+    @Test
+    public void getStatisticMin() {
+        Statistic stat = new Statistic();
+        stat.min = -2;
+        stat.max = 23;
+        stat.sum = -2390;
+        stat.numCalls = 100;
+        assertThat(stat.getStatistic("Min"), is(stat.min));
+    }
+
+    @Test
+    public void getStatisticMax() {
+        Statistic stat = new Statistic();
+        stat.min = -2;
+        stat.max = 23;
+        stat.sum = -2390;
+        stat.numCalls = 100;
+        assertThat(stat.getStatistic("Max"), is(stat.max));
+    }
+
+    @Test
+    public void getStatisticInvalid() {
+        Statistic stat = new Statistic();
+        stat.min = -2;
+        stat.max = 23;
+        stat.sum = -2390;
+        stat.numCalls = 100;
+
+        Assertions.assertThrows(IllegalArgumentException.class, () -> {
+            stat.getStatistic("sildfsjafl;jkl;");
+        });
     }
 }

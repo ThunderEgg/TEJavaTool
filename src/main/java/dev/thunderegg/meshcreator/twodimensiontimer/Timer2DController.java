@@ -6,7 +6,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Map;
+import java.util.IllegalFormatConversionException;
+
 import com.google.gson.Gson;
 
 import javafx.beans.value.ChangeListener;
@@ -16,11 +17,13 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
 import dev.thunderegg.GsonAdapters;
@@ -32,15 +35,19 @@ public class Timer2DController {
 	@FXML
 	private BorderPane borderPane;
 	@FXML
-	private TimerPane timerPane;
-	@FXML
 	private TreeView<Statistics> treeView;
 	@FXML
 	private ChoiceBox<Integer> domainChoice;
 	@FXML
 	private ChoiceBox<String> statChoice;
 	@FXML
+	private ChoiceBox<String> subStatChoice;
+	@FXML
 	private Canvas patchCanvas;
+	@FXML
+	private AnchorPane patchCanvasPane;
+	@FXML
+	private TextField formatText;
 
 	private PatchPainter canvasPainter;
 	Timer timer;
@@ -51,6 +58,8 @@ public class Timer2DController {
 	private String selectedStat;
 	private double lastMouseX;
 	private double lastMouseY;
+	private String selectedSubStat;
+	private String formatString = "%.2e";
 
 	@FXML
 	private void initialize() {
@@ -66,6 +75,13 @@ public class Timer2DController {
 						setSelectedStat(statChoice.getItems().get((Integer) newValue));
 					}
 				});
+		subStatChoice.getSelectionModel().selectedIndexProperty()
+				.addListener((ChangeListener<Number>) (ObservableValue<? extends Number> observable, Number oldValue,
+						Number newValue) -> {
+					if (newValue.intValue() >= 0) {
+						setSlectedSubStat(subStatChoice.getItems().get((Integer) newValue));
+					}
+				});
 		domainChoice.getSelectionModel().selectedIndexProperty()
 				.addListener((ChangeListener<Number>) (ObservableValue<? extends Number> observable, Number oldValue,
 						Number newValue) -> {
@@ -75,14 +91,39 @@ public class Timer2DController {
 				});
 
 		canvasPainter = new PatchPainter(patchCanvas);
+		subStatChoice.getItems().addAll("Average", "Min", "Max");
+		subStatChoice.getSelectionModel().clearAndSelect(0);
+		patchCanvas.widthProperty().bind(patchCanvasPane.widthProperty());
+		patchCanvas.heightProperty().bind(patchCanvasPane.heightProperty());
+		patchCanvas.heightProperty().addListener(observable -> redrawCanvas());
+		patchCanvas.widthProperty().addListener(observable -> redrawCanvas());
+	}
+
+	private void setSlectedSubStat(String selectedSubStat) {
+		this.selectedSubStat = selectedSubStat;
+		updatePatches();
+	}
+
+	private void updatePatches() {
+		if (currentStats != null) {
+			canvasPainter
+					.setPatches(SquareWithText.getRectanglesForDomain(domains.get(selectedDomain), (Patch patch) -> {
+						Statistic stat = currentStats
+								.getStatisticForPatch(new PatchKey(selectedStat, selectedDomain, patch.id));
+
+						double value = stat.getStatistic(selectedSubStat);
+						try {
+							return String.format(formatString, value);
+						} catch (IllegalFormatConversionException e) {
+							return String.format(formatString, (int) value);
+						}
+					}));
+		}
 	}
 
 	private void setSelectedDomain(Integer domainId) {
 		selectedDomain = domainId;
-		canvasPainter.setPatches(SquareWithText.getRectanglesForDomain(domains.get(domainId), (Patch patch) -> {
-			Statistic stat = currentStats.getStatisticForPatch(new PatchKey(selectedStat, domainId, patch.id));
-			return String.format("%4e", stat.sum / (double) stat.numCalls);
-		}));
+		updatePatches();
 	}
 
 	private void setSelectedStat(String name) {
@@ -174,6 +215,12 @@ public class Timer2DController {
 		double yTranslate = yOrigin - ((yOrigin - se.getY()) * Math.pow(1.1, delta) + se.getY());
 		canvasPainter.translate(xTranslate, yTranslate);
 		canvasPainter.paint();
+	}
+
+	@FXML
+	private void setFormatText(ActionEvent event) {
+		formatString = formatText.getText();
+		updatePatches();
 	}
 
 }
