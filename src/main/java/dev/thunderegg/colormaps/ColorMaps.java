@@ -105,7 +105,7 @@ import javafx.scene.paint.Color;
  * be bound by the terms and conditions of this License Agreement.
  * </pre>
  */
-class ColorMaps {
+public class ColorMaps {
         public static ColorMap binary = new SeperateRGBListColorMap("binary",
                         Arrays.asList(new SinglePoint(0., 1., 1.), new SinglePoint(1., 0., 0.)),
                         Arrays.asList(new SinglePoint(0., 1., 1.), new SinglePoint(1., 0., 0.)),
