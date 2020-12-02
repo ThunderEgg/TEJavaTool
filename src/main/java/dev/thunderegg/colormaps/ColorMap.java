@@ -11,4 +11,6 @@ public interface ColorMap {
      * @return the color
      */
     public Color getColor(double x);
+
+    public String getName();
 }

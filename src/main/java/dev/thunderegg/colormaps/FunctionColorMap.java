@@ -15,4 +15,10 @@ public class FunctionColorMap implements ColorMap {
         return null;
     }
 
+    @Override
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

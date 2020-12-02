@@ -73,6 +73,20 @@ public class SeperateRGBListColorMapTest {
         }
 
         @Test
+        public void getName() {
+                List<SinglePoint> red = Arrays.asList(new SinglePoint(0, 1.0, 0.1), new SinglePoint(0.5, 0.2, 0.3),
+                                new SinglePoint(1, 0.4, 0.5));
+                List<SinglePoint> green = Arrays.asList(new SinglePoint(0, .9, 0.0), new SinglePoint(0.5, .1, 0.2),
+                                new SinglePoint(1, 0.3, 0.4));
+                List<SinglePoint> blue = Arrays.asList(new SinglePoint(0, 0.8, 0.7), new SinglePoint(0.5, 0.5, 0.1),
+                                new SinglePoint(1, 0.2, 0.3));
+
+                SeperateRGBListColorMap map = new SeperateRGBListColorMap("blah", red, green, blue);
+
+                assertThat(map.getName(), is("blah"));
+        }
+
+        @Test
         public void getColor0() {
                 List<SinglePoint> red = Arrays.asList(new SinglePoint(0, 1.0, 0.1), new SinglePoint(0.5, 0.2, 0.3),
                                 new SinglePoint(1, 0.4, 0.5));

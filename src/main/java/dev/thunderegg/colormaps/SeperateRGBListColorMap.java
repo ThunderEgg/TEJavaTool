@@ -13,6 +13,10 @@ import javafx.scene.paint.Color;
 public class SeperateRGBListColorMap implements ColorMap {
 
     /**
+     * The name of the colormap
+     */
+    private String name;
+    /**
      * The red values
      */
     private TreeSet<SinglePoint> red = new TreeSet<>(SinglePoint::compareX);
@@ -47,6 +51,7 @@ public class SeperateRGBListColorMap implements ColorMap {
         if (!Comparators.isInStrictOrder(green, SinglePoint::compareX)) {
             throw new IllegalArgumentException("green list is not in strictly ascending order");
         }
+        this.name = name;
         this.red.addAll(red);
         this.green.addAll(green);
         this.blue.addAll(blue);
@@ -90,7 +95,19 @@ public class SeperateRGBListColorMap implements ColorMap {
         if (upper == null) {
             return lower.upper;
         }
-        return (lower.upper * (upper.x - x) + upper.lower * (x - lower.x)) / (upper.x - lower.x);
+        double value = (lower.upper * (upper.x - x) + upper.lower * (x - lower.x)) / (upper.x - lower.x);
+        // clamp the value
+        if (value > 1.0) {
+            value = 1.0;
+        } else if (value < 0.0) {
+            value = 0.0;
+        }
+        return value;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
 
 }
