@@ -96,13 +96,7 @@ public class SeperateRGBListColorMap implements ColorMap {
             return lower.upper;
         }
         double value = (lower.upper * (upper.x - x) + upper.lower * (x - lower.x)) / (upper.x - lower.x);
-        // clamp the value
-        if (value > 1.0) {
-            value = 1.0;
-        } else if (value < 0.0) {
-            value = 0.0;
-        }
-        return value;
+        return ColorMath.clamp(value);
     }
 
     @Override

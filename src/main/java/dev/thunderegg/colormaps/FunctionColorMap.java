@@ -43,22 +43,8 @@ public class FunctionColorMap implements ColorMap {
 
     @Override
     public Color getColor(double x) {
-        return new Color(clamp(red.applyAsDouble(x)), clamp(green.applyAsDouble(x)), clamp(blue.applyAsDouble(x)), 1.0);
-    }
-
-    /**
-     * Clamp the value between 0 and 1
-     * 
-     * @param x the value
-     * @return the clamped value
-     */
-    private double clamp(double x) {
-        if (x <= 0) {
-            return 0;
-        } else if (x >= 1) {
-            return 1;
-        }
-        return x;
+        return new Color(ColorMath.clamp(red.applyAsDouble(x)), ColorMath.clamp(green.applyAsDouble(x)),
+                ColorMath.clamp(blue.applyAsDouble(x)), 1.0);
     }
 
     @Override

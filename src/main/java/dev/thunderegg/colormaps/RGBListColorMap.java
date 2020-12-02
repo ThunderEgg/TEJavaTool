@@ -69,23 +69,7 @@ public class RGBListColorMap implements ColorMap {
                 / (upper.x - lower.x);
         double a = (lower.color.getOpacity() * (upper.x - x) + upper.color.getOpacity() * (x - lower.x))
                 / (upper.x - lower.x);
-        return new Color(clamp(r), clamp(g), clamp(b), clamp(a));
-    }
-
-    /**
-     * Clamp the value between 0 and 1
-     * 
-     * @param r the value to clamp
-     * @return the clamped value
-     */
-    private double clamp(double d) {
-        if (d < 0) {
-            return 0;
-        } else if (d > 1) {
-            return 1;
-        } else {
-            return d;
-        }
+        return new Color(ColorMath.clamp(r), ColorMath.clamp(g), ColorMath.clamp(b), ColorMath.clamp(a));
     }
 
     @Override

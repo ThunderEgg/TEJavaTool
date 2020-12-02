@@ -5,11 +5,26 @@ import java.util.List;
 
 import javafx.scene.paint.Color;
 
+/**
+ * Colormap that interpolates from an equally space list of colors
+ */
 public class ColorListColorMap implements ColorMap {
 
+    /**
+     * The name of the colormap
+     */
     private String name;
+    /**
+     * The list of colors
+     */
     private ArrayList<Color> colors;
 
+    /**
+     * Construct a new ColorListColorMap
+     * 
+     * @param name   the name of the map
+     * @param colors the list of colors
+     */
     public ColorListColorMap(String name, List<Color> colors) {
         if (colors.isEmpty()) {
             throw new IllegalArgumentException("Empty list passed to colormap");
@@ -31,28 +46,20 @@ public class ColorListColorMap implements ColorMap {
         return mix(colors.get(lowerIndex), colors.get(upperIndex), r);
     }
 
+    /**
+     * Mix the colors
+     * 
+     * @param lower the lower color
+     * @param upper the upper color
+     * @param x     the ratio of upper color to lower color
+     * @return the color
+     */
     private Color mix(Color lower, Color upper, double x) {
         double r = lower.getRed() * (1.0 - x) + upper.getRed() * x;
         double g = lower.getGreen() * (1.0 - x) + upper.getGreen() * x;
         double b = lower.getBlue() * (1.0 - x) + upper.getBlue() * x;
         double a = lower.getOpacity() * (1.0 - x) + upper.getOpacity() * x;
-        return new Color(clamp(r), clamp(g), clamp(b), clamp(a));
-    }
-
-    /**
-     * Clamp the value between 0 and 1
-     * 
-     * @param r the value to clamp
-     * @return the clamped value
-     */
-    private double clamp(double d) {
-        if (d < 0) {
-            return 0;
-        } else if (d > 1) {
-            return 1;
-        } else {
-            return d;
-        }
+        return new Color(ColorMath.clamp(r), ColorMath.clamp(g), ColorMath.clamp(b), ColorMath.clamp(a));
     }
 
     @Override
