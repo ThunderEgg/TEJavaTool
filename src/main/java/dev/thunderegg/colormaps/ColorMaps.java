@@ -893,7 +893,7 @@ class ColorMaps {
          * mpl.colors.NoNorm
          */
 
-        public static ColorMap Accent = new ColorListColorMap("Accent",
+        public static ColorMap Accent = new QualitativeColorListColorMap("Accent",
                         Arrays.asList(new Color(0.49803921568627452, 0.78823529411764703, 0.49803921568627452, 1.0),
                                         new Color(0.74509803921568629, 0.68235294117647061, 0.83137254901960789, 1.0),
                                         new Color(0.99215686274509807, 0.75294117647058822, 0.52549019607843139, 1.0),
@@ -903,7 +903,7 @@ class ColorMaps {
                                         new Color(0.74901960784313726, 0.35686274509803922, 0.09019607843137254, 1.0),
                                         new Color(0.4, 0.4, 0.4, 1.0)));
 
-        public static ColorMap Dark2 = new ColorListColorMap("Dark2",
+        public static ColorMap Dark2 = new QualitativeColorListColorMap("Dark2",
                         Arrays.asList(new Color(0.10588235294117647, 0.61960784313725492, 0.46666666666666667, 1.0),
                                         new Color(0.85098039215686272, 0.37254901960784315, 0.00784313725490196, 1.0),
                                         new Color(0.45882352941176469, 0.4392156862745098, 0.70196078431372544, 1.0),
@@ -913,7 +913,7 @@ class ColorMaps {
                                         new Color(0.65098039215686276, 0.46274509803921571, 0.11372549019607843, 1.0),
                                         new Color(0.4, 0.4, 0.4, 1.0)));
 
-        public static ColorMap Paired = new ColorListColorMap("Paired",
+        public static ColorMap Paired = new QualitativeColorListColorMap("Paired",
                         Arrays.asList(new Color(0.65098039215686276, 0.80784313725490198, 0.8901960784313725, 1.0),
                                         new Color(0.12156862745098039, 0.47058823529411764, 0.70588235294117652, 1.0),
                                         new Color(0.69803921568627447, 0.87450980392156863, 0.54117647058823526, 1.0),
@@ -927,7 +927,7 @@ class ColorMaps {
                                         new Color(1.0, 1.0, 0.6, 1.0),
                                         new Color(0.69411764705882351, 0.34901960784313724, 0.15686274509803921, 1.0)));
 
-        public static ColorMap Pastel1 = new ColorListColorMap("Pastel1",
+        public static ColorMap Pastel1 = new QualitativeColorListColorMap("Pastel1",
                         Arrays.asList(new Color(0.98431372549019602, 0.70588235294117652, 0.68235294117647061, 1.0),
                                         new Color(0.70196078431372544, 0.80392156862745101, 0.8901960784313725, 1.0),
                                         new Color(0.8, 0.92156862745098034, 0.77254901960784317, 1.0),
@@ -938,7 +938,7 @@ class ColorMaps {
                                         new Color(0.99215686274509807, 0.85490196078431369, 0.92549019607843142, 1.0),
                                         new Color(0.94901960784313721, 0.94901960784313721, 0.94901960784313721, 1.0)));
 
-        public static ColorMap Pastel2 = new ColorListColorMap("Pastel2",
+        public static ColorMap Pastel2 = new QualitativeColorListColorMap("Pastel2",
                         Arrays.asList(new Color(0.70196078431372544, 0.88627450980392153, 0.80392156862745101, 1.0),
                                         new Color(0.99215686274509807, 0.80392156862745101, 0.67450980392156867, 1.0),
                                         new Color(0.79607843137254897, 0.83529411764705885, 0.90980392156862744, 1.0),
@@ -948,7 +948,7 @@ class ColorMaps {
                                         new Color(0.94509803921568625, 0.88627450980392153, 0.8, 1.0),
                                         new Color(0.8, 0.8, 0.8, 1.0)));
 
-        public static ColorMap Set1 = new ColorListColorMap("Set1",
+        public static ColorMap Set1 = new QualitativeColorListColorMap("Set1",
                         Arrays.asList(new Color(0.89411764705882357, 0.10196078431372549, 0.10980392156862745, 1.0),
                                         new Color(0.21568627450980393, 0.49411764705882355, 0.72156862745098038, 1.0),
                                         new Color(0.30196078431372547, 0.68627450980392157, 0.29019607843137257, 1.0),
@@ -958,7 +958,7 @@ class ColorMaps {
                                         new Color(0.96862745098039216, 0.50588235294117645, 0.74901960784313726, 1.0),
                                         new Color(0.6, 0.6, 0.6, 1.0)));
 
-        public static ColorMap Set2 = new ColorListColorMap("Set2",
+        public static ColorMap Set2 = new QualitativeColorListColorMap("Set2",
                         Arrays.asList(new Color(0.4, 0.76078431372549016, 0.6470588235294118, 1.0),
                                         new Color(0.9882352941176471, 0.55294117647058827, 0.3843137254901961, 1.0),
                                         new Color(0.55294117647058827, 0.62745098039215685, 0.79607843137254897, 1.0),
@@ -968,7 +968,7 @@ class ColorMaps {
                                         new Color(0.89803921568627454, 0.7686274509803922, 0.58039215686274515, 1.0),
                                         new Color(0.70196078431372544, 0.70196078431372544, 0.70196078431372544, 1.0)));
 
-        public static ColorMap Set3 = new ColorListColorMap("Set3",
+        public static ColorMap Set3 = new QualitativeColorListColorMap("Set3",
                         Arrays.asList(new Color(0.55294117647058827, 0.82745098039215681, 0.7803921568627451, 1.0),
                                         new Color(1.0, 1.0, 0.70196078431372544, 1.0),
                                         new Color(0.74509803921568629, 0.72941176470588232, 0.85490196078431369, 1.0),
@@ -1270,7 +1270,7 @@ class ColorMaps {
          * (divided by 255)
          */
 
-        public static ColorMap tab10 = new ColorListColorMap("tab10",
+        public static ColorMap tab10 = new QualitativeColorListColorMap("tab10",
                         Arrays.asList(new Color(0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0), // 1f77b4
                                         new Color(1.0, 0.4980392156862745, 0.054901960784313725, 1.0), // ff7f0e
                                         new Color(0.17254901960784313, 0.6274509803921569, 0.17254901960784313, 1.0), // 2ca02c
@@ -1283,7 +1283,7 @@ class ColorMaps {
                                         new Color(0.09019607843137255, 0.7450980392156863, 0.8117647058823529, 1.0) // 17becf
                         ));
 
-        public static ColorMap tab20 = new ColorListColorMap("tab20",
+        public static ColorMap tab20 = new QualitativeColorListColorMap("tab20",
                         Arrays.asList(new Color(0.12156862745098039, 0.4666666666666667, 0.7058823529411765, 1.0), // 1f77b4
                                         new Color(0.6823529411764706, 0.7803921568627451, 0.9098039215686274, 1.0), // aec7e8
                                         new Color(1.0, 0.4980392156862745, 0.054901960784313725, 1.0), // ff7f0e
@@ -1306,7 +1306,7 @@ class ColorMaps {
                                         new Color(0.6196078431372549, 0.8549019607843137, 0.8980392156862745, 1.0) // 9edae5
                         ));
 
-        public static ColorMap tab20b = new ColorListColorMap("tab20b",
+        public static ColorMap tab20b = new QualitativeColorListColorMap("tab20b",
                         Arrays.asList(new Color(0.2235294117647059, 0.23137254901960785, 0.4745098039215686, 1.0), // 393b79
                                         new Color(0.3215686274509804, 0.32941176470588235, 0.6392156862745098, 1.0), // 5254a3
                                         new Color(0.4196078431372549, 0.43137254901960786, 0.8117647058823529, 1.0), // 6b6ecf
@@ -1329,7 +1329,7 @@ class ColorMaps {
                                         new Color(0.8705882352941177, 0.6196078431372549, 0.8392156862745098, 1.0) // de9ed6
                         ));
 
-        public static ColorMap tab20c = new ColorListColorMap("tab20c",
+        public static ColorMap tab20c = new QualitativeColorListColorMap("tab20c",
                         Arrays.asList(new Color(0.19215686274509805, 0.5098039215686274, 0.7411764705882353, 1.0), // 3182bd
                                         new Color(0.4196078431372549, 0.6823529411764706, 0.8392156862745098, 1.0), // 6baed6
                                         new Color(0.6196078431372549, 0.792156862745098, 0.8823529411764706, 1.0), // 9ecae1
