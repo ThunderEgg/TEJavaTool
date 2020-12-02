@@ -1250,7 +1250,7 @@ class ColorMaps {
          * https://github.com/wistia/heatmap-palette
          * http://wistia.com/blog/heatmaps-for-colorblindness
          */
-        public static ColorMap wistia = new SeperateRGBListColorMap("wistia",
+        public static ColorMap wistia = new SeperateRGBListColorMap("Wistia",
                         Arrays.asList(new SinglePoint(0.0, 0.8941176470588236, 0.8941176470588236),
                                         new SinglePoint(0.25, 1.0, 1.0), new SinglePoint(0.5, 1.0, 1.0),
                                         new SinglePoint(0.75, 1.0, 1.0),
