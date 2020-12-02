@@ -7,6 +7,10 @@ import com.google.common.collect.Comparators;
 
 import javafx.scene.paint.Color;
 
+/**
+ * A ColorMap implemented using seperate lists RGBPoint along the along the
+ * color axis
+ */
 public class RGBListColorMap implements ColorMap {
 
     /**
@@ -17,6 +21,16 @@ public class RGBListColorMap implements ColorMap {
      * The color points in this map
      */
     private TreeSet<RGBPoint> points = new TreeSet<>(RGBPoint::compareX);
+
+    /**
+     * Construct a new RGBListColorMap
+     * 
+     * Will throw IllegalArgumentException if any of the set is not in strictly
+     * ascending order
+     * 
+     * @param name   the name of the colormap
+     * @param points the set of values
+     */
 
     public RGBListColorMap(String name, Collection<RGBPoint> points) {
         if (!Comparators.isInStrictOrder(points, RGBPoint::compareX)) {
@@ -33,6 +47,14 @@ public class RGBListColorMap implements ColorMap {
         return getValue(lower, upper, x);
     }
 
+    /**
+     * Get an interpolated color value
+     * 
+     * @param lower the value lower on the color axis
+     * @param upper the value higher on the oclor axis
+     * @param x     the point int the axis to interpolate at
+     * @return the interpolated color
+     */
     private Color getValue(RGBPoint lower, RGBPoint upper, double x) {
         if (lower == null) {
             return upper.color;
@@ -50,13 +72,19 @@ public class RGBListColorMap implements ColorMap {
         return new Color(clamp(r), clamp(g), clamp(b), clamp(a));
     }
 
-    private double clamp(double r) {
-        if (r < 0) {
+    /**
+     * Clamp the value between 0 and 1
+     * 
+     * @param r the value to clamp
+     * @return the clamped value
+     */
+    private double clamp(double d) {
+        if (d < 0) {
             return 0;
-        } else if (r > 1) {
+        } else if (d > 1) {
             return 1;
         } else {
-            return r;
+            return d;
         }
     }
 
