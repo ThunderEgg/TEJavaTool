@@ -76,6 +76,8 @@ public class ColorMapsTest {
                                     "\nBlue value on index " + i + "(" + x + "): of " + name + "" + e.getMessage());
                         }
                     }
+                } catch (AssertionError e) {
+                    throw e;
                 } catch (Throwable e) {
                     throw new Throwable(name + ": " + e.getMessage());
                 }
