@@ -9,12 +9,8 @@ import javafx.scene.paint.Color;
  * Qualitative colormap given a list of colors. The colormap is divided into
  * equally space blocks of colors from the given list.
  */
-public class QualitativeColorListColorMap implements ColorMap {
+public class QualitativeColorListColorMap extends ColorMap {
 
-    /**
-     * The name of the colormap
-     */
-    private String name;
     /**
      * The list of colors
      */
@@ -27,10 +23,10 @@ public class QualitativeColorListColorMap implements ColorMap {
      * @param colors the list of colors
      */
     public QualitativeColorListColorMap(String name, List<Color> colors) {
+        super(name);
         if (colors.isEmpty()) {
             throw new IllegalArgumentException("Empty list passed to colormap");
         }
-        this.name = name;
         this.colors = new ArrayList<>(colors);
     }
 
@@ -43,11 +39,6 @@ public class QualitativeColorListColorMap implements ColorMap {
         }
         int index = (int) Math.round(x * colors.size() - 0.5);
         return colors.get(index);
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 }

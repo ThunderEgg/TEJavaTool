@@ -8,12 +8,8 @@ import javafx.scene.paint.Color;
 /**
  * Colormap that interpolates from an equally space list of colors
  */
-public class ColorListColorMap implements ColorMap {
+public class ColorListColorMap extends ColorMap {
 
-    /**
-     * The name of the colormap
-     */
-    private String name;
     /**
      * The list of colors
      */
@@ -26,10 +22,10 @@ public class ColorListColorMap implements ColorMap {
      * @param colors the list of colors
      */
     public ColorListColorMap(String name, List<Color> colors) {
+        super(name);
         if (colors.isEmpty()) {
             throw new IllegalArgumentException("Empty list passed to colormap");
         }
-        this.name = name;
         this.colors = new ArrayList<>(colors);
     }
 
@@ -60,11 +56,6 @@ public class ColorListColorMap implements ColorMap {
         double b = lower.getBlue() * (1.0 - x) + upper.getBlue() * x;
         double a = lower.getOpacity() * (1.0 - x) + upper.getOpacity() * x;
         return new Color(ColorMath.clamp(r), ColorMath.clamp(g), ColorMath.clamp(b), ColorMath.clamp(a));
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
+    }// TODO Auto-generated method stub
 
 }

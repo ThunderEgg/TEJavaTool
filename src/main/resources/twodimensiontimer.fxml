@@ -94,7 +94,7 @@
                                                             <Label text="Format " />
                                                          </children>
                                                       </HBox>
-                                                      <ComboBox fx:id="colormapCombo" prefWidth="150.0" />
+                                                      <ComboBox fx:id="cmapChoice" prefWidth="150.0" />
                                   </items>
                                 </ToolBar>
                                 <AnchorPane fx:id="patchCanvasPane" VBox.vgrow="ALWAYS">

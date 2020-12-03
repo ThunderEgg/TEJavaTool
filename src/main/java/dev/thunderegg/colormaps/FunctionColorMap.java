@@ -7,12 +7,8 @@ import javafx.scene.paint.Color;
 /**
  * A colormap that uses functions to determine red, green, and blue values
  */
-public class FunctionColorMap implements ColorMap {
+public class FunctionColorMap extends ColorMap {
 
-    /**
-     * The name of the colormap
-     */
-    private String name;
     /**
      * The function for red values
      */
@@ -35,7 +31,7 @@ public class FunctionColorMap implements ColorMap {
      * @param blue  the function for blue values
      */
     public FunctionColorMap(String name, DoubleUnaryOperator red, DoubleUnaryOperator green, DoubleUnaryOperator blue) {
-        this.name = name;
+        super(name);
         this.red = red;
         this.green = green;
         this.blue = blue;
@@ -46,10 +42,4 @@ public class FunctionColorMap implements ColorMap {
         return new Color(ColorMath.clamp(red.applyAsDouble(x)), ColorMath.clamp(green.applyAsDouble(x)),
                 ColorMath.clamp(blue.applyAsDouble(x)), 1.0);
     }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
 }

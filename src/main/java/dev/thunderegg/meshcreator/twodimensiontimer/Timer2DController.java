@@ -17,18 +17,25 @@ import javafx.fxml.FXML;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.ListCell;
+import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.TreeItem;
 import javafx.scene.control.TreeView;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.FileChooser;
+import javafx.util.Callback;
 import dev.thunderegg.GsonAdapters;
 import dev.thunderegg.Patch;
 import dev.thunderegg.Timer;
+import dev.thunderegg.colormaps.ColorMap;
+import dev.thunderegg.colormaps.ColorMaps;
 
 public class Timer2DController {
 
@@ -42,6 +49,8 @@ public class Timer2DController {
 	private ChoiceBox<String> statChoice;
 	@FXML
 	private ChoiceBox<String> subStatChoice;
+	@FXML
+	private ComboBox<ColorMap> cmapChoice;
 	@FXML
 	private Canvas patchCanvas;
 	@FXML
@@ -97,6 +106,29 @@ public class Timer2DController {
 		patchCanvas.heightProperty().bind(patchCanvasPane.heightProperty());
 		patchCanvas.heightProperty().addListener(observable -> redrawCanvas());
 		patchCanvas.widthProperty().addListener(observable -> redrawCanvas());
+
+		cmapChoice.getItems().addAll(ColorMaps.getColorMaps());
+		cmapChoice.setCellFactory(new Callback<ListView<ColorMap>, ListCell<ColorMap>>() {
+			@Override
+			public ListCell<ColorMap> call(ListView<ColorMap> p) {
+				return new ListCell<ColorMap>() {
+					@Override
+					protected void updateItem(ColorMap cmap, boolean empty) {
+						super.updateItem(cmap, empty);
+
+						if (cmap == null || empty) {
+							setGraphic(null);
+						} else {
+							setText(cmap.getName());
+							ColorMapImageGenerator gen = new ColorMapImageGenerator(cmap);
+							ImageView view = new ImageView(gen.getImage(200));
+							view.setFitHeight(30);
+							setGraphic(view);
+						}
+					}
+				};
+			}
+		});
 	}
 
 	private void setSlectedSubStat(String selectedSubStat) {

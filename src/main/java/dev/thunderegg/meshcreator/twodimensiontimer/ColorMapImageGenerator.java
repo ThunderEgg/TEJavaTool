@@ -4,6 +4,7 @@ import dev.thunderegg.colormaps.ColorMap;
 import javafx.scene.image.Image;
 import javafx.scene.image.PixelWriter;
 import javafx.scene.image.WritableImage;
+import javafx.scene.paint.Color;
 
 public class ColorMapImageGenerator {
 
@@ -18,10 +19,12 @@ public class ColorMapImageGenerator {
     }
 
     public Image getImage(int width) {
-        WritableImage image = new WritableImage(width, 1);
+        WritableImage image = new WritableImage(width, 2);
         PixelWriter writer = image.getPixelWriter();
         for (int i = 0; i < width; i++) {
-            writer.setColor(i, 0, cmap.getColor((i + 0.5) / width));
+            Color color = cmap.getColor((i + 0.5) / width);
+            writer.setColor(i, 0, color);
+            writer.setColor(i, 1, color);
         }
         return image;
     }

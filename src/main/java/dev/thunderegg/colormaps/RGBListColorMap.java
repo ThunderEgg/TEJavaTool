@@ -11,12 +11,8 @@ import javafx.scene.paint.Color;
  * A ColorMap implemented using seperate lists RGBPoint along the along the
  * color axis
  */
-public class RGBListColorMap implements ColorMap {
+public class RGBListColorMap extends ColorMap {
 
-    /**
-     * The name of this colormap
-     */
-    private String name;
     /**
      * The color points in this map
      */
@@ -33,10 +29,10 @@ public class RGBListColorMap implements ColorMap {
      */
 
     public RGBListColorMap(String name, Collection<RGBPoint> points) {
+        super(name);
         if (!Comparators.isInStrictOrder(points, RGBPoint::compareX)) {
             throw new IllegalArgumentException("point list is not in strictly ascending order");
         }
-        this.name = name;
         this.points.addAll(points);
     }
 
@@ -70,11 +66,6 @@ public class RGBListColorMap implements ColorMap {
         double a = (lower.color.getOpacity() * (upper.x - x) + upper.color.getOpacity() * (x - lower.x))
                 / (upper.x - lower.x);
         return new Color(ColorMath.clamp(r), ColorMath.clamp(g), ColorMath.clamp(b), ColorMath.clamp(a));
-    }
-
-    @Override
-    public String getName() {
-        return name;
     }
 
 }
