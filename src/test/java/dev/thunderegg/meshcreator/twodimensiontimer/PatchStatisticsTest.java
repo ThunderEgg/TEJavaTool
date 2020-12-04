@@ -60,12 +60,12 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatSameDomainSamePatchMergesThenGetStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -79,12 +79,12 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatSameDomainSamePatchMergesThenGetDomainStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -98,12 +98,12 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatSameDomainSamePatchMergesThenGetPatchStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -117,12 +117,12 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatSameDomainDifferentPatchMergesThenGetStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -136,12 +136,12 @@ public class PatchStatisticsTest {
     @Test
     public void addPatchStatDifferentDomainMergesThenGetStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -180,7 +180,7 @@ public class PatchStatisticsTest {
     public void addPatchStatEncapsulated() {
         Statistic stat = new Statistic();
         stats.addStatisticForPatch(new PatchKey("Hello", 1, 0), stat);
-        stat.min = 0;
+        stat.setMin(0);
         Statistic stat2 = stats.getStatisticForPatch(new PatchKey("Hello", 1, 0));
         assertThat(stat2, is(not(nullValue())));
         assertThat(stat2, is(not(sameInstance(stat))));

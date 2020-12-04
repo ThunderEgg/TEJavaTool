@@ -58,12 +58,12 @@ public class DomainStatisticsTest {
     @Test
     public void addDomainStatSameDomainMergesThenGetStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -77,12 +77,12 @@ public class DomainStatisticsTest {
     @Test
     public void addDomainStatDifferentDomainMergesThenGetStat() {
         Statistic stat1 = new Statistic();
-        stat1.min = -2;
+        stat1.setMin(-2);
         stat1.max = 23;
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
-        stat2.min = 32;
+        stat2.setMin(32);
         stat2.max = -2190;
         stat2.sum = 329239020;
         stat2.numCalls = 299;
@@ -113,7 +113,7 @@ public class DomainStatisticsTest {
     public void addDomainStatEncapsulated() {
         Statistic stat = new Statistic();
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat);
-        stat.min = 0;
+        stat.setMin(0);
         Statistic stat2 = stats.getStatisticForDomain(new DomainKey("Hello", 1));
         assertThat(stat2, is(not(nullValue())));
         assertThat(stat2, is(not(sameInstance(stat))));

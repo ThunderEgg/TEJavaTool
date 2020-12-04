@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "CodeLens (Launch) - Main",
+            "request": "launch",
+            "mainClass": "dev.thunderegg.meshcreator.Main",
+            "projectName": "AmrMeshCreator"
+        },
+        {
+            "type": "java",
             "name": "Debug (Attach)",
             "request": "attach",
             "hostName": "localhost",

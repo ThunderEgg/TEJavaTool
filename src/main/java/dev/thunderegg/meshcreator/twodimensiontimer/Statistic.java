@@ -2,6 +2,8 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 
 import dev.thunderegg.Info;
 import dev.thunderegg.Timing;
+import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.SimpleDoubleProperty;
 
 /**
  * Represents a statistic about something
@@ -10,7 +12,7 @@ public class Statistic {
     /**
      * Min value
      */
-    public double min = Double.POSITIVE_INFINITY;
+    private DoubleProperty min = new SimpleDoubleProperty(this, "min", Double.POSITIVE_INFINITY);
     /**
      * Max value
      */
@@ -32,12 +34,39 @@ public class Statistic {
     }
 
     /**
-     * Copy constructor
+     * Get the minium value
+     * 
+     * @return the minimum value
+     */
+    public double getMin() {
+        return min.doubleValue();
+    }
+
+    /**
+     * Set the minimum value
+     * 
+     * @param value the minimum value
+     */
+    public void setMin(double value) {
+        min.set(value);
+    }
+
+    /**
+     * Get the min property
+     * 
+     * @return the min property
+     */
+    public DoubleProperty getMinProperty() {
+        return min;
+    }
+
+    /**
+     * Copy constructor, performs a deep copy
      * 
      * @param statistic the statistic to copy
      */
     public Statistic(Statistic statistic) {
-        min = statistic.min;
+        setMin(statistic.getMin());
         max = statistic.max;
         sum = statistic.sum;
         numCalls = statistic.numCalls;
@@ -49,7 +78,7 @@ public class Statistic {
      * @param timing the timing to create the statistic from
      */
     public Statistic(Timing timing) {
-        min = timing.min;
+        setMin(timing.min);
         max = timing.max;
         sum = timing.sum;
         numCalls = timing.num_calls;
@@ -61,7 +90,7 @@ public class Statistic {
      * @param info the info object to create the statistic from
      */
     public Statistic(Info info) {
-        min = info.min;
+        setMin(info.min);
         max = info.max;
         sum = info.sum;
         numCalls = info.num_calls;
@@ -72,19 +101,19 @@ public class Statistic {
         boolean equal = false;
         if (obj != null && obj.getClass() == Statistic.class) {
             Statistic other = (Statistic) obj;
-            equal = (min == other.min && max == other.max && sum == other.sum && numCalls == other.numCalls);
+            equal = (getMin() == other.getMin() && max == other.max && sum == other.sum && numCalls == other.numCalls);
         }
         return equal;
     }
 
     @Override
     public String toString() {
-        return "min: " + min + ", max: " + max + ", sum: " + sum + ", numCalls: " + numCalls;
+        return "min: " + getMin() + ", max: " + max + ", sum: " + sum + ", numCalls: " + numCalls;
     }
 
     public static Statistic merge(Statistic a, Statistic b) {
         Statistic ret = new Statistic();
-        ret.min = Math.min(a.min, b.min);
+        ret.setMin(Math.min(a.getMin(), b.getMin()));
         ret.max = Math.max(a.max, b.max);
         ret.sum = a.sum + b.sum;
         ret.numCalls = a.numCalls + b.numCalls;
@@ -98,7 +127,7 @@ public class Statistic {
                 ret = sum / numCalls;
                 break;
             case "Min":
-                ret = min;
+                ret = getMin();
                 break;
             case "Max":
                 ret = max;
