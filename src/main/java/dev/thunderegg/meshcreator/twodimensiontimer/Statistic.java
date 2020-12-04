@@ -3,7 +3,9 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 import dev.thunderegg.Info;
 import dev.thunderegg.Timing;
 import javafx.beans.property.DoubleProperty;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 /**
  * Represents a statistic about something
@@ -24,7 +26,7 @@ public class Statistic {
     /**
      * Number of values
      */
-    public int numCalls = 0;
+    private IntegerProperty numCalls = new SimpleIntegerProperty(this, "numCalls", 0);
 
     /**
      * Default constructor
@@ -115,6 +117,33 @@ public class Statistic {
     }
 
     /**
+     * Get the number of calls
+     * 
+     * @return the number of calls
+     */
+    public int getNumCalls() {
+        return numCalls.intValue();
+    }
+
+    /**
+     * Set the number of calls
+     * 
+     * @param value the number of calls
+     */
+    public void setNumCalls(int value) {
+        numCalls.set(value);
+    }
+
+    /**
+     * Get the sum numCalls property
+     * 
+     * @return the sum numCalls property
+     */
+    public IntegerProperty getNumCallsProperty() {
+        return numCalls;
+    }
+
+    /**
      * Copy constructor, performs a deep copy
      * 
      * @param statistic the statistic to copy
@@ -123,7 +152,7 @@ public class Statistic {
         setMin(statistic.getMin());
         setMax(statistic.getMax());
         setSum(statistic.getSum());
-        numCalls = statistic.numCalls;
+        setNumCalls(statistic.getNumCalls());
     }
 
     /**
@@ -135,7 +164,7 @@ public class Statistic {
         setMin(timing.min);
         setMax(timing.max);
         setSum(timing.sum);
-        numCalls = timing.num_calls;
+        setNumCalls(timing.num_calls);
     }
 
     /**
@@ -147,7 +176,7 @@ public class Statistic {
         setMin(info.min);
         setMax(info.max);
         setSum(info.sum);
-        numCalls = info.num_calls;
+        setNumCalls(info.num_calls);
     }
 
     @Override
@@ -156,14 +185,14 @@ public class Statistic {
         if (obj != null && obj.getClass() == Statistic.class) {
             Statistic other = (Statistic) obj;
             equal = (getMin() == other.getMin() && getMax() == other.getMax() && getSum() == other.getSum()
-                    && numCalls == other.numCalls);
+                    && getNumCalls() == other.getNumCalls());
         }
         return equal;
     }
 
     @Override
     public String toString() {
-        return "min: " + getMin() + ", max: " + getMax() + ", sum: " + getSum() + ", numCalls: " + numCalls;
+        return "min: " + getMin() + ", max: " + getMax() + ", sum: " + getSum() + ", numCalls: " + getNumCalls();
     }
 
     public static Statistic merge(Statistic a, Statistic b) {
@@ -171,7 +200,7 @@ public class Statistic {
         ret.setMin(Math.min(a.getMin(), b.getMin()));
         ret.setMax(Math.max(a.getMax(), b.getMax()));
         ret.setSum(a.getSum() + b.getSum());
-        ret.numCalls = a.numCalls + b.numCalls;
+        ret.setNumCalls(a.getNumCalls() + b.getNumCalls());
         return ret;
     }
 
@@ -179,7 +208,7 @@ public class Statistic {
         double ret;
         switch (stat) {
             case "Average":
-                ret = getSum() / numCalls;
+                ret = getSum() / getNumCalls();
                 break;
             case "Min":
                 ret = getMin();

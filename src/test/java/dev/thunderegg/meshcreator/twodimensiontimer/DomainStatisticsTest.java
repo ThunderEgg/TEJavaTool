@@ -61,12 +61,12 @@ public class DomainStatisticsTest {
         stat1.setMin(-2);
         stat1.setMax(23);
         stat1.setSum(-2390);
-        stat1.numCalls = 3243980;
+        stat1.setNumCalls(3243980);
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
         stat2.setMax(-2190);
         stat2.setSum(329239020);
-        stat2.numCalls = 299;
+        stat2.setNumCalls(299);
 
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat2);
@@ -80,12 +80,12 @@ public class DomainStatisticsTest {
         stat1.setMin(-2);
         stat1.setMax(23);
         stat1.setSum(-2390);
-        stat1.numCalls = 3243980;
+        stat1.setNumCalls(3243980);
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
         stat2.setMax(-2190);
         stat2.setSum(329239020);
-        stat2.numCalls = 299;
+        stat2.setNumCalls(299);
 
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);
         stats.addStatisticForDomain(new DomainKey("Hello", 2), stat2);
@@ -143,9 +143,9 @@ public class DomainStatisticsTest {
     @Test
     public void addTwoDomainStatsThenGetStats() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatisticForDomain(new DomainKey("Hello", 1), helloStat);
         stats.addStatisticForDomain(new DomainKey("Bye", 1), byeStat);
         assertThat(stats.getStatistic(new UnassociatedKey("Hello")), is(equalTo(helloStat)));
@@ -155,9 +155,9 @@ public class DomainStatisticsTest {
     @Test
     public void addTwoDomainStatsThenGetDomainStats() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatisticForDomain(new DomainKey("Hello", 1), helloStat);
         stats.addStatisticForDomain(new DomainKey("Bye", 1), byeStat);
         assertThat(stats.getStatisticForDomain(new DomainKey("Hello", 1)), is(equalTo(helloStat)));
@@ -167,9 +167,9 @@ public class DomainStatisticsTest {
     @Test
     public void addTwoDomainStatsThenGetStatNames() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
         stats.addStatisticForDomain(new DomainKey("Bye", 1), new Statistic());
         Collection<String> names = stats.getStatisticNames();
@@ -181,9 +181,9 @@ public class DomainStatisticsTest {
     @Test
     public void addTwoDomainStatsThenGetStatDomains() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatisticForDomain(new DomainKey("Hello", 1), new Statistic());
         stats.addStatisticForDomain(new DomainKey("Hello", 2), new Statistic());
         Collection<Integer> domains = stats.getDomainsForName("Hello");

@@ -62,12 +62,12 @@ public class UnassociatedStatisticsTest {
         stat1.setMin(-2);
         stat1.setMax(23);
         stat1.setSum(-2390);
-        stat1.numCalls = 3243980;
+        stat1.setNumCalls(3243980);
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
         stat2.setMax(-2190);
         stat2.setSum(329239020);
-        stat2.numCalls = 299;
+        stat2.setNumCalls(299);
 
         stats.addStatistic(new UnassociatedKey("Hello"), stat1);
         stats.addStatistic(new UnassociatedKey("Hello"), stat2);
@@ -117,9 +117,9 @@ public class UnassociatedStatisticsTest {
     @Test
     public void addTwoStatsThenGetStats() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatistic(new UnassociatedKey("Hello"), helloStat);
         stats.addStatistic(new UnassociatedKey("Bye"), byeStat);
         assertThat(stats.getStatistic(new UnassociatedKey("Hello")), is(equalTo(helloStat)));
@@ -129,9 +129,9 @@ public class UnassociatedStatisticsTest {
     @Test
     public void addTwoStatsThenGetStatNames() {
         Statistic helloStat = new Statistic();
-        helloStat.numCalls = 1;
+        helloStat.setNumCalls(1);
         Statistic byeStat = new Statistic();
-        byeStat.numCalls = 2;
+        byeStat.setNumCalls(2);
         stats.addStatistic(new UnassociatedKey("Hello"), new Statistic());
         stats.addStatistic(new UnassociatedKey("Bye"), new Statistic());
         Collection<String> names = stats.getStatisticNames();
