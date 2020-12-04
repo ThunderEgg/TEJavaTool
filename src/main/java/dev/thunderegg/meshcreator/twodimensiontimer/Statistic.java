@@ -16,7 +16,7 @@ public class Statistic {
     /**
      * Max value
      */
-    public double max = Double.NEGATIVE_INFINITY;
+    private DoubleProperty max = new SimpleDoubleProperty(this, "max", Double.NEGATIVE_INFINITY);
     /**
      * sum of all values
      */
@@ -61,13 +61,40 @@ public class Statistic {
     }
 
     /**
+     * Get the maximum value
+     * 
+     * @return the maximum value
+     */
+    public double getMax() {
+        return max.doubleValue();
+    }
+
+    /**
+     * Set the maximum value
+     * 
+     * @param value the maximum value
+     */
+    public void setMax(double value) {
+        max.set(value);
+    }
+
+    /**
+     * Get the max property
+     * 
+     * @return the max property
+     */
+    public DoubleProperty getMaxProperty() {
+        return max;
+    }
+
+    /**
      * Copy constructor, performs a deep copy
      * 
      * @param statistic the statistic to copy
      */
     public Statistic(Statistic statistic) {
         setMin(statistic.getMin());
-        max = statistic.max;
+        setMax(statistic.getMax());
         sum = statistic.sum;
         numCalls = statistic.numCalls;
     }
@@ -79,7 +106,7 @@ public class Statistic {
      */
     public Statistic(Timing timing) {
         setMin(timing.min);
-        max = timing.max;
+        setMax(timing.max);
         sum = timing.sum;
         numCalls = timing.num_calls;
     }
@@ -91,7 +118,7 @@ public class Statistic {
      */
     public Statistic(Info info) {
         setMin(info.min);
-        max = info.max;
+        setMax(info.max);
         sum = info.sum;
         numCalls = info.num_calls;
     }
@@ -101,20 +128,21 @@ public class Statistic {
         boolean equal = false;
         if (obj != null && obj.getClass() == Statistic.class) {
             Statistic other = (Statistic) obj;
-            equal = (getMin() == other.getMin() && max == other.max && sum == other.sum && numCalls == other.numCalls);
+            equal = (getMin() == other.getMin() && getMax() == other.getMax() && sum == other.sum
+                    && numCalls == other.numCalls);
         }
         return equal;
     }
 
     @Override
     public String toString() {
-        return "min: " + getMin() + ", max: " + max + ", sum: " + sum + ", numCalls: " + numCalls;
+        return "min: " + getMin() + ", max: " + getMax() + ", sum: " + sum + ", numCalls: " + numCalls;
     }
 
     public static Statistic merge(Statistic a, Statistic b) {
         Statistic ret = new Statistic();
         ret.setMin(Math.min(a.getMin(), b.getMin()));
-        ret.max = Math.max(a.max, b.max);
+        ret.setMax(Math.max(a.getMax(), b.getMax()));
         ret.sum = a.sum + b.sum;
         ret.numCalls = a.numCalls + b.numCalls;
         return ret;
@@ -130,7 +158,7 @@ public class Statistic {
                 ret = getMin();
                 break;
             case "Max":
-                ret = max;
+                ret = getMax();
                 break;
             default:
                 throw new IllegalArgumentException("Invalid argument of " + stat);

@@ -60,12 +60,12 @@ public class UnassociatedStatisticsTest {
     public void addStatMergesThenGetStat() {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
-        stat1.max = 23;
+        stat1.setMax(23);
         stat1.sum = -2390;
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
-        stat2.max = -2190;
+        stat2.setMax(-2190);
         stat2.sum = 329239020;
         stat2.numCalls = 299;
 

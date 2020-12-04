@@ -44,7 +44,7 @@ public class StatisticsTest {
         assertThat(childStats.getName(), is("Child"));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).max, is(10.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(10.0));
 
         // CHECK TREE
         TreeItem<Statistics> root = stats.getTree();
@@ -75,8 +75,8 @@ public class StatisticsTest {
         assertThat(childStats.getName(), is("Child"));
         assertThat(childStats.getStatisticNames().size(), is(2));
         assertThat(childStats.getStatisticNames(), contains("Info", "Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Info")).max, is(1.0));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).max, is(10.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Info")).getMax(), is(1.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(10.0));
     }
 
     @Test
@@ -97,7 +97,7 @@ public class StatisticsTest {
         assertThat(childStats.getDomainsForName("Time"), contains(1));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).max, is(10.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(10.0));
     }
 
     @Test
@@ -145,7 +145,7 @@ public class StatisticsTest {
         assertThat(childStats.getDomainsForName("Time"), contains(1));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).max, is(10.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(10.0));
     }
 
     @Test
@@ -199,13 +199,13 @@ public class StatisticsTest {
         assertThat(childStats.getName(), is("Child"));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).max, is(10.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(10.0));
         assertThat(childStats.getChildren().size(), is(1));
         Statistics childChildStats = childStats.getChildren().get(0);
         assertThat(childChildStats.getName(), is("ChildChild"));
         assertThat(childChildStats.getStatisticNames().size(), is(1));
         assertThat(childChildStats.getStatisticNames(), contains("Time"));
-        assertThat(childChildStats.getStatistic(new UnassociatedKey("Time")).max, is(11.0));
+        assertThat(childChildStats.getStatistic(new UnassociatedKey("Time")).getMax(), is(11.0));
     }
 
     @Test
