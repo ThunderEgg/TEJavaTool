@@ -123,7 +123,7 @@ public class StatisticsTest {
         assertThat(childStats.getDomainsForName("Time"), contains(1, 2));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).sum, is(21.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getSum(), is(21.0));
     }
 
     @Test
@@ -173,7 +173,7 @@ public class StatisticsTest {
         assertThat(childStats.getDomainsForName("Time"), contains(1));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).sum, is(21.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getSum(), is(21.0));
         assertThat(childStats.getStatisticForPatch(new PatchKey("Time", 1, 0)), is(new Statistic(child)));
         assertThat(childStats.getStatisticForPatch(new PatchKey("Time", 1, 1)), is(new Statistic(child2)));
     }
@@ -243,7 +243,7 @@ public class StatisticsTest {
         assertThat(childStats.getDomainsForName("Time"), contains(1));
         assertThat(childStats.getStatisticNames().size(), is(1));
         assertThat(childStats.getStatisticNames(), contains("Time"));
-        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).sum, is(21.0));
+        assertThat(childStats.getStatistic(new UnassociatedKey("Time")).getSum(), is(21.0));
         assertThat(childStats.getStatisticForPatch(new PatchKey("Time", 1, 0)), is(new Statistic(child)));
         assertThat(childStats.getStatisticForPatch(new PatchKey("Time", 1, 1)), is(new Statistic(child2)));
 
@@ -251,6 +251,6 @@ public class StatisticsTest {
         assertThat(childChildStats.getName(), is("ChildChild"));
         assertThat(childChildStats.getStatisticNames().size(), is(1));
         assertThat(childChildStats.getStatisticNames(), contains("Time"));
-        assertThat(childChildStats.getStatistic(new UnassociatedKey("Time")).sum, is(31.0));
+        assertThat(childChildStats.getStatistic(new UnassociatedKey("Time")).getSum(), is(31.0));
     }
 }

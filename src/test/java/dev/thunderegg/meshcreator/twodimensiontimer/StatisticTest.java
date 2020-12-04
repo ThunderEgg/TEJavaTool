@@ -76,7 +76,32 @@ public class StatisticTest {
     @Test
     public void defaultSumIsZero() {
         Statistic stat = new Statistic();
-        assertThat(stat.sum, is(equalTo(0.0)));
+        assertThat(stat.getSum(), is(equalTo(0.0)));
+    }
+
+    @Test
+    public void setSum() {
+        Statistic stat = new Statistic();
+        stat.setSum(2.022);
+        assertThat(stat.getSum(), is(equalTo(2.022)));
+    }
+
+    @Test
+    public void defaultSumPropertyValueIsZero() {
+        Statistic stat = new Statistic();
+        assertThat(stat.getSumProperty().getValue(), is(equalTo(0.0)));
+    }
+
+    @Test
+    public void getSumPropertyBean() {
+        Statistic stat = new Statistic();
+        assertThat(stat.getSumProperty().getBean(), is(sameInstance(stat)));
+    }
+
+    @Test
+    public void getSumPropertyName() {
+        Statistic stat = new Statistic();
+        assertThat(stat.getSumProperty().getName(), is("sum"));
     }
 
     @Test
@@ -97,12 +122,13 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic(stat1);
         assertThat(stat1, is(equalTo(stat2)));
         assertThat(stat1.getMinProperty(), is(not(sameInstance(stat2.getMinProperty()))));
         assertThat(stat1.getMaxProperty(), is(not(sameInstance(stat2.getMaxProperty()))));
+        assertThat(stat1.getSumProperty(), is(not(sameInstance(stat2.getSumProperty()))));
     }
 
     @Test
@@ -110,12 +136,12 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(-2);
         stat2.setMax(23);
-        stat2.sum = -2390;
+        stat2.setSum(-2390);
         stat2.numCalls = 3243980;
         assertThat(stat1, is(equalTo(stat2)));
     }
@@ -125,12 +151,12 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = 42;
+        stat1.setSum(42);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(-2);
         stat2.setMax(23);
-        stat2.sum = -2390;
+        stat2.setSum(-2390);
         stat2.numCalls = 3243980;
         assertThat(stat1, is(not(equalTo(stat2))));
     }
@@ -140,12 +166,12 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(0);
         stat2.setMax(23);
-        stat2.sum = -2390;
+        stat2.setSum(-2390);
         stat2.numCalls = 3243980;
         assertThat(stat1, is(not(equalTo(stat2))));
     }
@@ -155,12 +181,12 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(-2);
         stat2.setMax(-292);
-        stat2.sum = -2390;
+        stat2.setSum(-2390);
         stat2.numCalls = 3243980;
         assertThat(stat1, is(not(equalTo(stat2))));
     }
@@ -170,12 +196,12 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(-2);
         stat2.setMax(23);
-        stat2.sum = -2390;
+        stat2.setSum(-2390);
         stat2.numCalls = 299;
         assertThat(stat1, is(not(equalTo(stat2))));
     }
@@ -185,7 +211,7 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Double d = Double.valueOf(2);
         assertThat(stat1, is(not(equalTo(d))));
@@ -196,7 +222,7 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         assertThat(stat1, is(not(equalTo(null))));
     }
@@ -206,10 +232,10 @@ public class StatisticTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         assertThat(stat1.toString(), is(equalTo("min: " + stat1.getMin() + ", max: " + stat1.getMax() + ", sum: "
-                + stat1.sum + ", numCalls: " + stat1.numCalls)));
+                + stat1.getSum() + ", numCalls: " + stat1.numCalls)));
     }
 
     @Test
@@ -264,11 +290,11 @@ public class StatisticTest {
     @Test
     public void mergeSum() {
         Statistic stat1 = new Statistic();
-        stat1.sum = 11;
+        stat1.setSum(11);
         Statistic stat2 = new Statistic();
-        stat2.sum = 96;
+        stat2.setSum(96);
         Statistic result = Statistic.merge(stat1, stat2);
-        assertThat(result.sum, is(equalTo(107.0)));
+        assertThat(result.getSum(), is(equalTo(107.0)));
     }
 
     @Test
@@ -295,7 +321,7 @@ public class StatisticTest {
         Statistic stat = new Statistic(timing);
         assertThat(stat.getMin(), is(equalTo(timing.min)));
         assertThat(stat.getMax(), is(equalTo(timing.max)));
-        assertThat(stat.sum, is(equalTo(timing.sum)));
+        assertThat(stat.getSum(), is(equalTo(timing.sum)));
         assertThat(stat.numCalls, is(equalTo(timing.num_calls)));
     }
 
@@ -311,7 +337,7 @@ public class StatisticTest {
         Statistic stat = new Statistic(info);
         assertThat(stat.getMin(), is(equalTo(info.min)));
         assertThat(stat.getMax(), is(equalTo(info.max)));
-        assertThat(stat.sum, is(equalTo(info.sum)));
+        assertThat(stat.getSum(), is(equalTo(info.sum)));
         assertThat(stat.numCalls, is(equalTo(info.num_calls)));
     }
 
@@ -320,9 +346,9 @@ public class StatisticTest {
         Statistic stat = new Statistic();
         stat.setMin(-2);
         stat.setMax(23);
-        stat.sum = -2390;
+        stat.setSum(-2390);
         stat.numCalls = 100;
-        assertThat(stat.getStatistic("Average"), is(stat.sum / stat.numCalls));
+        assertThat(stat.getStatistic("Average"), is(stat.getSum() / stat.numCalls));
     }
 
     @Test
@@ -330,7 +356,7 @@ public class StatisticTest {
         Statistic stat = new Statistic();
         stat.setMin(-2);
         stat.setMax(23);
-        stat.sum = -2390;
+        stat.setSum(-2390);
         stat.numCalls = 100;
         assertThat(stat.getStatistic("Min"), is(stat.getMin()));
     }
@@ -340,7 +366,7 @@ public class StatisticTest {
         Statistic stat = new Statistic();
         stat.setMin(-2);
         stat.setMax(23);
-        stat.sum = -2390;
+        stat.setSum(-2390);
         stat.numCalls = 100;
         assertThat(stat.getStatistic("Max"), is(stat.getMax()));
     }
@@ -350,7 +376,7 @@ public class StatisticTest {
         Statistic stat = new Statistic();
         stat.setMin(-2);
         stat.setMax(23);
-        stat.sum = -2390;
+        stat.setSum(-2390);
         stat.numCalls = 100;
 
         Assertions.assertThrows(IllegalArgumentException.class, () -> {

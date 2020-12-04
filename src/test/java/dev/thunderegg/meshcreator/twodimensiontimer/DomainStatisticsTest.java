@@ -60,12 +60,12 @@ public class DomainStatisticsTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
         stat2.setMax(-2190);
-        stat2.sum = 329239020;
+        stat2.setSum(329239020);
         stat2.numCalls = 299;
 
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);
@@ -79,12 +79,12 @@ public class DomainStatisticsTest {
         Statistic stat1 = new Statistic();
         stat1.setMin(-2);
         stat1.setMax(23);
-        stat1.sum = -2390;
+        stat1.setSum(-2390);
         stat1.numCalls = 3243980;
         Statistic stat2 = new Statistic();
         stat2.setMin(32);
         stat2.setMax(-2190);
-        stat2.sum = 329239020;
+        stat2.setSum(329239020);
         stat2.numCalls = 299;
 
         stats.addStatisticForDomain(new DomainKey("Hello", 1), stat1);

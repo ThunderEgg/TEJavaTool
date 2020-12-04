@@ -20,7 +20,7 @@ public class Statistic {
     /**
      * sum of all values
      */
-    public double sum = 0;
+    private DoubleProperty sum = new SimpleDoubleProperty(this, "sum", 0);
     /**
      * Number of values
      */
@@ -88,6 +88,33 @@ public class Statistic {
     }
 
     /**
+     * Get the sum
+     * 
+     * @return the sum
+     */
+    public double getSum() {
+        return sum.doubleValue();
+    }
+
+    /**
+     * Set the sum
+     * 
+     * @param value the sum
+     */
+    public void setSum(double value) {
+        sum.set(value);
+    }
+
+    /**
+     * Get the sum property
+     * 
+     * @return the sum property
+     */
+    public DoubleProperty getSumProperty() {
+        return sum;
+    }
+
+    /**
      * Copy constructor, performs a deep copy
      * 
      * @param statistic the statistic to copy
@@ -95,7 +122,7 @@ public class Statistic {
     public Statistic(Statistic statistic) {
         setMin(statistic.getMin());
         setMax(statistic.getMax());
-        sum = statistic.sum;
+        setSum(statistic.getSum());
         numCalls = statistic.numCalls;
     }
 
@@ -107,7 +134,7 @@ public class Statistic {
     public Statistic(Timing timing) {
         setMin(timing.min);
         setMax(timing.max);
-        sum = timing.sum;
+        setSum(timing.sum);
         numCalls = timing.num_calls;
     }
 
@@ -119,7 +146,7 @@ public class Statistic {
     public Statistic(Info info) {
         setMin(info.min);
         setMax(info.max);
-        sum = info.sum;
+        setSum(info.sum);
         numCalls = info.num_calls;
     }
 
@@ -128,7 +155,7 @@ public class Statistic {
         boolean equal = false;
         if (obj != null && obj.getClass() == Statistic.class) {
             Statistic other = (Statistic) obj;
-            equal = (getMin() == other.getMin() && getMax() == other.getMax() && sum == other.sum
+            equal = (getMin() == other.getMin() && getMax() == other.getMax() && getSum() == other.getSum()
                     && numCalls == other.numCalls);
         }
         return equal;
@@ -136,14 +163,14 @@ public class Statistic {
 
     @Override
     public String toString() {
-        return "min: " + getMin() + ", max: " + getMax() + ", sum: " + sum + ", numCalls: " + numCalls;
+        return "min: " + getMin() + ", max: " + getMax() + ", sum: " + getSum() + ", numCalls: " + numCalls;
     }
 
     public static Statistic merge(Statistic a, Statistic b) {
         Statistic ret = new Statistic();
         ret.setMin(Math.min(a.getMin(), b.getMin()));
         ret.setMax(Math.max(a.getMax(), b.getMax()));
-        ret.sum = a.sum + b.sum;
+        ret.setSum(a.getSum() + b.getSum());
         ret.numCalls = a.numCalls + b.numCalls;
         return ret;
     }
@@ -152,7 +179,7 @@ public class Statistic {
         double ret;
         switch (stat) {
             case "Average":
-                ret = sum / numCalls;
+                ret = getSum() / numCalls;
                 break;
             case "Min":
                 ret = getMin();
