@@ -90,11 +90,16 @@
                                                       </HBox>
                                                       <HBox alignment="CENTER">
                                                          <children>
-                                                            <TextField fx:id="formatText" onAction="#setFormatText" text="\%.2e" />
                                                             <Label text="Format " />
+                                                            <TextField fx:id="formatText" onAction="#setFormatText" text="\%.2e" />
                                                          </children>
                                                       </HBox>
-                                                      <ComboBox fx:id="cmapChoice" prefWidth="150.0" />
+                                                      <HBox alignment="CENTER">
+                                                         <children>
+                                                            <Label text="Color Map " />
+                                                            <ComboBox fx:id="cmapChoice" prefWidth="150.0" />
+                                                         </children>
+                                                      </HBox>
                                   </items>
                                 </ToolBar>
                                 <AnchorPane fx:id="patchCanvasPane" VBox.vgrow="ALWAYS">

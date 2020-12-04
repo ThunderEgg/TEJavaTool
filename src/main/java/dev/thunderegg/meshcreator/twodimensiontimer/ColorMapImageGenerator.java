@@ -29,6 +29,17 @@ public class ColorMapImageGenerator {
         return image;
     }
 
+    public Image getVerticalImage(int heigth) {
+        WritableImage image = new WritableImage(2, heigth);
+        PixelWriter writer = image.getPixelWriter();
+        for (int i = 0; i < heigth; i++) {
+            Color color = cmap.getColor(1.0 - (i + 0.5) / heigth);
+            writer.setColor(0, i, color);
+            writer.setColor(1, i, color);
+        }
+        return image;
+    }
+
     @Override
     public String toString() {
         return cmap.getName();

@@ -65,6 +65,7 @@ public class Timer2DController {
 	Integer selectedDomain;
 	private PatchStatistics currentStats;
 	private String selectedStat;
+	private ColorMap selectedColorMap;
 	private double lastMouseX;
 	private double lastMouseY;
 	private String selectedSubStat;
@@ -98,6 +99,13 @@ public class Timer2DController {
 						setSelectedDomain(domainChoice.getItems().get((Integer) newValue));
 					}
 				});
+		cmapChoice.getSelectionModel().selectedIndexProperty()
+				.addListener((ChangeListener<Number>) (ObservableValue<? extends Number> observable, Number oldValue,
+						Number newValue) -> {
+					if (newValue.intValue() >= 0) {
+						setSelectedColorMap(cmapChoice.getItems().get((Integer) newValue));
+					}
+				});
 
 		canvasPainter = new PatchPainter(patchCanvas);
 		subStatChoice.getItems().addAll("Average", "Min", "Max");
@@ -129,6 +137,12 @@ public class Timer2DController {
 				};
 			}
 		});
+		cmapChoice.getSelectionModel().clearAndSelect(0);
+	}
+
+	private void setSelectedColorMap(ColorMap colorMap) {
+		selectedColorMap = colorMap;
+		updatePatches();
 	}
 
 	private void setSlectedSubStat(String selectedSubStat) {
@@ -138,6 +152,17 @@ public class Timer2DController {
 
 	private void updatePatches() {
 		if (currentStats != null) {
+			double currMin = Double.POSITIVE_INFINITY;
+			double currMax = Double.NEGATIVE_INFINITY;
+			for (Patch patch : domains.get(selectedDomain)) {
+				Statistic stat = currentStats
+						.getStatisticForPatch(new PatchKey(selectedStat, selectedDomain, patch.id));
+				double value = stat.getStatistic(selectedSubStat);
+				currMin = Math.min(currMin, value);
+				currMax = Math.max(currMax, value);
+			}
+			final double min = currMin;
+			final double max = currMax;
 			canvasPainter
 					.setPatches(SquareWithText.getRectanglesForDomain(domains.get(selectedDomain), (Patch patch) -> {
 						Statistic stat = currentStats
@@ -149,6 +174,11 @@ public class Timer2DController {
 						} catch (IllegalFormatConversionException e) {
 							return String.format(formatString, (int) value);
 						}
+					}, (Patch patch) -> {
+						Statistic stat = currentStats
+								.getStatisticForPatch(new PatchKey(selectedStat, selectedDomain, patch.id));
+						double x = (stat.getStatistic(selectedSubStat) - min) / (max - min);
+						return selectedColorMap.getColor(x);
 					}));
 		}
 	}

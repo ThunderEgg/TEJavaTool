@@ -3,6 +3,7 @@ package dev.thunderegg.meshcreator.twodimensiontimer;
 import org.junit.jupiter.api.Test;
 
 import dev.thunderegg.Patch;
+import javafx.scene.paint.Color;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -67,7 +68,7 @@ public class SquareWithTextTest {
         domain.add(patch2);
 
         Collection<SquareWithText> rectangles = SquareWithText.getRectanglesForDomain(domain,
-                (Patch p) -> Double.toString(p.starts[0]));
+                (Patch p) -> Double.toString(p.starts[0]), (Patch p) -> new Color(p.starts[0] / 8, 1.0, 1.0, 1.0));
         SquareWithText rectangle1 = null;
         SquareWithText rectangle2 = null;
         for (SquareWithText rectangle : rectangles) {
@@ -83,11 +84,13 @@ public class SquareWithTextTest {
         assertThat(rectangle1.x_length, is(patch1.lengths[0]));
         assertThat(rectangle1.y_length, is(patch1.lengths[1]));
         assertThat(rectangle1.text, is(Double.toString(patch1.starts[0])));
+        assertThat(rectangle1.color, is(new Color(patch1.starts[0] / 8, 1.0, 1.0, 1.0)));
         assertThat(rectangle2.x, is(patch2.starts[0]));
         assertThat(rectangle2.y, is(patch2.starts[1]));
         assertThat(rectangle2.x_length, is(patch2.lengths[0]));
         assertThat(rectangle2.y_length, is(patch2.lengths[1]));
         assertThat(rectangle2.text, is(Double.toString(patch2.starts[0])));
+        assertThat(rectangle2.color, is(new Color(patch2.starts[0] / 8, 1.0, 1.0, 1.0)));
     }
 
 }

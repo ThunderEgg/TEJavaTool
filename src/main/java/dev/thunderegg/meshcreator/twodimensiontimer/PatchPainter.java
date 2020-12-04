@@ -52,11 +52,15 @@ public class PatchPainter {
 			int x_ln = (int) Math.ceil(scale * rectangle.x_length);
 			int y_ln = (int) Math.ceil(scale * rectangle.y_length);
 			// g.setFill(rank_color_map.get(p.rank));
-			g.setFill(Color.WHITE);
-			g.setStroke(Color.RED);
+			g.setFill(rectangle.color);
+			g.setStroke(Color.BLACK);
 			g.fillRect(x_px, y_px, x_ln, y_ln);
 			g.strokeRect(x_px, y_px, x_ln, y_ln);
-			g.setFill(Color.BLACK);
+			if (rectangle.color.grayscale().getRed() > 0.5) {
+				g.setFill(Color.BLACK);
+			} else {
+				g.setFill(Color.WHITE);
+			}
 			if (isInBounds(g.getFont(), rectangle.text, x_ln, y_ln)) {
 				g.fillText(rectangle.text, x_px + x_ln / 2, y_px + y_ln / 2);
 			}
