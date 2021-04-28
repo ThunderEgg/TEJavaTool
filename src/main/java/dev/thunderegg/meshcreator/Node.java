@@ -1,5 +1,6 @@
 package dev.thunderegg.meshcreator;
 
+import dev.thunderegg.Edge;
 import dev.thunderegg.Orthant;
 import dev.thunderegg.Side;
 
@@ -40,6 +41,16 @@ public class Node {
 	 */
 	private int nbr_ids[];
 	/**
+	 * The ids of the neighboring nodes on edges, set to -1 if there is no
+	 * neighboring node
+	 */
+	private int edge_nbr_ids[];
+	/**
+	 * The ids of the neighboring nodes on corners, set to -1 if there is no
+	 * neighboring node
+	 */
+	private int corner_nbr_ids[];
+	/**
 	 * The ids of the child nodes, all set to -1 if there are not children.
 	 */
 	private int child_ids[];
@@ -69,6 +80,16 @@ public class Node {
 		nbr_ids = new int[Side.getNumSidesForDimension(dimension)];
 		for (int i = 0; i < nbr_ids.length; i++) {
 			nbr_ids[i] = -1;
+		}
+
+		edge_nbr_ids = new int[Edge.getNumEdgesForDimension(dimension)];
+		for (int i = 0; i < edge_nbr_ids.length; i++) {
+			edge_nbr_ids[i] = -1;
+		}
+
+		corner_nbr_ids = new int[Orthant.getNumOrthantsForDimension(dimension)];
+		for (int i = 0; i < corner_nbr_ids.length; i++) {
+			corner_nbr_ids[i] = -1;
 		}
 
 		child_ids = new int[Orthant.getNumOrthantsForDimension(dimension)];
@@ -139,6 +160,66 @@ public class Node {
 	 */
 	public void setNbrId(Side s, int nbr_id) {
 		nbr_ids[s.getIndex()] = nbr_id;
+	}
+
+	/**
+	 * Check if there is a neighbor on a given edge
+	 * 
+	 * @param e the edge
+	 * @return whether there is a neighbor
+	 */
+	public boolean hasNbr(Edge e) {
+		return edge_nbr_ids[e.getIndex()] != -1;
+	}
+
+	/**
+	 * Get the id of a neighbor on a given edge
+	 * 
+	 * @param e the edge
+	 * @return the id of the neighbor, will be -1 if there is no neighbor
+	 */
+	public int getNbrId(Edge e) {
+		return edge_nbr_ids[e.getIndex()];
+	}
+
+	/**
+	 * Set the id of a neighbor
+	 * 
+	 * @param e      the edge
+	 * @param nbr_id the id
+	 */
+	public void setNbrId(Edge e, int nbr_id) {
+		edge_nbr_ids[e.getIndex()] = nbr_id;
+	}
+
+	/**
+	 * Check if there is a neighbor on a given corner
+	 * 
+	 * @param o the corner
+	 * @return whether there is a neighbor
+	 */
+	public boolean hasNbr(Orthant o) {
+		return corner_nbr_ids[o.getIndex()] != -1;
+	}
+
+	/**
+	 * Get the id of a neighbor on a given corner
+	 * 
+	 * @param o the corner
+	 * @return the id of the neighbor, will be -1 if there is no neighbor
+	 */
+	public int getNbrId(Orthant o) {
+		return corner_nbr_ids[o.getIndex()];
+	}
+
+	/**
+	 * Set the id of a neighbor
+	 * 
+	 * @param o      the corner
+	 * @param nbr_id the id
+	 */
+	public void setNbrId(Orthant o, int nbr_id) {
+		corner_nbr_ids[o.getIndex()] = nbr_id;
 	}
 
 	/**

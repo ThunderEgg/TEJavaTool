@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
 
+import dev.thunderegg.Edge;
 import dev.thunderegg.Orthant;
 import dev.thunderegg.Side;
 
@@ -52,6 +53,23 @@ class NodeTest {
 		for (Side s : Side.getValuesForDimension(2)) {
 			assertFalse(node.hasNbr(s));
 		}
+		for (Orthant o : Orthant.getValuesForDimension(2)) {
+			assertFalse(node.hasNbr(o));
+		}
+	}
+
+	@Test
+	void testDefault3DConstructorHasNbr() {
+		Node node = new Node(3);
+		for (Side s : Side.getValuesForDimension(3)) {
+			assertFalse(node.hasNbr(s));
+		}
+		for (Edge e : Edge.getValuesForDimension(3)) {
+			assertFalse(node.hasNbr(e));
+		}
+		for (Orthant o : Orthant.getValuesForDimension(3)) {
+			assertFalse(node.hasNbr(o));
+		}
 	}
 
 	@Test
@@ -59,6 +77,23 @@ class NodeTest {
 		Node node = new Node(2);
 		for (Side s : Side.getValuesForDimension(2)) {
 			assertEquals(node.getNbrId(s), -1);
+		}
+		for (Orthant o : Orthant.getValuesForDimension(2)) {
+			assertEquals(node.getNbrId(o), -1);
+		}
+	}
+
+	@Test
+	void testDefault3DConstructorGetNbrId() {
+		Node node = new Node(3);
+		for (Side s : Side.getValuesForDimension(3)) {
+			assertEquals(node.getNbrId(s), -1);
+		}
+		for (Edge e : Edge.getValuesForDimension(3)) {
+			assertEquals(node.getNbrId(e), -1);
+		}
+		for (Orthant o : Orthant.getValuesForDimension(3)) {
+			assertEquals(node.getNbrId(o), -1);
 		}
 	}
 
@@ -69,6 +104,34 @@ class NodeTest {
 			node.setNbrId(s, 2);
 			assertEquals(node.getNbrId(s), 2);
 			assertTrue(node.hasNbr(s));
+		}
+		for (Orthant o : Orthant.getValuesForDimension(2)) {
+			Node node = new Node(2);
+			node.setNbrId(o, 2);
+			assertEquals(node.getNbrId(o), 2);
+			assertTrue(node.hasNbr(o));
+		}
+	}
+
+	@Test
+	void testDefault3DConstructorSetNbrId() {
+		for (Side s : Side.getValuesForDimension(3)) {
+			Node node = new Node(3);
+			node.setNbrId(s, 2);
+			assertEquals(node.getNbrId(s), 2);
+			assertTrue(node.hasNbr(s));
+		}
+		for (Edge e : Edge.getValuesForDimension(3)) {
+			Node node = new Node(3);
+			node.setNbrId(e, 2);
+			assertEquals(node.getNbrId(e), 2);
+			assertTrue(node.hasNbr(e));
+		}
+		for (Orthant o : Orthant.getValuesForDimension(3)) {
+			Node node = new Node(3);
+			node.setNbrId(o, 2);
+			assertEquals(node.getNbrId(o), 2);
+			assertTrue(node.hasNbr(o));
 		}
 	}
 
