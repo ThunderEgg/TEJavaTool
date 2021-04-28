@@ -77,6 +77,66 @@ class OrthantTest {
 	}
 
 	@Test
+	void SWGetOpposite() {
+		assertEquals(Orthant.SW().getOpposite(), Orthant.NE());
+	}
+
+	@Test
+	void SEGetOpposite() {
+		assertEquals(Orthant.SE().getOpposite(), Orthant.NW());
+	}
+
+	@Test
+	void NWGetOpposite() {
+		assertEquals(Orthant.NW().getOpposite(), Orthant.SE());
+	}
+
+	@Test
+	void NEGetOpposite() {
+		assertEquals(Orthant.NE().getOpposite(), Orthant.SW());
+	}
+
+	@Test
+	void BSWGetOpposite() {
+		assertEquals(Orthant.BSW().getOpposite(), Orthant.TNE());
+	}
+
+	@Test
+	void BSEGetOpposite() {
+		assertEquals(Orthant.BSE().getOpposite(), Orthant.TNW());
+	}
+
+	@Test
+	void BNWGetOpposite() {
+		assertEquals(Orthant.BNW().getOpposite(), Orthant.TSE());
+	}
+
+	@Test
+	void BNEGetOpposite() {
+		assertEquals(Orthant.BNE().getOpposite(), Orthant.TSW());
+	}
+
+	@Test
+	void TSWGetOpposite() {
+		assertEquals(Orthant.TSW().getOpposite(), Orthant.BNE());
+	}
+
+	@Test
+	void TSEGetOpposite() {
+		assertEquals(Orthant.TSE().getOpposite(), Orthant.BNW());
+	}
+
+	@Test
+	void TNWGetOpposite() {
+		assertEquals(Orthant.TNW().getOpposite(), Orthant.BSE());
+	}
+
+	@Test
+	void TNEGetOpposite() {
+		assertEquals(Orthant.TNE().getOpposite(), Orthant.BSW());
+	}
+
+	@Test
 	void SWGetIndex() {
 		assertEquals(Orthant.SW().getIndex(), 0);
 	}

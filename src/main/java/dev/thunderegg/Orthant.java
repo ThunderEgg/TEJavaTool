@@ -371,4 +371,14 @@ public class Orthant {
 		return ret;
 	}
 
+	/**
+	 * Get the orthant on the opposite side
+	 * 
+	 * @return the orthant on the opposite side
+	 */
+	public Orthant getOpposite() {
+		int mask = ~(~0x0 << dimension);
+		return new Orthant(dimension, val ^ mask);
+	}
+
 }
