@@ -381,4 +381,8 @@ public class Orthant {
 		return new Orthant(dimension, val ^ mask);
 	}
 
+	@Override
+	public int hashCode() {
+		return val;
+	}
 }

@@ -106,7 +106,6 @@ public class Forest {
 			for (Side s : o.getInteriorSides()) {
 				children[o.getIndex()].setNbrId(s, children[o.getNbrOnSide(s).getIndex()].getId());
 			}
-
 		}
 
 		// refine parent neighbors if needed
@@ -115,6 +114,11 @@ public class Forest {
 			for (Side s : Side.getValuesForDimension(dimension)) {
 				if (!node.hasNbr(s) && parent.hasNbr(s)) {
 					refineNode(getNode(parent.getNbrId(s)));
+				}
+			}
+			for (Orthant o : Orthant.getValuesForDimension(dimension)) {
+				if (!node.hasNbr(o) && parent.hasNbr(o)) {
+					refineNode(getNode(parent.getNbrId(o)));
 				}
 			}
 		}
@@ -130,6 +134,47 @@ public class Forest {
 				}
 			}
 		}
+
+		for (Orthant o : Orthant.getValuesForDimension(dimension)) {
+			Node child = children[o.getIndex()];
+			for (Orthant c : Orthant.getValuesForDimension(dimension)) {
+				Node child_nbr = getNbrOn(child, c);
+				if (child_nbr != null) {
+					child.setNbrId(c, child_nbr.getId());
+					child_nbr.setNbrId(c.getOpposite(), child.getId());
+				}
+			}
+		}
+
+	}
+
+	/**
+	 * Get the neighbor on an orthant, requires that side neighbor information is
+	 * complete
+	 * 
+	 * @param node the node that we are finding the neighbor of
+	 * @param o    the orthant
+	 * @return the neighbor, or null if there isn't one
+	 */
+	private Node getNbrOn(Node node, Orthant o) {
+		int[][][] permutations = { {}, {}, { { 0, 1 }, { 1, 0 } },
+				{ { 0, 1, 2 }, { 0, 2, 1 }, { 1, 0, 2 }, { 1, 2, 0 }, { 2, 0, 1 }, { 2, 1, 0 } } };
+
+		Node nbr = null;
+		Side[] sides = o.getExteriorSides();
+		for (int[] permutation : permutations[dimension]) {
+			nbr = node;
+			for (int i : permutation) {
+				nbr = getNode(nbr.getNbrId(sides[i]));
+				if (nbr == null) {
+					break;
+				}
+			}
+			if (nbr != null) {
+				break;
+			}
+		}
+		return nbr;
 	}
 
 	/**
