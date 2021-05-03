@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.junit.jupiter.api.Test;
 
+import dev.thunderegg.Edge;
 import dev.thunderegg.Orthant;
 import dev.thunderegg.Side;
 
@@ -139,6 +140,391 @@ class ForestTest {
 		assertFalse(ne.hasNbr(Orthant.NE()));
 
 		assertEquals(sw.getId(), ne.getNbrId(Orthant.SW()));
+	}
+
+	@Test
+	void RefineAtGood3D() {
+		Forest forest = new Forest(3);
+		double[] coord = { .5, .5, .5 };
+		forest.refineAt(coord);
+		assertEquals(forest.getRootNode().getId(), 0);
+		assertEquals(forest.getRootIds().size(), 1);
+		assertTrue(forest.getRootIds().contains(0));
+		assertEquals(forest.getMaxLevel(), 1);
+
+		Node root = forest.getNode(0);
+		assertEquals(root.getId(), 0);
+		assertFalse(root.hasParent());
+		assertTrue(root.hasChildren());
+
+		Node bsw = forest.getNode(root.getChildId(Orthant.BSW()));
+		Node bse = forest.getNode(root.getChildId(Orthant.BSE()));
+		Node bnw = forest.getNode(root.getChildId(Orthant.BNW()));
+		Node bne = forest.getNode(root.getChildId(Orthant.BNE()));
+		Node tsw = forest.getNode(root.getChildId(Orthant.TSW()));
+		Node tse = forest.getNode(root.getChildId(Orthant.TSE()));
+		Node tnw = forest.getNode(root.getChildId(Orthant.TNW()));
+		Node tne = forest.getNode(root.getChildId(Orthant.TNE()));
+
+		// BSW child
+		assertEquals(bsw.getId(), root.getChildId(Orthant.BSW()));
+		assertTrue(bsw.hasParent());
+		assertEquals(root.getId(), bsw.getParentId());
+		assertFalse(bsw.hasChildren());
+
+		assertFalse(bsw.hasNbr(Side.WEST()));
+		assertTrue(bsw.hasNbr(Side.EAST()));
+		assertFalse(bsw.hasNbr(Side.SOUTH()));
+		assertTrue(bsw.hasNbr(Side.NORTH()));
+		assertFalse(bsw.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw.hasNbr(Side.TOP()));
+
+		assertEquals(bse.getId(), bsw.getNbrId(Side.EAST()));
+		assertEquals(bnw.getId(), bsw.getNbrId(Side.NORTH()));
+		assertEquals(tsw.getId(), bsw.getNbrId(Side.TOP()));
+
+		assertFalse(bsw.hasNbr(Edge.BS()));
+		assertTrue(bsw.hasNbr(Edge.TN()));
+		assertFalse(bsw.hasNbr(Edge.BN()));
+		assertFalse(bsw.hasNbr(Edge.TS()));
+		assertFalse(bsw.hasNbr(Edge.BW()));
+		assertTrue(bsw.hasNbr(Edge.TE()));
+		assertFalse(bsw.hasNbr(Edge.BE()));
+		assertFalse(bsw.hasNbr(Edge.TW()));
+		assertFalse(bsw.hasNbr(Edge.SW()));
+		assertTrue(bsw.hasNbr(Edge.NE()));
+		assertFalse(bsw.hasNbr(Edge.SE()));
+		assertFalse(bsw.hasNbr(Edge.NW()));
+
+		assertEquals(tnw.getId(), bsw.getNbrId(Edge.TN()));
+		assertEquals(tse.getId(), bsw.getNbrId(Edge.TE()));
+		assertEquals(bne.getId(), bsw.getNbrId(Edge.NE()));
+
+		assertFalse(bsw.hasNbr(Orthant.BSW()));
+		assertFalse(bsw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw.hasNbr(Orthant.BNW()));
+		assertFalse(bsw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw.hasNbr(Orthant.TSW()));
+		assertFalse(bsw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw.hasNbr(Orthant.TNW()));
+		assertTrue(bsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(tne.getId(), bsw.getNbrId(Orthant.TNE()));
+
+		// BSE child
+		assertEquals(bse.getId(), root.getChildId(Orthant.BSE()));
+		assertTrue(bse.hasParent());
+		assertEquals(root.getId(), bse.getParentId());
+		assertFalse(bse.hasChildren());
+
+		assertTrue(bse.hasNbr(Side.WEST()));
+		assertFalse(bse.hasNbr(Side.EAST()));
+		assertFalse(bse.hasNbr(Side.SOUTH()));
+		assertTrue(bse.hasNbr(Side.NORTH()));
+		assertFalse(bse.hasNbr(Side.BOTTOM()));
+		assertTrue(bse.hasNbr(Side.TOP()));
+
+		assertEquals(bsw.getId(), bse.getNbrId(Side.WEST()));
+		assertEquals(bne.getId(), bse.getNbrId(Side.NORTH()));
+		assertEquals(tse.getId(), bse.getNbrId(Side.TOP()));
+
+		assertFalse(bse.hasNbr(Edge.BS()));
+		assertTrue(bse.hasNbr(Edge.TN()));
+		assertFalse(bse.hasNbr(Edge.BN()));
+		assertFalse(bse.hasNbr(Edge.TS()));
+		assertFalse(bse.hasNbr(Edge.BW()));
+		assertFalse(bse.hasNbr(Edge.TE()));
+		assertFalse(bse.hasNbr(Edge.BE()));
+		assertTrue(bse.hasNbr(Edge.TW()));
+		assertFalse(bse.hasNbr(Edge.SW()));
+		assertFalse(bse.hasNbr(Edge.NE()));
+		assertFalse(bse.hasNbr(Edge.SE()));
+		assertTrue(bse.hasNbr(Edge.NW()));
+
+		assertEquals(tne.getId(), bse.getNbrId(Edge.TN()));
+		assertEquals(tsw.getId(), bse.getNbrId(Edge.TW()));
+		assertEquals(bnw.getId(), bse.getNbrId(Edge.NW()));
+
+		assertFalse(bse.hasNbr(Orthant.BSW()));
+		assertFalse(bse.hasNbr(Orthant.BSE()));
+		assertFalse(bse.hasNbr(Orthant.BNW()));
+		assertFalse(bse.hasNbr(Orthant.BNE()));
+		assertFalse(bse.hasNbr(Orthant.TSW()));
+		assertFalse(bse.hasNbr(Orthant.TSE()));
+		assertTrue(bse.hasNbr(Orthant.TNW()));
+		assertFalse(bse.hasNbr(Orthant.TNE()));
+
+		assertEquals(tnw.getId(), bse.getNbrId(Orthant.TNW()));
+
+		// BNW child
+		assertEquals(bnw.getId(), root.getChildId(Orthant.BNW()));
+		assertTrue(bnw.hasParent());
+		assertEquals(root.getId(), bnw.getParentId());
+		assertFalse(bnw.hasChildren());
+
+		assertFalse(bnw.hasNbr(Side.WEST()));
+		assertTrue(bnw.hasNbr(Side.EAST()));
+		assertTrue(bnw.hasNbr(Side.SOUTH()));
+		assertFalse(bnw.hasNbr(Side.NORTH()));
+		assertFalse(bnw.hasNbr(Side.BOTTOM()));
+		assertTrue(bnw.hasNbr(Side.TOP()));
+
+		assertEquals(bne.getId(), bnw.getNbrId(Side.EAST()));
+		assertEquals(bsw.getId(), bnw.getNbrId(Side.SOUTH()));
+		assertEquals(tnw.getId(), bnw.getNbrId(Side.TOP()));
+
+		assertFalse(bnw.hasNbr(Edge.BS()));
+		assertFalse(bnw.hasNbr(Edge.TN()));
+		assertFalse(bnw.hasNbr(Edge.BN()));
+		assertTrue(bnw.hasNbr(Edge.TS()));
+		assertFalse(bnw.hasNbr(Edge.BW()));
+		assertTrue(bnw.hasNbr(Edge.TE()));
+		assertFalse(bnw.hasNbr(Edge.BE()));
+		assertFalse(bnw.hasNbr(Edge.TW()));
+		assertFalse(bnw.hasNbr(Edge.SW()));
+		assertFalse(bnw.hasNbr(Edge.NE()));
+		assertTrue(bnw.hasNbr(Edge.SE()));
+		assertFalse(bnw.hasNbr(Edge.NW()));
+
+		assertEquals(tsw.getId(), bnw.getNbrId(Edge.TS()));
+		assertEquals(tne.getId(), bnw.getNbrId(Edge.TE()));
+		assertEquals(bse.getId(), bnw.getNbrId(Edge.SE()));
+
+		assertFalse(bnw.hasNbr(Orthant.BSW()));
+		assertFalse(bnw.hasNbr(Orthant.BSE()));
+		assertFalse(bnw.hasNbr(Orthant.BNW()));
+		assertFalse(bnw.hasNbr(Orthant.BNE()));
+		assertFalse(bnw.hasNbr(Orthant.TSW()));
+		assertTrue(bnw.hasNbr(Orthant.TSE()));
+		assertFalse(bnw.hasNbr(Orthant.TNW()));
+		assertFalse(bnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(tse.getId(), bnw.getNbrId(Orthant.TSE()));
+
+		// BNE child
+		assertEquals(bne.getId(), root.getChildId(Orthant.BNE()));
+		assertTrue(bne.hasParent());
+		assertEquals(root.getId(), bne.getParentId());
+		assertFalse(bne.hasChildren());
+
+		assertTrue(bne.hasNbr(Side.WEST()));
+		assertFalse(bne.hasNbr(Side.EAST()));
+		assertTrue(bne.hasNbr(Side.SOUTH()));
+		assertFalse(bne.hasNbr(Side.NORTH()));
+		assertFalse(bne.hasNbr(Side.BOTTOM()));
+		assertTrue(bne.hasNbr(Side.TOP()));
+
+		assertEquals(bnw.getId(), bne.getNbrId(Side.WEST()));
+		assertEquals(bse.getId(), bne.getNbrId(Side.SOUTH()));
+		assertEquals(tne.getId(), bne.getNbrId(Side.TOP()));
+
+		assertFalse(bne.hasNbr(Edge.BS()));
+		assertFalse(bne.hasNbr(Edge.TN()));
+		assertFalse(bne.hasNbr(Edge.BN()));
+		assertTrue(bne.hasNbr(Edge.TS()));
+		assertFalse(bne.hasNbr(Edge.BW()));
+		assertFalse(bne.hasNbr(Edge.TE()));
+		assertFalse(bne.hasNbr(Edge.BE()));
+		assertTrue(bne.hasNbr(Edge.TW()));
+		assertTrue(bne.hasNbr(Edge.SW()));
+		assertFalse(bne.hasNbr(Edge.NE()));
+		assertFalse(bne.hasNbr(Edge.SE()));
+		assertFalse(bne.hasNbr(Edge.NW()));
+
+		assertEquals(tse.getId(), bne.getNbrId(Edge.TS()));
+		assertEquals(tnw.getId(), bne.getNbrId(Edge.TW()));
+		assertEquals(bsw.getId(), bne.getNbrId(Edge.SW()));
+
+		assertFalse(bne.hasNbr(Orthant.BSW()));
+		assertFalse(bne.hasNbr(Orthant.BSE()));
+		assertFalse(bne.hasNbr(Orthant.BNW()));
+		assertFalse(bne.hasNbr(Orthant.BNE()));
+		assertTrue(bne.hasNbr(Orthant.TSW()));
+		assertFalse(bne.hasNbr(Orthant.TSE()));
+		assertFalse(bne.hasNbr(Orthant.TNW()));
+		assertFalse(bne.hasNbr(Orthant.TNE()));
+
+		assertEquals(tsw.getId(), bne.getNbrId(Orthant.TSW()));
+
+		// TSW child
+		assertEquals(tsw.getId(), root.getChildId(Orthant.TSW()));
+		assertTrue(tsw.hasParent());
+		assertEquals(root.getId(), tsw.getParentId());
+		assertFalse(tsw.hasChildren());
+
+		assertFalse(tsw.hasNbr(Side.WEST()));
+		assertTrue(tsw.hasNbr(Side.EAST()));
+		assertFalse(tsw.hasNbr(Side.SOUTH()));
+		assertTrue(tsw.hasNbr(Side.NORTH()));
+		assertTrue(tsw.hasNbr(Side.BOTTOM()));
+		assertFalse(tsw.hasNbr(Side.TOP()));
+
+		assertEquals(tse.getId(), tsw.getNbrId(Side.EAST()));
+		assertEquals(tnw.getId(), tsw.getNbrId(Side.NORTH()));
+		assertEquals(bsw.getId(), tsw.getNbrId(Side.BOTTOM()));
+
+		assertFalse(tsw.hasNbr(Edge.BS()));
+		assertFalse(tsw.hasNbr(Edge.TN()));
+		assertTrue(tsw.hasNbr(Edge.BN()));
+		assertFalse(tsw.hasNbr(Edge.TS()));
+		assertFalse(tsw.hasNbr(Edge.BW()));
+		assertFalse(tsw.hasNbr(Edge.TE()));
+		assertTrue(tsw.hasNbr(Edge.BE()));
+		assertFalse(tsw.hasNbr(Edge.TW()));
+		assertFalse(tsw.hasNbr(Edge.SW()));
+		assertTrue(tsw.hasNbr(Edge.NE()));
+		assertFalse(tsw.hasNbr(Edge.SE()));
+		assertFalse(tsw.hasNbr(Edge.NW()));
+
+		assertEquals(bnw.getId(), tsw.getNbrId(Edge.BN()));
+		assertEquals(bse.getId(), tsw.getNbrId(Edge.BE()));
+		assertEquals(tne.getId(), tsw.getNbrId(Edge.NE()));
+
+		assertFalse(tsw.hasNbr(Orthant.BSW()));
+		assertFalse(tsw.hasNbr(Orthant.BSE()));
+		assertFalse(tsw.hasNbr(Orthant.BNW()));
+		assertTrue(tsw.hasNbr(Orthant.BNE()));
+		assertFalse(tsw.hasNbr(Orthant.TSW()));
+		assertFalse(tsw.hasNbr(Orthant.TSE()));
+		assertFalse(tsw.hasNbr(Orthant.TNW()));
+		assertFalse(tsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bne.getId(), tsw.getNbrId(Orthant.BNE()));
+
+		// TSE child
+		assertEquals(tse.getId(), root.getChildId(Orthant.TSE()));
+		assertTrue(tse.hasParent());
+		assertEquals(root.getId(), tse.getParentId());
+		assertFalse(tse.hasChildren());
+
+		assertTrue(tse.hasNbr(Side.WEST()));
+		assertFalse(tse.hasNbr(Side.EAST()));
+		assertFalse(tse.hasNbr(Side.SOUTH()));
+		assertTrue(tse.hasNbr(Side.NORTH()));
+		assertTrue(tse.hasNbr(Side.BOTTOM()));
+		assertFalse(tse.hasNbr(Side.TOP()));
+
+		assertEquals(tsw.getId(), tse.getNbrId(Side.WEST()));
+		assertEquals(tne.getId(), tse.getNbrId(Side.NORTH()));
+		assertEquals(bse.getId(), tse.getNbrId(Side.BOTTOM()));
+
+		assertFalse(tse.hasNbr(Edge.BS()));
+		assertFalse(tse.hasNbr(Edge.TN()));
+		assertTrue(tse.hasNbr(Edge.BN()));
+		assertFalse(tse.hasNbr(Edge.TS()));
+		assertTrue(tse.hasNbr(Edge.BW()));
+		assertFalse(tse.hasNbr(Edge.TE()));
+		assertFalse(tse.hasNbr(Edge.BE()));
+		assertFalse(tse.hasNbr(Edge.TW()));
+		assertFalse(tse.hasNbr(Edge.SW()));
+		assertFalse(tse.hasNbr(Edge.NE()));
+		assertFalse(tse.hasNbr(Edge.SE()));
+		assertTrue(tse.hasNbr(Edge.NW()));
+
+		assertEquals(bne.getId(), tse.getNbrId(Edge.BN()));
+		assertEquals(bsw.getId(), tse.getNbrId(Edge.BW()));
+		assertEquals(tnw.getId(), tse.getNbrId(Edge.NW()));
+
+		assertFalse(tse.hasNbr(Orthant.BSW()));
+		assertFalse(tse.hasNbr(Orthant.BSE()));
+		assertTrue(tse.hasNbr(Orthant.BNW()));
+		assertFalse(tse.hasNbr(Orthant.BNE()));
+		assertFalse(tse.hasNbr(Orthant.TSW()));
+		assertFalse(tse.hasNbr(Orthant.TSE()));
+		assertFalse(tse.hasNbr(Orthant.TNW()));
+		assertFalse(tse.hasNbr(Orthant.TNE()));
+
+		assertEquals(bnw.getId(), tse.getNbrId(Orthant.BNW()));
+
+		// TNW child
+		assertEquals(tnw.getId(), root.getChildId(Orthant.TNW()));
+		assertTrue(tnw.hasParent());
+		assertEquals(root.getId(), tnw.getParentId());
+		assertFalse(tnw.hasChildren());
+
+		assertFalse(tnw.hasNbr(Side.WEST()));
+		assertTrue(tnw.hasNbr(Side.EAST()));
+		assertTrue(tnw.hasNbr(Side.SOUTH()));
+		assertFalse(tnw.hasNbr(Side.NORTH()));
+		assertTrue(tnw.hasNbr(Side.BOTTOM()));
+		assertFalse(tnw.hasNbr(Side.TOP()));
+
+		assertEquals(tne.getId(), tnw.getNbrId(Side.EAST()));
+		assertEquals(tsw.getId(), tnw.getNbrId(Side.SOUTH()));
+		assertEquals(bnw.getId(), tnw.getNbrId(Side.BOTTOM()));
+
+		assertTrue(tnw.hasNbr(Edge.BS()));
+		assertFalse(tnw.hasNbr(Edge.TN()));
+		assertFalse(tnw.hasNbr(Edge.BN()));
+		assertFalse(tnw.hasNbr(Edge.TS()));
+		assertFalse(tnw.hasNbr(Edge.BW()));
+		assertFalse(tnw.hasNbr(Edge.TE()));
+		assertTrue(tnw.hasNbr(Edge.BE()));
+		assertFalse(tnw.hasNbr(Edge.TW()));
+		assertFalse(tnw.hasNbr(Edge.SW()));
+		assertFalse(tnw.hasNbr(Edge.NE()));
+		assertTrue(tnw.hasNbr(Edge.SE()));
+		assertFalse(tnw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw.getId(), tnw.getNbrId(Edge.BS()));
+		assertEquals(bne.getId(), tnw.getNbrId(Edge.BE()));
+		assertEquals(tse.getId(), tnw.getNbrId(Edge.SE()));
+
+		assertFalse(tnw.hasNbr(Orthant.BSW()));
+		assertTrue(tnw.hasNbr(Orthant.BSE()));
+		assertFalse(tnw.hasNbr(Orthant.BNW()));
+		assertFalse(tnw.hasNbr(Orthant.BNE()));
+		assertFalse(tnw.hasNbr(Orthant.TSW()));
+		assertFalse(tnw.hasNbr(Orthant.TSE()));
+		assertFalse(tnw.hasNbr(Orthant.TNW()));
+		assertFalse(tnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bse.getId(), tnw.getNbrId(Orthant.BSE()));
+
+		// TNE child
+		assertEquals(tne.getId(), root.getChildId(Orthant.TNE()));
+		assertTrue(tne.hasParent());
+		assertEquals(root.getId(), tne.getParentId());
+		assertFalse(tne.hasChildren());
+
+		assertTrue(tne.hasNbr(Side.WEST()));
+		assertFalse(tne.hasNbr(Side.EAST()));
+		assertTrue(tne.hasNbr(Side.SOUTH()));
+		assertFalse(tne.hasNbr(Side.NORTH()));
+		assertTrue(tne.hasNbr(Side.BOTTOM()));
+		assertFalse(tne.hasNbr(Side.TOP()));
+
+		assertEquals(tnw.getId(), tne.getNbrId(Side.WEST()));
+		assertEquals(tse.getId(), tne.getNbrId(Side.SOUTH()));
+		assertEquals(bne.getId(), tne.getNbrId(Side.BOTTOM()));
+
+		assertTrue(tne.hasNbr(Edge.BS()));
+		assertFalse(tne.hasNbr(Edge.TN()));
+		assertFalse(tne.hasNbr(Edge.BN()));
+		assertFalse(tne.hasNbr(Edge.TS()));
+		assertTrue(tne.hasNbr(Edge.BW()));
+		assertFalse(tne.hasNbr(Edge.TE()));
+		assertFalse(tne.hasNbr(Edge.BE()));
+		assertFalse(tne.hasNbr(Edge.TW()));
+		assertTrue(tne.hasNbr(Edge.SW()));
+		assertFalse(tne.hasNbr(Edge.NE()));
+		assertFalse(tne.hasNbr(Edge.SE()));
+		assertFalse(tne.hasNbr(Edge.NW()));
+
+		assertEquals(bse.getId(), tne.getNbrId(Edge.BS()));
+		assertEquals(bnw.getId(), tne.getNbrId(Edge.BW()));
+		assertEquals(tsw.getId(), tne.getNbrId(Edge.SW()));
+
+		assertTrue(tne.hasNbr(Orthant.BSW()));
+		assertFalse(tne.hasNbr(Orthant.BSE()));
+		assertFalse(tne.hasNbr(Orthant.BNW()));
+		assertFalse(tne.hasNbr(Orthant.BNE()));
+		assertFalse(tne.hasNbr(Orthant.TSW()));
+		assertFalse(tne.hasNbr(Orthant.TSE()));
+		assertFalse(tne.hasNbr(Orthant.TNW()));
+		assertFalse(tne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw.getId(), tne.getNbrId(Orthant.BSW()));
 	}
 
 	@Test
@@ -338,6 +724,760 @@ class ForestTest {
 
 		assertEquals(sw.getId(), ne.getNbrId(Orthant.SW()));
 
+	}
+
+	@Test
+	void RefineAtTwice3D() {
+		Forest forest = new Forest(3);
+		double[] coord = { .3, .3, .3 };
+		forest.refineAt(coord);
+		forest.refineAt(coord);
+		assertEquals(forest.getRootNode().getId(), 0);
+		assertEquals(forest.getRootIds().size(), 1);
+		assertTrue(forest.getRootIds().contains(0));
+		assertEquals(forest.getMaxLevel(), 2);
+
+		Node root = forest.getNode(0);
+		assertEquals(root.getId(), 0);
+		assertFalse(root.hasParent());
+		assertTrue(root.hasChildren());
+
+		Node bsw = forest.getNode(root.getChildId(Orthant.BSW()));
+		Node bsw_bsw = forest.getNode(bsw.getChildId(Orthant.BSW()));
+		Node bsw_bse = forest.getNode(bsw.getChildId(Orthant.BSE()));
+		Node bsw_bnw = forest.getNode(bsw.getChildId(Orthant.BNW()));
+		Node bsw_bne = forest.getNode(bsw.getChildId(Orthant.BNE()));
+		Node bsw_tsw = forest.getNode(bsw.getChildId(Orthant.TSW()));
+		Node bsw_tse = forest.getNode(bsw.getChildId(Orthant.TSE()));
+		Node bsw_tnw = forest.getNode(bsw.getChildId(Orthant.TNW()));
+		Node bsw_tne = forest.getNode(bsw.getChildId(Orthant.TNE()));
+		Node bse = forest.getNode(root.getChildId(Orthant.BSE()));
+		Node bnw = forest.getNode(root.getChildId(Orthant.BNW()));
+		Node bne = forest.getNode(root.getChildId(Orthant.BNE()));
+		Node tsw = forest.getNode(root.getChildId(Orthant.TSW()));
+		Node tse = forest.getNode(root.getChildId(Orthant.TSE()));
+		Node tnw = forest.getNode(root.getChildId(Orthant.TNW()));
+		Node tne = forest.getNode(root.getChildId(Orthant.TNE()));
+
+		// BSW child
+		assertEquals(bsw.getId(), root.getChildId(Orthant.BSW()));
+		assertTrue(bsw.hasParent());
+		assertEquals(root.getId(), bsw.getParentId());
+		assertTrue(bsw.hasChildren());
+
+		assertFalse(bsw.hasNbr(Side.WEST()));
+		assertTrue(bsw.hasNbr(Side.EAST()));
+		assertFalse(bsw.hasNbr(Side.SOUTH()));
+		assertTrue(bsw.hasNbr(Side.NORTH()));
+		assertFalse(bsw.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw.hasNbr(Side.TOP()));
+
+		assertEquals(bse.getId(), bsw.getNbrId(Side.EAST()));
+		assertEquals(bnw.getId(), bsw.getNbrId(Side.NORTH()));
+		assertEquals(tsw.getId(), bsw.getNbrId(Side.TOP()));
+
+		assertFalse(bsw.hasNbr(Edge.BS()));
+		assertTrue(bsw.hasNbr(Edge.TN()));
+		assertFalse(bsw.hasNbr(Edge.BN()));
+		assertFalse(bsw.hasNbr(Edge.TS()));
+		assertFalse(bsw.hasNbr(Edge.BW()));
+		assertTrue(bsw.hasNbr(Edge.TE()));
+		assertFalse(bsw.hasNbr(Edge.BE()));
+		assertFalse(bsw.hasNbr(Edge.TW()));
+		assertFalse(bsw.hasNbr(Edge.SW()));
+		assertTrue(bsw.hasNbr(Edge.NE()));
+		assertFalse(bsw.hasNbr(Edge.SE()));
+		assertFalse(bsw.hasNbr(Edge.NW()));
+
+		assertEquals(tnw.getId(), bsw.getNbrId(Edge.TN()));
+		assertEquals(tse.getId(), bsw.getNbrId(Edge.TE()));
+		assertEquals(bne.getId(), bsw.getNbrId(Edge.NE()));
+
+		assertFalse(bsw.hasNbr(Orthant.BSW()));
+		assertFalse(bsw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw.hasNbr(Orthant.BNW()));
+		assertFalse(bsw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw.hasNbr(Orthant.TSW()));
+		assertFalse(bsw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw.hasNbr(Orthant.TNW()));
+		assertTrue(bsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(tne.getId(), bsw.getNbrId(Orthant.TNE()));
+
+		// BSW_BSW child
+		assertEquals(bsw_bsw.getId(), bsw.getChildId(Orthant.BSW()));
+		assertTrue(bsw_bsw.hasParent());
+		assertEquals(bsw.getId(), bsw_bsw.getParentId());
+		assertFalse(bsw_bsw.hasChildren());
+
+		assertFalse(bsw_bsw.hasNbr(Side.WEST()));
+		assertTrue(bsw_bsw.hasNbr(Side.EAST()));
+		assertFalse(bsw_bsw.hasNbr(Side.SOUTH()));
+		assertTrue(bsw_bsw.hasNbr(Side.NORTH()));
+		assertFalse(bsw_bsw.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw_bsw.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_bse.getId(), bsw_bsw.getNbrId(Side.EAST()));
+		assertEquals(bsw_bnw.getId(), bsw_bsw.getNbrId(Side.NORTH()));
+		assertEquals(bsw_tsw.getId(), bsw_bsw.getNbrId(Side.TOP()));
+
+		assertFalse(bsw_bsw.hasNbr(Edge.BS()));
+		assertTrue(bsw_bsw.hasNbr(Edge.TN()));
+		assertFalse(bsw_bsw.hasNbr(Edge.BN()));
+		assertFalse(bsw_bsw.hasNbr(Edge.TS()));
+		assertFalse(bsw_bsw.hasNbr(Edge.BW()));
+		assertTrue(bsw_bsw.hasNbr(Edge.TE()));
+		assertFalse(bsw_bsw.hasNbr(Edge.BE()));
+		assertFalse(bsw_bsw.hasNbr(Edge.TW()));
+		assertFalse(bsw_bsw.hasNbr(Edge.SW()));
+		assertTrue(bsw_bsw.hasNbr(Edge.NE()));
+		assertFalse(bsw_bsw.hasNbr(Edge.SE()));
+		assertFalse(bsw_bsw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tnw.getId(), bsw_bsw.getNbrId(Edge.TN()));
+		assertEquals(bsw_tse.getId(), bsw_bsw.getNbrId(Edge.TE()));
+		assertEquals(bsw_bne.getId(), bsw_bsw.getNbrId(Edge.NE()));
+
+		assertFalse(bsw_bsw.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_bsw.hasNbr(Orthant.TNW()));
+		assertTrue(bsw_bsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tne.getId(), bsw_bsw.getNbrId(Orthant.TNE()));
+
+		// BSW_BSE child
+		assertEquals(bsw_bse.getId(), bsw.getChildId(Orthant.BSE()));
+		assertTrue(bsw_bse.hasParent());
+		assertEquals(bsw.getId(), bsw_bse.getParentId());
+		assertFalse(bsw_bse.hasChildren());
+
+		assertTrue(bsw_bse.hasNbr(Side.WEST()));
+		assertFalse(bsw_bse.hasNbr(Side.EAST()));
+		assertFalse(bsw_bse.hasNbr(Side.SOUTH()));
+		assertTrue(bsw_bse.hasNbr(Side.NORTH()));
+		assertFalse(bsw_bse.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw_bse.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_bsw.getId(), bsw_bse.getNbrId(Side.WEST()));
+		assertEquals(bsw_bne.getId(), bsw_bse.getNbrId(Side.NORTH()));
+		assertEquals(bsw_tse.getId(), bsw_bse.getNbrId(Side.TOP()));
+
+		assertFalse(bsw_bse.hasNbr(Edge.BS()));
+		assertTrue(bsw_bse.hasNbr(Edge.TN()));
+		assertFalse(bsw_bse.hasNbr(Edge.BN()));
+		assertFalse(bsw_bse.hasNbr(Edge.TS()));
+		assertFalse(bsw_bse.hasNbr(Edge.BW()));
+		assertFalse(bsw_bse.hasNbr(Edge.TE()));
+		assertFalse(bsw_bse.hasNbr(Edge.BE()));
+		assertTrue(bsw_bse.hasNbr(Edge.TW()));
+		assertFalse(bsw_bse.hasNbr(Edge.SW()));
+		assertFalse(bsw_bse.hasNbr(Edge.NE()));
+		assertFalse(bsw_bse.hasNbr(Edge.SE()));
+		assertTrue(bsw_bse.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tne.getId(), bsw_bse.getNbrId(Edge.TN()));
+		assertEquals(bsw_tsw.getId(), bsw_bse.getNbrId(Edge.TW()));
+		assertEquals(bsw_bnw.getId(), bsw_bse.getNbrId(Edge.NW()));
+
+		assertFalse(bsw_bse.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_bse.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_bse.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_bse.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_bse.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_bse.hasNbr(Orthant.TSE()));
+		assertTrue(bsw_bse.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_bse.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tnw.getId(), bsw_bse.getNbrId(Orthant.TNW()));
+
+		// BSW_BNW child
+		assertEquals(bsw_bnw.getId(), bsw.getChildId(Orthant.BNW()));
+		assertTrue(bsw_bnw.hasParent());
+		assertEquals(bsw.getId(), bsw_bnw.getParentId());
+		assertFalse(bsw_bnw.hasChildren());
+
+		assertFalse(bsw_bnw.hasNbr(Side.WEST()));
+		assertTrue(bsw_bnw.hasNbr(Side.EAST()));
+		assertTrue(bsw_bnw.hasNbr(Side.SOUTH()));
+		assertFalse(bsw_bnw.hasNbr(Side.NORTH()));
+		assertFalse(bsw_bnw.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw_bnw.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_bne.getId(), bsw_bnw.getNbrId(Side.EAST()));
+		assertEquals(bsw_bsw.getId(), bsw_bnw.getNbrId(Side.SOUTH()));
+		assertEquals(bsw_tnw.getId(), bsw_bnw.getNbrId(Side.TOP()));
+
+		assertFalse(bsw_bnw.hasNbr(Edge.BS()));
+		assertFalse(bsw_bnw.hasNbr(Edge.TN()));
+		assertFalse(bsw_bnw.hasNbr(Edge.BN()));
+		assertTrue(bsw_bnw.hasNbr(Edge.TS()));
+		assertFalse(bsw_bnw.hasNbr(Edge.BW()));
+		assertTrue(bsw_bnw.hasNbr(Edge.TE()));
+		assertFalse(bsw_bnw.hasNbr(Edge.BE()));
+		assertFalse(bsw_bnw.hasNbr(Edge.TW()));
+		assertFalse(bsw_bnw.hasNbr(Edge.SW()));
+		assertFalse(bsw_bnw.hasNbr(Edge.NE()));
+		assertTrue(bsw_bnw.hasNbr(Edge.SE()));
+		assertFalse(bsw_bnw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tsw.getId(), bsw_bnw.getNbrId(Edge.TS()));
+		assertEquals(bsw_tne.getId(), bsw_bnw.getNbrId(Edge.TE()));
+		assertEquals(bsw_bse.getId(), bsw_bnw.getNbrId(Edge.SE()));
+
+		assertFalse(bsw_bnw.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.TSW()));
+		assertTrue(bsw_bnw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_bnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tse.getId(), bsw_bnw.getNbrId(Orthant.TSE()));
+
+		// BSW_BNE child
+		assertEquals(bsw_bne.getId(), bsw.getChildId(Orthant.BNE()));
+		assertTrue(bsw_bne.hasParent());
+		assertEquals(bsw.getId(), bsw_bne.getParentId());
+		assertFalse(bsw_bne.hasChildren());
+
+		assertTrue(bsw_bne.hasNbr(Side.WEST()));
+		assertFalse(bsw_bne.hasNbr(Side.EAST()));
+		assertTrue(bsw_bne.hasNbr(Side.SOUTH()));
+		assertFalse(bsw_bne.hasNbr(Side.NORTH()));
+		assertFalse(bsw_bne.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw_bne.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_bnw.getId(), bsw_bne.getNbrId(Side.WEST()));
+		assertEquals(bsw_bse.getId(), bsw_bne.getNbrId(Side.SOUTH()));
+		assertEquals(bsw_tne.getId(), bsw_bne.getNbrId(Side.TOP()));
+
+		assertFalse(bsw_bne.hasNbr(Edge.BS()));
+		assertFalse(bsw_bne.hasNbr(Edge.TN()));
+		assertFalse(bsw_bne.hasNbr(Edge.BN()));
+		assertTrue(bsw_bne.hasNbr(Edge.TS()));
+		assertFalse(bsw_bne.hasNbr(Edge.BW()));
+		assertFalse(bsw_bne.hasNbr(Edge.TE()));
+		assertFalse(bsw_bne.hasNbr(Edge.BE()));
+		assertTrue(bsw_bne.hasNbr(Edge.TW()));
+		assertTrue(bsw_bne.hasNbr(Edge.SW()));
+		assertFalse(bsw_bne.hasNbr(Edge.NE()));
+		assertFalse(bsw_bne.hasNbr(Edge.SE()));
+		assertFalse(bsw_bne.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tse.getId(), bsw_bne.getNbrId(Edge.TS()));
+		assertEquals(bsw_tnw.getId(), bsw_bne.getNbrId(Edge.TW()));
+		assertEquals(bsw_bsw.getId(), bsw_bne.getNbrId(Edge.SW()));
+
+		assertFalse(bsw_bne.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_bne.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_bne.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_bne.hasNbr(Orthant.BNE()));
+		assertTrue(bsw_bne.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_bne.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_bne.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_bne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tsw.getId(), bsw_bne.getNbrId(Orthant.TSW()));
+
+		// BSW_TSW child
+		assertEquals(bsw_tsw.getId(), bsw.getChildId(Orthant.TSW()));
+		assertTrue(bsw_tsw.hasParent());
+		assertEquals(bsw.getId(), bsw_tsw.getParentId());
+		assertFalse(bsw_tsw.hasChildren());
+
+		assertFalse(bsw_tsw.hasNbr(Side.WEST()));
+		assertTrue(bsw_tsw.hasNbr(Side.EAST()));
+		assertFalse(bsw_tsw.hasNbr(Side.SOUTH()));
+		assertTrue(bsw_tsw.hasNbr(Side.NORTH()));
+		assertTrue(bsw_tsw.hasNbr(Side.BOTTOM()));
+		assertFalse(bsw_tsw.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_tse.getId(), bsw_tsw.getNbrId(Side.EAST()));
+		assertEquals(bsw_tnw.getId(), bsw_tsw.getNbrId(Side.NORTH()));
+		assertEquals(bsw_bsw.getId(), bsw_tsw.getNbrId(Side.BOTTOM()));
+
+		assertFalse(bsw_tsw.hasNbr(Edge.BS()));
+		assertFalse(bsw_tsw.hasNbr(Edge.TN()));
+		assertTrue(bsw_tsw.hasNbr(Edge.BN()));
+		assertFalse(bsw_tsw.hasNbr(Edge.TS()));
+		assertFalse(bsw_tsw.hasNbr(Edge.BW()));
+		assertFalse(bsw_tsw.hasNbr(Edge.TE()));
+		assertTrue(bsw_tsw.hasNbr(Edge.BE()));
+		assertFalse(bsw_tsw.hasNbr(Edge.TW()));
+		assertFalse(bsw_tsw.hasNbr(Edge.SW()));
+		assertTrue(bsw_tsw.hasNbr(Edge.NE()));
+		assertFalse(bsw_tsw.hasNbr(Edge.SE()));
+		assertFalse(bsw_tsw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_bnw.getId(), bsw_tsw.getNbrId(Edge.BN()));
+		assertEquals(bsw_bse.getId(), bsw_tsw.getNbrId(Edge.BE()));
+		assertEquals(bsw_tne.getId(), bsw_tsw.getNbrId(Edge.NE()));
+
+		assertFalse(bsw_tsw.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.BNW()));
+		assertTrue(bsw_tsw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_tsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_bne.getId(), bsw_tsw.getNbrId(Orthant.BNE()));
+
+		// BSW_TSE child
+		assertEquals(bsw_tse.getId(), bsw.getChildId(Orthant.TSE()));
+		assertTrue(bsw_tse.hasParent());
+		assertEquals(bsw.getId(), bsw_tse.getParentId());
+		assertFalse(bsw_tse.hasChildren());
+
+		assertTrue(bsw_tse.hasNbr(Side.WEST()));
+		assertFalse(bsw_tse.hasNbr(Side.EAST()));
+		assertFalse(bsw_tse.hasNbr(Side.SOUTH()));
+		assertTrue(bsw_tse.hasNbr(Side.NORTH()));
+		assertTrue(bsw_tse.hasNbr(Side.BOTTOM()));
+		assertFalse(bsw_tse.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_tsw.getId(), bsw_tse.getNbrId(Side.WEST()));
+		assertEquals(bsw_tne.getId(), bsw_tse.getNbrId(Side.NORTH()));
+		assertEquals(bsw_bse.getId(), bsw_tse.getNbrId(Side.BOTTOM()));
+
+		assertFalse(bsw_tse.hasNbr(Edge.BS()));
+		assertFalse(bsw_tse.hasNbr(Edge.TN()));
+		assertTrue(bsw_tse.hasNbr(Edge.BN()));
+		assertFalse(bsw_tse.hasNbr(Edge.TS()));
+		assertTrue(bsw_tse.hasNbr(Edge.BW()));
+		assertFalse(bsw_tse.hasNbr(Edge.TE()));
+		assertFalse(bsw_tse.hasNbr(Edge.BE()));
+		assertFalse(bsw_tse.hasNbr(Edge.TW()));
+		assertFalse(bsw_tse.hasNbr(Edge.SW()));
+		assertFalse(bsw_tse.hasNbr(Edge.NE()));
+		assertFalse(bsw_tse.hasNbr(Edge.SE()));
+		assertTrue(bsw_tse.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_bne.getId(), bsw_tse.getNbrId(Edge.BN()));
+		assertEquals(bsw_bsw.getId(), bsw_tse.getNbrId(Edge.BW()));
+		assertEquals(bsw_tnw.getId(), bsw_tse.getNbrId(Edge.NW()));
+
+		assertFalse(bsw_tse.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_tse.hasNbr(Orthant.BSE()));
+		assertTrue(bsw_tse.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_tse.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_tse.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_tse.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_tse.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_tse.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_bnw.getId(), bsw_tse.getNbrId(Orthant.BNW()));
+
+		// BSW_TNW child
+		assertEquals(bsw_tnw.getId(), bsw.getChildId(Orthant.TNW()));
+		assertTrue(bsw_tnw.hasParent());
+		assertEquals(bsw.getId(), bsw_tnw.getParentId());
+		assertFalse(bsw_tnw.hasChildren());
+
+		assertFalse(bsw_tnw.hasNbr(Side.WEST()));
+		assertTrue(bsw_tnw.hasNbr(Side.EAST()));
+		assertTrue(bsw_tnw.hasNbr(Side.SOUTH()));
+		assertFalse(bsw_tnw.hasNbr(Side.NORTH()));
+		assertTrue(bsw_tnw.hasNbr(Side.BOTTOM()));
+		assertFalse(bsw_tnw.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_tne.getId(), bsw_tnw.getNbrId(Side.EAST()));
+		assertEquals(bsw_tsw.getId(), bsw_tnw.getNbrId(Side.SOUTH()));
+		assertEquals(bsw_bnw.getId(), bsw_tnw.getNbrId(Side.BOTTOM()));
+
+		assertTrue(bsw_tnw.hasNbr(Edge.BS()));
+		assertFalse(bsw_tnw.hasNbr(Edge.TN()));
+		assertFalse(bsw_tnw.hasNbr(Edge.BN()));
+		assertFalse(bsw_tnw.hasNbr(Edge.TS()));
+		assertFalse(bsw_tnw.hasNbr(Edge.BW()));
+		assertFalse(bsw_tnw.hasNbr(Edge.TE()));
+		assertTrue(bsw_tnw.hasNbr(Edge.BE()));
+		assertFalse(bsw_tnw.hasNbr(Edge.TW()));
+		assertFalse(bsw_tnw.hasNbr(Edge.SW()));
+		assertFalse(bsw_tnw.hasNbr(Edge.NE()));
+		assertTrue(bsw_tnw.hasNbr(Edge.SE()));
+		assertFalse(bsw_tnw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_bsw.getId(), bsw_tnw.getNbrId(Edge.BS()));
+		assertEquals(bsw_bne.getId(), bsw_tnw.getNbrId(Edge.BE()));
+		assertEquals(bsw_tse.getId(), bsw_tnw.getNbrId(Edge.SE()));
+
+		assertFalse(bsw_tnw.hasNbr(Orthant.BSW()));
+		assertTrue(bsw_tnw.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_tnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_bse.getId(), bsw_tnw.getNbrId(Orthant.BSE()));
+
+		// BSW_TNE child
+		assertEquals(bsw_tne.getId(), bsw.getChildId(Orthant.TNE()));
+		assertTrue(bsw_tne.hasParent());
+		assertEquals(bsw.getId(), bsw_tne.getParentId());
+		assertFalse(bsw_tne.hasChildren());
+
+		assertTrue(bsw_tne.hasNbr(Side.WEST()));
+		assertFalse(bsw_tne.hasNbr(Side.EAST()));
+		assertTrue(bsw_tne.hasNbr(Side.SOUTH()));
+		assertFalse(bsw_tne.hasNbr(Side.NORTH()));
+		assertTrue(bsw_tne.hasNbr(Side.BOTTOM()));
+		assertFalse(bsw_tne.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_tnw.getId(), bsw_tne.getNbrId(Side.WEST()));
+		assertEquals(bsw_tse.getId(), bsw_tne.getNbrId(Side.SOUTH()));
+		assertEquals(bsw_bne.getId(), bsw_tne.getNbrId(Side.BOTTOM()));
+
+		assertTrue(bsw_tne.hasNbr(Edge.BS()));
+		assertFalse(bsw_tne.hasNbr(Edge.TN()));
+		assertFalse(bsw_tne.hasNbr(Edge.BN()));
+		assertFalse(bsw_tne.hasNbr(Edge.TS()));
+		assertTrue(bsw_tne.hasNbr(Edge.BW()));
+		assertFalse(bsw_tne.hasNbr(Edge.TE()));
+		assertFalse(bsw_tne.hasNbr(Edge.BE()));
+		assertFalse(bsw_tne.hasNbr(Edge.TW()));
+		assertTrue(bsw_tne.hasNbr(Edge.SW()));
+		assertFalse(bsw_tne.hasNbr(Edge.NE()));
+		assertFalse(bsw_tne.hasNbr(Edge.SE()));
+		assertFalse(bsw_tne.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_bse.getId(), bsw_tne.getNbrId(Edge.BS()));
+		assertEquals(bsw_bnw.getId(), bsw_tne.getNbrId(Edge.BW()));
+		assertEquals(bsw_tsw.getId(), bsw_tne.getNbrId(Edge.SW()));
+
+		assertTrue(bsw_tne.hasNbr(Orthant.BSW()));
+		assertFalse(bsw_tne.hasNbr(Orthant.BSE()));
+		assertFalse(bsw_tne.hasNbr(Orthant.BNW()));
+		assertFalse(bsw_tne.hasNbr(Orthant.BNE()));
+		assertFalse(bsw_tne.hasNbr(Orthant.TSW()));
+		assertFalse(bsw_tne.hasNbr(Orthant.TSE()));
+		assertFalse(bsw_tne.hasNbr(Orthant.TNW()));
+		assertFalse(bsw_tne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_bsw.getId(), bsw_tne.getNbrId(Orthant.BSW()));
+
+		// BSE child
+		assertEquals(bse.getId(), root.getChildId(Orthant.BSE()));
+		assertTrue(bse.hasParent());
+		assertEquals(root.getId(), bse.getParentId());
+		assertFalse(bse.hasChildren());
+
+		assertTrue(bse.hasNbr(Side.WEST()));
+		assertFalse(bse.hasNbr(Side.EAST()));
+		assertFalse(bse.hasNbr(Side.SOUTH()));
+		assertTrue(bse.hasNbr(Side.NORTH()));
+		assertFalse(bse.hasNbr(Side.BOTTOM()));
+		assertTrue(bse.hasNbr(Side.TOP()));
+
+		assertEquals(bsw.getId(), bse.getNbrId(Side.WEST()));
+		assertEquals(bne.getId(), bse.getNbrId(Side.NORTH()));
+		assertEquals(tse.getId(), bse.getNbrId(Side.TOP()));
+
+		assertFalse(bse.hasNbr(Edge.BS()));
+		assertTrue(bse.hasNbr(Edge.TN()));
+		assertFalse(bse.hasNbr(Edge.BN()));
+		assertFalse(bse.hasNbr(Edge.TS()));
+		assertFalse(bse.hasNbr(Edge.BW()));
+		assertFalse(bse.hasNbr(Edge.TE()));
+		assertFalse(bse.hasNbr(Edge.BE()));
+		assertTrue(bse.hasNbr(Edge.TW()));
+		assertFalse(bse.hasNbr(Edge.SW()));
+		assertFalse(bse.hasNbr(Edge.NE()));
+		assertFalse(bse.hasNbr(Edge.SE()));
+		assertTrue(bse.hasNbr(Edge.NW()));
+
+		assertEquals(tne.getId(), bse.getNbrId(Edge.TN()));
+		assertEquals(tsw.getId(), bse.getNbrId(Edge.TW()));
+		assertEquals(bnw.getId(), bse.getNbrId(Edge.NW()));
+
+		assertFalse(bse.hasNbr(Orthant.BSW()));
+		assertFalse(bse.hasNbr(Orthant.BSE()));
+		assertFalse(bse.hasNbr(Orthant.BNW()));
+		assertFalse(bse.hasNbr(Orthant.BNE()));
+		assertFalse(bse.hasNbr(Orthant.TSW()));
+		assertFalse(bse.hasNbr(Orthant.TSE()));
+		assertTrue(bse.hasNbr(Orthant.TNW()));
+		assertFalse(bse.hasNbr(Orthant.TNE()));
+
+		assertEquals(tnw.getId(), bse.getNbrId(Orthant.TNW()));
+
+		// BNW child
+		assertEquals(bnw.getId(), root.getChildId(Orthant.BNW()));
+		assertTrue(bnw.hasParent());
+		assertEquals(root.getId(), bnw.getParentId());
+		assertFalse(bnw.hasChildren());
+
+		assertFalse(bnw.hasNbr(Side.WEST()));
+		assertTrue(bnw.hasNbr(Side.EAST()));
+		assertTrue(bnw.hasNbr(Side.SOUTH()));
+		assertFalse(bnw.hasNbr(Side.NORTH()));
+		assertFalse(bnw.hasNbr(Side.BOTTOM()));
+		assertTrue(bnw.hasNbr(Side.TOP()));
+
+		assertEquals(bne.getId(), bnw.getNbrId(Side.EAST()));
+		assertEquals(bsw.getId(), bnw.getNbrId(Side.SOUTH()));
+		assertEquals(tnw.getId(), bnw.getNbrId(Side.TOP()));
+
+		assertFalse(bnw.hasNbr(Edge.BS()));
+		assertFalse(bnw.hasNbr(Edge.TN()));
+		assertFalse(bnw.hasNbr(Edge.BN()));
+		assertTrue(bnw.hasNbr(Edge.TS()));
+		assertFalse(bnw.hasNbr(Edge.BW()));
+		assertTrue(bnw.hasNbr(Edge.TE()));
+		assertFalse(bnw.hasNbr(Edge.BE()));
+		assertFalse(bnw.hasNbr(Edge.TW()));
+		assertFalse(bnw.hasNbr(Edge.SW()));
+		assertFalse(bnw.hasNbr(Edge.NE()));
+		assertTrue(bnw.hasNbr(Edge.SE()));
+		assertFalse(bnw.hasNbr(Edge.NW()));
+
+		assertEquals(tsw.getId(), bnw.getNbrId(Edge.TS()));
+		assertEquals(tne.getId(), bnw.getNbrId(Edge.TE()));
+		assertEquals(bse.getId(), bnw.getNbrId(Edge.SE()));
+
+		assertFalse(bnw.hasNbr(Orthant.BSW()));
+		assertFalse(bnw.hasNbr(Orthant.BSE()));
+		assertFalse(bnw.hasNbr(Orthant.BNW()));
+		assertFalse(bnw.hasNbr(Orthant.BNE()));
+		assertFalse(bnw.hasNbr(Orthant.TSW()));
+		assertTrue(bnw.hasNbr(Orthant.TSE()));
+		assertFalse(bnw.hasNbr(Orthant.TNW()));
+		assertFalse(bnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(tse.getId(), bnw.getNbrId(Orthant.TSE()));
+
+		// BNE child
+		assertEquals(bne.getId(), root.getChildId(Orthant.BNE()));
+		assertTrue(bne.hasParent());
+		assertEquals(root.getId(), bne.getParentId());
+		assertFalse(bne.hasChildren());
+
+		assertTrue(bne.hasNbr(Side.WEST()));
+		assertFalse(bne.hasNbr(Side.EAST()));
+		assertTrue(bne.hasNbr(Side.SOUTH()));
+		assertFalse(bne.hasNbr(Side.NORTH()));
+		assertFalse(bne.hasNbr(Side.BOTTOM()));
+		assertTrue(bne.hasNbr(Side.TOP()));
+
+		assertEquals(bnw.getId(), bne.getNbrId(Side.WEST()));
+		assertEquals(bse.getId(), bne.getNbrId(Side.SOUTH()));
+		assertEquals(tne.getId(), bne.getNbrId(Side.TOP()));
+
+		assertFalse(bne.hasNbr(Edge.BS()));
+		assertFalse(bne.hasNbr(Edge.TN()));
+		assertFalse(bne.hasNbr(Edge.BN()));
+		assertTrue(bne.hasNbr(Edge.TS()));
+		assertFalse(bne.hasNbr(Edge.BW()));
+		assertFalse(bne.hasNbr(Edge.TE()));
+		assertFalse(bne.hasNbr(Edge.BE()));
+		assertTrue(bne.hasNbr(Edge.TW()));
+		assertTrue(bne.hasNbr(Edge.SW()));
+		assertFalse(bne.hasNbr(Edge.NE()));
+		assertFalse(bne.hasNbr(Edge.SE()));
+		assertFalse(bne.hasNbr(Edge.NW()));
+
+		assertEquals(tse.getId(), bne.getNbrId(Edge.TS()));
+		assertEquals(tnw.getId(), bne.getNbrId(Edge.TW()));
+		assertEquals(bsw.getId(), bne.getNbrId(Edge.SW()));
+
+		assertFalse(bne.hasNbr(Orthant.BSW()));
+		assertFalse(bne.hasNbr(Orthant.BSE()));
+		assertFalse(bne.hasNbr(Orthant.BNW()));
+		assertFalse(bne.hasNbr(Orthant.BNE()));
+		assertTrue(bne.hasNbr(Orthant.TSW()));
+		assertFalse(bne.hasNbr(Orthant.TSE()));
+		assertFalse(bne.hasNbr(Orthant.TNW()));
+		assertFalse(bne.hasNbr(Orthant.TNE()));
+
+		assertEquals(tsw.getId(), bne.getNbrId(Orthant.TSW()));
+
+		// TSW child
+		assertEquals(tsw.getId(), root.getChildId(Orthant.TSW()));
+		assertTrue(tsw.hasParent());
+		assertEquals(root.getId(), tsw.getParentId());
+		assertFalse(tsw.hasChildren());
+
+		assertFalse(tsw.hasNbr(Side.WEST()));
+		assertTrue(tsw.hasNbr(Side.EAST()));
+		assertFalse(tsw.hasNbr(Side.SOUTH()));
+		assertTrue(tsw.hasNbr(Side.NORTH()));
+		assertTrue(tsw.hasNbr(Side.BOTTOM()));
+		assertFalse(tsw.hasNbr(Side.TOP()));
+
+		assertEquals(tse.getId(), tsw.getNbrId(Side.EAST()));
+		assertEquals(tnw.getId(), tsw.getNbrId(Side.NORTH()));
+		assertEquals(bsw.getId(), tsw.getNbrId(Side.BOTTOM()));
+
+		assertFalse(tsw.hasNbr(Edge.BS()));
+		assertFalse(tsw.hasNbr(Edge.TN()));
+		assertTrue(tsw.hasNbr(Edge.BN()));
+		assertFalse(tsw.hasNbr(Edge.TS()));
+		assertFalse(tsw.hasNbr(Edge.BW()));
+		assertFalse(tsw.hasNbr(Edge.TE()));
+		assertTrue(tsw.hasNbr(Edge.BE()));
+		assertFalse(tsw.hasNbr(Edge.TW()));
+		assertFalse(tsw.hasNbr(Edge.SW()));
+		assertTrue(tsw.hasNbr(Edge.NE()));
+		assertFalse(tsw.hasNbr(Edge.SE()));
+		assertFalse(tsw.hasNbr(Edge.NW()));
+
+		assertEquals(bnw.getId(), tsw.getNbrId(Edge.BN()));
+		assertEquals(bse.getId(), tsw.getNbrId(Edge.BE()));
+		assertEquals(tne.getId(), tsw.getNbrId(Edge.NE()));
+
+		assertFalse(tsw.hasNbr(Orthant.BSW()));
+		assertFalse(tsw.hasNbr(Orthant.BSE()));
+		assertFalse(tsw.hasNbr(Orthant.BNW()));
+		assertTrue(tsw.hasNbr(Orthant.BNE()));
+		assertFalse(tsw.hasNbr(Orthant.TSW()));
+		assertFalse(tsw.hasNbr(Orthant.TSE()));
+		assertFalse(tsw.hasNbr(Orthant.TNW()));
+		assertFalse(tsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bne.getId(), tsw.getNbrId(Orthant.BNE()));
+
+		// TSE child
+		assertEquals(tse.getId(), root.getChildId(Orthant.TSE()));
+		assertTrue(tse.hasParent());
+		assertEquals(root.getId(), tse.getParentId());
+		assertFalse(tse.hasChildren());
+
+		assertTrue(tse.hasNbr(Side.WEST()));
+		assertFalse(tse.hasNbr(Side.EAST()));
+		assertFalse(tse.hasNbr(Side.SOUTH()));
+		assertTrue(tse.hasNbr(Side.NORTH()));
+		assertTrue(tse.hasNbr(Side.BOTTOM()));
+		assertFalse(tse.hasNbr(Side.TOP()));
+
+		assertEquals(tsw.getId(), tse.getNbrId(Side.WEST()));
+		assertEquals(tne.getId(), tse.getNbrId(Side.NORTH()));
+		assertEquals(bse.getId(), tse.getNbrId(Side.BOTTOM()));
+
+		assertFalse(tse.hasNbr(Edge.BS()));
+		assertFalse(tse.hasNbr(Edge.TN()));
+		assertTrue(tse.hasNbr(Edge.BN()));
+		assertFalse(tse.hasNbr(Edge.TS()));
+		assertTrue(tse.hasNbr(Edge.BW()));
+		assertFalse(tse.hasNbr(Edge.TE()));
+		assertFalse(tse.hasNbr(Edge.BE()));
+		assertFalse(tse.hasNbr(Edge.TW()));
+		assertFalse(tse.hasNbr(Edge.SW()));
+		assertFalse(tse.hasNbr(Edge.NE()));
+		assertFalse(tse.hasNbr(Edge.SE()));
+		assertTrue(tse.hasNbr(Edge.NW()));
+
+		assertEquals(bne.getId(), tse.getNbrId(Edge.BN()));
+		assertEquals(bsw.getId(), tse.getNbrId(Edge.BW()));
+		assertEquals(tnw.getId(), tse.getNbrId(Edge.NW()));
+
+		assertFalse(tse.hasNbr(Orthant.BSW()));
+		assertFalse(tse.hasNbr(Orthant.BSE()));
+		assertTrue(tse.hasNbr(Orthant.BNW()));
+		assertFalse(tse.hasNbr(Orthant.BNE()));
+		assertFalse(tse.hasNbr(Orthant.TSW()));
+		assertFalse(tse.hasNbr(Orthant.TSE()));
+		assertFalse(tse.hasNbr(Orthant.TNW()));
+		assertFalse(tse.hasNbr(Orthant.TNE()));
+
+		assertEquals(bnw.getId(), tse.getNbrId(Orthant.BNW()));
+
+		// TNW child
+		assertEquals(tnw.getId(), root.getChildId(Orthant.TNW()));
+		assertTrue(tnw.hasParent());
+		assertEquals(root.getId(), tnw.getParentId());
+		assertFalse(tnw.hasChildren());
+
+		assertFalse(tnw.hasNbr(Side.WEST()));
+		assertTrue(tnw.hasNbr(Side.EAST()));
+		assertTrue(tnw.hasNbr(Side.SOUTH()));
+		assertFalse(tnw.hasNbr(Side.NORTH()));
+		assertTrue(tnw.hasNbr(Side.BOTTOM()));
+		assertFalse(tnw.hasNbr(Side.TOP()));
+
+		assertEquals(tne.getId(), tnw.getNbrId(Side.EAST()));
+		assertEquals(tsw.getId(), tnw.getNbrId(Side.SOUTH()));
+		assertEquals(bnw.getId(), tnw.getNbrId(Side.BOTTOM()));
+
+		assertTrue(tnw.hasNbr(Edge.BS()));
+		assertFalse(tnw.hasNbr(Edge.TN()));
+		assertFalse(tnw.hasNbr(Edge.BN()));
+		assertFalse(tnw.hasNbr(Edge.TS()));
+		assertFalse(tnw.hasNbr(Edge.BW()));
+		assertFalse(tnw.hasNbr(Edge.TE()));
+		assertTrue(tnw.hasNbr(Edge.BE()));
+		assertFalse(tnw.hasNbr(Edge.TW()));
+		assertFalse(tnw.hasNbr(Edge.SW()));
+		assertFalse(tnw.hasNbr(Edge.NE()));
+		assertTrue(tnw.hasNbr(Edge.SE()));
+		assertFalse(tnw.hasNbr(Edge.NW()));
+
+		assertEquals(bsw.getId(), tnw.getNbrId(Edge.BS()));
+		assertEquals(bne.getId(), tnw.getNbrId(Edge.BE()));
+		assertEquals(tse.getId(), tnw.getNbrId(Edge.SE()));
+
+		assertFalse(tnw.hasNbr(Orthant.BSW()));
+		assertTrue(tnw.hasNbr(Orthant.BSE()));
+		assertFalse(tnw.hasNbr(Orthant.BNW()));
+		assertFalse(tnw.hasNbr(Orthant.BNE()));
+		assertFalse(tnw.hasNbr(Orthant.TSW()));
+		assertFalse(tnw.hasNbr(Orthant.TSE()));
+		assertFalse(tnw.hasNbr(Orthant.TNW()));
+		assertFalse(tnw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bse.getId(), tnw.getNbrId(Orthant.BSE()));
+
+		// TNE child
+		assertEquals(tne.getId(), root.getChildId(Orthant.TNE()));
+		assertTrue(tne.hasParent());
+		assertEquals(root.getId(), tne.getParentId());
+		assertFalse(tne.hasChildren());
+
+		assertTrue(tne.hasNbr(Side.WEST()));
+		assertFalse(tne.hasNbr(Side.EAST()));
+		assertTrue(tne.hasNbr(Side.SOUTH()));
+		assertFalse(tne.hasNbr(Side.NORTH()));
+		assertTrue(tne.hasNbr(Side.BOTTOM()));
+		assertFalse(tne.hasNbr(Side.TOP()));
+
+		assertEquals(tnw.getId(), tne.getNbrId(Side.WEST()));
+		assertEquals(tse.getId(), tne.getNbrId(Side.SOUTH()));
+		assertEquals(bne.getId(), tne.getNbrId(Side.BOTTOM()));
+
+		assertTrue(tne.hasNbr(Edge.BS()));
+		assertFalse(tne.hasNbr(Edge.TN()));
+		assertFalse(tne.hasNbr(Edge.BN()));
+		assertFalse(tne.hasNbr(Edge.TS()));
+		assertTrue(tne.hasNbr(Edge.BW()));
+		assertFalse(tne.hasNbr(Edge.TE()));
+		assertFalse(tne.hasNbr(Edge.BE()));
+		assertFalse(tne.hasNbr(Edge.TW()));
+		assertTrue(tne.hasNbr(Edge.SW()));
+		assertFalse(tne.hasNbr(Edge.NE()));
+		assertFalse(tne.hasNbr(Edge.SE()));
+		assertFalse(tne.hasNbr(Edge.NW()));
+
+		assertEquals(bse.getId(), tne.getNbrId(Edge.BS()));
+		assertEquals(bnw.getId(), tne.getNbrId(Edge.BW()));
+		assertEquals(tsw.getId(), tne.getNbrId(Edge.SW()));
+
+		assertTrue(tne.hasNbr(Orthant.BSW()));
+		assertFalse(tne.hasNbr(Orthant.BSE()));
+		assertFalse(tne.hasNbr(Orthant.BNW()));
+		assertFalse(tne.hasNbr(Orthant.BNE()));
+		assertFalse(tne.hasNbr(Orthant.TSW()));
+		assertFalse(tne.hasNbr(Orthant.TSE()));
+		assertFalse(tne.hasNbr(Orthant.TNW()));
+		assertFalse(tne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw.getId(), tne.getNbrId(Orthant.BSW()));
 	}
 
 	@Test
@@ -1096,6 +2236,368 @@ class ForestTest {
 		assertFalse(ne_ne.hasNbr(Orthant.NE()));
 
 		assertEquals(ne_sw.getId(), ne_ne.getNbrId(Orthant.SW()));
+
+	}
+
+	@Test
+	void RefineAtThrice3D() {
+		Forest forest = new Forest(3);
+		double[] coord = { .3, .3, .3 };
+		forest.refineAt(coord);
+		forest.refineAt(coord);
+		forest.refineAt(coord);
+		assertEquals(forest.getRootNode().getId(), 0);
+		assertEquals(forest.getRootIds().size(), 1);
+		assertTrue(forest.getRootIds().contains(0));
+		assertEquals(forest.getMaxLevel(), 3);
+
+		Node root = forest.getNode(0);
+		assertEquals(root.getId(), 0);
+		assertFalse(root.hasParent());
+		assertTrue(root.hasChildren());
+
+		Node bsw = forest.getNode(root.getChildId(Orthant.BSW()));
+		Node bsw_bsw = forest.getNode(bsw.getChildId(Orthant.BSW()));
+		Node bsw_bse = forest.getNode(bsw.getChildId(Orthant.BSE()));
+		Node bsw_bnw = forest.getNode(bsw.getChildId(Orthant.BNW()));
+		Node bsw_bne = forest.getNode(bsw.getChildId(Orthant.BNE()));
+		Node bsw_tsw = forest.getNode(bsw.getChildId(Orthant.TSW()));
+		Node bsw_tse = forest.getNode(bsw.getChildId(Orthant.TSE()));
+		Node bsw_tnw = forest.getNode(bsw.getChildId(Orthant.TNW()));
+		Node bsw_tne = forest.getNode(bsw.getChildId(Orthant.TNE()));
+		Node bse = forest.getNode(root.getChildId(Orthant.BSE()));
+		Node bse_bsw = forest.getNode(bse.getChildId(Orthant.BSW()));
+		Node bse_bnw = forest.getNode(bse.getChildId(Orthant.BNW()));
+		Node bse_tsw = forest.getNode(bse.getChildId(Orthant.TSW()));
+		Node bse_tnw = forest.getNode(bse.getChildId(Orthant.TNW()));
+		Node bse_tne = forest.getNode(bse.getChildId(Orthant.TNE()));
+		Node bnw = forest.getNode(root.getChildId(Orthant.BNW()));
+		Node bnw_bsw = forest.getNode(bnw.getChildId(Orthant.BSW()));
+		Node bnw_bse = forest.getNode(bnw.getChildId(Orthant.BSE()));
+		Node bnw_tsw = forest.getNode(bnw.getChildId(Orthant.TSW()));
+		Node bnw_tse = forest.getNode(bnw.getChildId(Orthant.TSE()));
+		Node bnw_tnw = forest.getNode(bnw.getChildId(Orthant.TNW()));
+		Node bnw_tne = forest.getNode(bnw.getChildId(Orthant.TNE()));
+		Node bne = forest.getNode(root.getChildId(Orthant.BNE()));
+		Node bne_bsw = forest.getNode(bne.getChildId(Orthant.BSW()));
+		Node bne_tsw = forest.getNode(bne.getChildId(Orthant.TSW()));
+		Node bne_tse = forest.getNode(bne.getChildId(Orthant.TSE()));
+		Node bne_tnw = forest.getNode(bne.getChildId(Orthant.TNW()));
+		Node bne_tne = forest.getNode(bne.getChildId(Orthant.TNE()));
+		Node tsw = forest.getNode(root.getChildId(Orthant.TSW()));
+		Node tsw_bsw = forest.getNode(tsw.getChildId(Orthant.BSW()));
+		Node tsw_bse = forest.getNode(tsw.getChildId(Orthant.BSE()));
+		Node tsw_bnw = forest.getNode(tsw.getChildId(Orthant.BNW()));
+		Node tsw_bne = forest.getNode(tsw.getChildId(Orthant.BNE()));
+		Node tsw_tsw = forest.getNode(tsw.getChildId(Orthant.TSW()));
+		Node tsw_tse = forest.getNode(tsw.getChildId(Orthant.TSE()));
+		Node tsw_tnw = forest.getNode(tsw.getChildId(Orthant.TNW()));
+		Node tsw_tne = forest.getNode(tsw.getChildId(Orthant.TNE()));
+		Node tse = forest.getNode(root.getChildId(Orthant.TSE()));
+		Node tse_bsw = forest.getNode(tse.getChildId(Orthant.BSW()));
+		Node tse_bnw = forest.getNode(tse.getChildId(Orthant.BNW()));
+		Node tse_bne = forest.getNode(tse.getChildId(Orthant.BNE()));
+		Node tse_tsw = forest.getNode(tse.getChildId(Orthant.TSW()));
+		Node tse_tnw = forest.getNode(tse.getChildId(Orthant.TNW()));
+		Node tse_tne = forest.getNode(tse.getChildId(Orthant.TNE()));
+		Node tnw = forest.getNode(root.getChildId(Orthant.TNW()));
+		Node tnw_bsw = forest.getNode(tnw.getChildId(Orthant.BSW()));
+		Node tnw_bse = forest.getNode(tnw.getChildId(Orthant.BSE()));
+		Node tnw_bnw = forest.getNode(tnw.getChildId(Orthant.BNW()));
+		Node tnw_bne = forest.getNode(tnw.getChildId(Orthant.BNE()));
+		Node tnw_tsw = forest.getNode(tnw.getChildId(Orthant.TSW()));
+		Node tnw_tse = forest.getNode(tnw.getChildId(Orthant.TSE()));
+		Node tnw_tnw = forest.getNode(tnw.getChildId(Orthant.TNW()));
+		Node tnw_tne = forest.getNode(tnw.getChildId(Orthant.TNE()));
+		Node tne = forest.getNode(root.getChildId(Orthant.TNE()));
+		Node tne_bsw = forest.getNode(tne.getChildId(Orthant.BSW()));
+		Node tne_bse = forest.getNode(tne.getChildId(Orthant.BSE()));
+		Node tne_bnw = forest.getNode(tne.getChildId(Orthant.BNW()));
+		Node tne_bne = forest.getNode(tne.getChildId(Orthant.BNE()));
+		Node tne_tsw = forest.getNode(tne.getChildId(Orthant.TSW()));
+		Node tne_tse = forest.getNode(tne.getChildId(Orthant.TSE()));
+		Node tne_tnw = forest.getNode(tne.getChildId(Orthant.TNW()));
+		Node tne_tne = forest.getNode(tne.getChildId(Orthant.TNE()));
+
+		// BSW child
+		assertEquals(bsw.getId(), root.getChildId(Orthant.BSW()));
+		assertTrue(bsw.hasParent());
+		assertEquals(root.getId(), bsw.getParentId());
+		assertTrue(bsw.hasChildren());
+
+		// BSW_TNE child
+		assertEquals(bsw_tne.getId(), bsw.getChildId(Orthant.TNE()));
+		assertTrue(bsw_tne.hasParent());
+		assertEquals(bsw.getId(), bsw_tne.getParentId());
+		assertTrue(bsw_tne.hasChildren());
+
+		assertTrue(bsw_tne.hasNbr(Side.WEST()));
+		assertTrue(bsw_tne.hasNbr(Side.EAST()));
+		assertTrue(bsw_tne.hasNbr(Side.SOUTH()));
+		assertTrue(bsw_tne.hasNbr(Side.NORTH()));
+		assertTrue(bsw_tne.hasNbr(Side.BOTTOM()));
+		assertTrue(bsw_tne.hasNbr(Side.TOP()));
+
+		assertEquals(bsw_tnw.getId(), bsw_tne.getNbrId(Side.WEST()));
+		assertEquals(bse_tnw.getId(), bsw_tne.getNbrId(Side.EAST()));
+		assertEquals(bsw_tse.getId(), bsw_tne.getNbrId(Side.SOUTH()));
+		assertEquals(bnw_tse.getId(), bsw_tne.getNbrId(Side.NORTH()));
+		assertEquals(bsw_bne.getId(), bsw_tne.getNbrId(Side.BOTTOM()));
+		assertEquals(tsw_bne.getId(), bsw_tne.getNbrId(Side.TOP()));
+
+		assertTrue(bsw_tne.hasNbr(Edge.BS()));
+		assertTrue(bsw_tne.hasNbr(Edge.TN()));
+		assertTrue(bsw_tne.hasNbr(Edge.BN()));
+		assertTrue(bsw_tne.hasNbr(Edge.TS()));
+		assertTrue(bsw_tne.hasNbr(Edge.BW()));
+		assertTrue(bsw_tne.hasNbr(Edge.TE()));
+		assertTrue(bsw_tne.hasNbr(Edge.BE()));
+		assertTrue(bsw_tne.hasNbr(Edge.TW()));
+		assertTrue(bsw_tne.hasNbr(Edge.SW()));
+		assertTrue(bsw_tne.hasNbr(Edge.NE()));
+		assertTrue(bsw_tne.hasNbr(Edge.SE()));
+		assertTrue(bsw_tne.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_bse.getId(), bsw_tne.getNbrId(Edge.BS()));
+		assertEquals(tnw_bse.getId(), bsw_tne.getNbrId(Edge.TN()));
+		assertEquals(bnw_bse.getId(), bsw_tne.getNbrId(Edge.BN()));
+		assertEquals(tsw_bse.getId(), bsw_tne.getNbrId(Edge.TS()));
+		assertEquals(bsw_bnw.getId(), bsw_tne.getNbrId(Edge.BW()));
+		assertEquals(tse_bnw.getId(), bsw_tne.getNbrId(Edge.TE()));
+		assertEquals(bse_bnw.getId(), bsw_tne.getNbrId(Edge.BE()));
+		assertEquals(tsw_bnw.getId(), bsw_tne.getNbrId(Edge.TW()));
+		assertEquals(bsw_tsw.getId(), bsw_tne.getNbrId(Edge.SW()));
+		assertEquals(bne_tsw.getId(), bsw_tne.getNbrId(Edge.NE()));
+		assertEquals(bse_tsw.getId(), bsw_tne.getNbrId(Edge.SE()));
+		assertEquals(bnw_tsw.getId(), bsw_tne.getNbrId(Edge.NW()));
+
+		assertTrue(bsw_tne.hasNbr(Orthant.BSW()));
+		assertTrue(bsw_tne.hasNbr(Orthant.BSE()));
+		assertTrue(bsw_tne.hasNbr(Orthant.BNW()));
+		assertTrue(bsw_tne.hasNbr(Orthant.BNE()));
+		assertTrue(bsw_tne.hasNbr(Orthant.TSW()));
+		assertTrue(bsw_tne.hasNbr(Orthant.TSE()));
+		assertTrue(bsw_tne.hasNbr(Orthant.TNW()));
+		assertTrue(bsw_tne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_bsw.getId(), bsw_tne.getNbrId(Orthant.BSW()));
+		assertEquals(bse_bsw.getId(), bsw_tne.getNbrId(Orthant.BSE()));
+		assertEquals(bnw_bsw.getId(), bsw_tne.getNbrId(Orthant.BNW()));
+		assertEquals(bne_bsw.getId(), bsw_tne.getNbrId(Orthant.BNE()));
+		assertEquals(tsw_bsw.getId(), bsw_tne.getNbrId(Orthant.TSW()));
+		assertEquals(tse_bsw.getId(), bsw_tne.getNbrId(Orthant.TSE()));
+		assertEquals(tnw_bsw.getId(), bsw_tne.getNbrId(Orthant.TNW()));
+		assertEquals(tne_bsw.getId(), bsw_tne.getNbrId(Orthant.TNE()));
+
+		// TSW child
+		assertEquals(tsw.getId(), root.getChildId(Orthant.TSW()));
+		assertTrue(tsw.hasParent());
+		assertEquals(root.getId(), tsw.getParentId());
+		assertTrue(tsw.hasChildren());
+
+		// TSW_BNE child
+		assertEquals(tsw_bne.getId(), tsw.getChildId(Orthant.BNE()));
+		assertTrue(tsw_bne.hasParent());
+		assertEquals(tsw.getId(), tsw_bne.getParentId());
+		assertFalse(tsw_bne.hasChildren());
+
+		assertTrue(tsw_bne.hasNbr(Side.WEST()));
+		assertTrue(tsw_bne.hasNbr(Side.EAST()));
+		assertTrue(tsw_bne.hasNbr(Side.SOUTH()));
+		assertTrue(tsw_bne.hasNbr(Side.NORTH()));
+		assertTrue(tsw_bne.hasNbr(Side.BOTTOM()));
+		assertTrue(tsw_bne.hasNbr(Side.TOP()));
+
+		assertEquals(tsw_bnw.getId(), tsw_bne.getNbrId(Side.WEST()));
+		assertEquals(tse_bnw.getId(), tsw_bne.getNbrId(Side.EAST()));
+		assertEquals(tsw_bse.getId(), tsw_bne.getNbrId(Side.SOUTH()));
+		assertEquals(tnw_bse.getId(), tsw_bne.getNbrId(Side.NORTH()));
+		assertEquals(bsw_tne.getId(), tsw_bne.getNbrId(Side.BOTTOM()));
+		assertEquals(tsw_tne.getId(), tsw_bne.getNbrId(Side.TOP()));
+
+		assertTrue(tsw_bne.hasNbr(Edge.BS()));
+		assertTrue(tsw_bne.hasNbr(Edge.TN()));
+		assertTrue(tsw_bne.hasNbr(Edge.BN()));
+		assertTrue(tsw_bne.hasNbr(Edge.TS()));
+		assertTrue(tsw_bne.hasNbr(Edge.BW()));
+		assertTrue(tsw_bne.hasNbr(Edge.TE()));
+		assertTrue(tsw_bne.hasNbr(Edge.BE()));
+		assertTrue(tsw_bne.hasNbr(Edge.TW()));
+		assertTrue(tsw_bne.hasNbr(Edge.SW()));
+		assertTrue(tsw_bne.hasNbr(Edge.NE()));
+		assertTrue(tsw_bne.hasNbr(Edge.SE()));
+		assertTrue(tsw_bne.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tse.getId(), tsw_bne.getNbrId(Edge.BS()));
+		assertEquals(tnw_tse.getId(), tsw_bne.getNbrId(Edge.TN()));
+		assertEquals(bnw_tse.getId(), tsw_bne.getNbrId(Edge.BN()));
+		assertEquals(tsw_tse.getId(), tsw_bne.getNbrId(Edge.TS()));
+		assertEquals(bsw_tnw.getId(), tsw_bne.getNbrId(Edge.BW()));
+		assertEquals(tse_tnw.getId(), tsw_bne.getNbrId(Edge.TE()));
+		assertEquals(bse_tnw.getId(), tsw_bne.getNbrId(Edge.BE()));
+		assertEquals(tsw_tnw.getId(), tsw_bne.getNbrId(Edge.TW()));
+		assertEquals(tsw_bsw.getId(), tsw_bne.getNbrId(Edge.SW()));
+		assertEquals(tne_bsw.getId(), tsw_bne.getNbrId(Edge.NE()));
+		assertEquals(tse_bsw.getId(), tsw_bne.getNbrId(Edge.SE()));
+		assertEquals(tnw_bsw.getId(), tsw_bne.getNbrId(Edge.NW()));
+
+		assertTrue(tsw_bne.hasNbr(Orthant.BSW()));
+		assertTrue(tsw_bne.hasNbr(Orthant.BSE()));
+		assertTrue(tsw_bne.hasNbr(Orthant.BNW()));
+		assertTrue(tsw_bne.hasNbr(Orthant.BNE()));
+		assertTrue(tsw_bne.hasNbr(Orthant.TSW()));
+		assertTrue(tsw_bne.hasNbr(Orthant.TSE()));
+		assertTrue(tsw_bne.hasNbr(Orthant.TNW()));
+		assertTrue(tsw_bne.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tsw.getId(), tsw_bne.getNbrId(Orthant.BSW()));
+		assertEquals(bse_tsw.getId(), tsw_bne.getNbrId(Orthant.BSE()));
+		assertEquals(bnw_tsw.getId(), tsw_bne.getNbrId(Orthant.BNW()));
+		assertEquals(bne_tsw.getId(), tsw_bne.getNbrId(Orthant.BNE()));
+		assertEquals(tsw_tsw.getId(), tsw_bne.getNbrId(Orthant.TSW()));
+		assertEquals(tse_tsw.getId(), tsw_bne.getNbrId(Orthant.TSE()));
+		assertEquals(tnw_tsw.getId(), tsw_bne.getNbrId(Orthant.TNW()));
+		assertEquals(tne_tsw.getId(), tsw_bne.getNbrId(Orthant.TNE()));
+
+		// TNW child
+		assertEquals(tnw.getId(), root.getChildId(Orthant.TNW()));
+		assertTrue(tnw.hasParent());
+		assertEquals(root.getId(), tnw.getParentId());
+		assertTrue(tnw.hasChildren());
+
+		// TNW_BSE child
+		assertEquals(tnw_bse.getId(), tnw.getChildId(Orthant.BSE()));
+		assertTrue(tnw_bse.hasParent());
+		assertEquals(tnw.getId(), tnw_bse.getParentId());
+		assertFalse(tnw_bse.hasChildren());
+
+		assertTrue(tnw_bse.hasNbr(Side.WEST()));
+		assertTrue(tnw_bse.hasNbr(Side.EAST()));
+		assertTrue(tnw_bse.hasNbr(Side.SOUTH()));
+		assertTrue(tnw_bse.hasNbr(Side.NORTH()));
+		assertTrue(tnw_bse.hasNbr(Side.BOTTOM()));
+		assertTrue(tnw_bse.hasNbr(Side.TOP()));
+
+		assertEquals(tnw_bsw.getId(), tnw_bse.getNbrId(Side.WEST()));
+		assertEquals(tne_bsw.getId(), tnw_bse.getNbrId(Side.EAST()));
+		assertEquals(tsw_bne.getId(), tnw_bse.getNbrId(Side.SOUTH()));
+		assertEquals(tnw_bne.getId(), tnw_bse.getNbrId(Side.NORTH()));
+		assertEquals(bnw_tse.getId(), tnw_bse.getNbrId(Side.BOTTOM()));
+		assertEquals(tnw_tse.getId(), tnw_bse.getNbrId(Side.TOP()));
+
+		assertTrue(tnw_bse.hasNbr(Edge.BS()));
+		assertTrue(tnw_bse.hasNbr(Edge.TN()));
+		assertTrue(tnw_bse.hasNbr(Edge.BN()));
+		assertTrue(tnw_bse.hasNbr(Edge.TS()));
+		assertTrue(tnw_bse.hasNbr(Edge.BW()));
+		assertTrue(tnw_bse.hasNbr(Edge.TE()));
+		assertTrue(tnw_bse.hasNbr(Edge.BE()));
+		assertTrue(tnw_bse.hasNbr(Edge.TW()));
+		assertTrue(tnw_bse.hasNbr(Edge.SW()));
+		assertTrue(tnw_bse.hasNbr(Edge.NE()));
+		assertTrue(tnw_bse.hasNbr(Edge.SE()));
+		assertTrue(tnw_bse.hasNbr(Edge.NW()));
+
+		assertEquals(bsw_tne.getId(), tnw_bse.getNbrId(Edge.BS()));
+		assertEquals(tnw_tne.getId(), tnw_bse.getNbrId(Edge.TN()));
+		assertEquals(bnw_tne.getId(), tnw_bse.getNbrId(Edge.BN()));
+		assertEquals(tsw_tne.getId(), tnw_bse.getNbrId(Edge.TS()));
+		assertEquals(bnw_tsw.getId(), tnw_bse.getNbrId(Edge.BW()));
+		assertEquals(tne_tsw.getId(), tnw_bse.getNbrId(Edge.TE()));
+		assertEquals(bne_tsw.getId(), tnw_bse.getNbrId(Edge.BE()));
+		assertEquals(tnw_tsw.getId(), tnw_bse.getNbrId(Edge.TW()));
+		assertEquals(tsw_bnw.getId(), tnw_bse.getNbrId(Edge.SW()));
+		assertEquals(tne_bnw.getId(), tnw_bse.getNbrId(Edge.NE()));
+		assertEquals(tse_bnw.getId(), tnw_bse.getNbrId(Edge.SE()));
+		assertEquals(tnw_bnw.getId(), tnw_bse.getNbrId(Edge.NW()));
+
+		assertTrue(tnw_bse.hasNbr(Orthant.BSW()));
+		assertTrue(tnw_bse.hasNbr(Orthant.BSE()));
+		assertTrue(tnw_bse.hasNbr(Orthant.BNW()));
+		assertTrue(tnw_bse.hasNbr(Orthant.BNE()));
+		assertTrue(tnw_bse.hasNbr(Orthant.TSW()));
+		assertTrue(tnw_bse.hasNbr(Orthant.TSE()));
+		assertTrue(tnw_bse.hasNbr(Orthant.TNW()));
+		assertTrue(tnw_bse.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tnw.getId(), tnw_bse.getNbrId(Orthant.BSW()));
+		assertEquals(bse_tnw.getId(), tnw_bse.getNbrId(Orthant.BSE()));
+		assertEquals(bnw_tnw.getId(), tnw_bse.getNbrId(Orthant.BNW()));
+		assertEquals(bne_tnw.getId(), tnw_bse.getNbrId(Orthant.BNE()));
+		assertEquals(tsw_tnw.getId(), tnw_bse.getNbrId(Orthant.TSW()));
+		assertEquals(tse_tnw.getId(), tnw_bse.getNbrId(Orthant.TSE()));
+		assertEquals(tnw_tnw.getId(), tnw_bse.getNbrId(Orthant.TNW()));
+		assertEquals(tne_tnw.getId(), tnw_bse.getNbrId(Orthant.TNE()));
+
+		// TNE child
+		assertEquals(tne.getId(), root.getChildId(Orthant.TNE()));
+		assertTrue(tne.hasParent());
+		assertEquals(root.getId(), tne.getParentId());
+		assertTrue(tne.hasChildren());
+
+		// TNE_BSW child
+		assertEquals(tne_bsw.getId(), tne.getChildId(Orthant.BSW()));
+		assertTrue(tne_bsw.hasParent());
+		assertEquals(tne.getId(), tne_bsw.getParentId());
+		assertFalse(tne_bsw.hasChildren());
+
+		assertTrue(tne_bsw.hasNbr(Side.WEST()));
+		assertTrue(tne_bsw.hasNbr(Side.EAST()));
+		assertTrue(tne_bsw.hasNbr(Side.SOUTH()));
+		assertTrue(tne_bsw.hasNbr(Side.NORTH()));
+		assertTrue(tne_bsw.hasNbr(Side.BOTTOM()));
+		assertTrue(tne_bsw.hasNbr(Side.TOP()));
+
+		assertEquals(tnw_bse.getId(), tne_bsw.getNbrId(Side.WEST()));
+		assertEquals(tne_bse.getId(), tne_bsw.getNbrId(Side.EAST()));
+		assertEquals(tse_bnw.getId(), tne_bsw.getNbrId(Side.SOUTH()));
+		assertEquals(tne_bnw.getId(), tne_bsw.getNbrId(Side.NORTH()));
+		assertEquals(bne_tsw.getId(), tne_bsw.getNbrId(Side.BOTTOM()));
+		assertEquals(tne_tsw.getId(), tne_bsw.getNbrId(Side.TOP()));
+
+		assertTrue(tne_bsw.hasNbr(Edge.BS()));
+		assertTrue(tne_bsw.hasNbr(Edge.TN()));
+		assertTrue(tne_bsw.hasNbr(Edge.BN()));
+		assertTrue(tne_bsw.hasNbr(Edge.TS()));
+		assertTrue(tne_bsw.hasNbr(Edge.BW()));
+		assertTrue(tne_bsw.hasNbr(Edge.TE()));
+		assertTrue(tne_bsw.hasNbr(Edge.BE()));
+		assertTrue(tne_bsw.hasNbr(Edge.TW()));
+		assertTrue(tne_bsw.hasNbr(Edge.SW()));
+		assertTrue(tne_bsw.hasNbr(Edge.NE()));
+		assertTrue(tne_bsw.hasNbr(Edge.SE()));
+		assertTrue(tne_bsw.hasNbr(Edge.NW()));
+
+		assertEquals(bse_tnw.getId(), tne_bsw.getNbrId(Edge.BS()));
+		assertEquals(tne_tnw.getId(), tne_bsw.getNbrId(Edge.TN()));
+		assertEquals(bne_tnw.getId(), tne_bsw.getNbrId(Edge.BN()));
+		assertEquals(tse_tnw.getId(), tne_bsw.getNbrId(Edge.TS()));
+		assertEquals(bnw_tse.getId(), tne_bsw.getNbrId(Edge.BW()));
+		assertEquals(tne_tse.getId(), tne_bsw.getNbrId(Edge.TE()));
+		assertEquals(bne_tse.getId(), tne_bsw.getNbrId(Edge.BE()));
+		assertEquals(tnw_tse.getId(), tne_bsw.getNbrId(Edge.TW()));
+		assertEquals(tsw_bne.getId(), tne_bsw.getNbrId(Edge.SW()));
+		assertEquals(tne_bne.getId(), tne_bsw.getNbrId(Edge.NE()));
+		assertEquals(tse_bne.getId(), tne_bsw.getNbrId(Edge.SE()));
+		assertEquals(tnw_bne.getId(), tne_bsw.getNbrId(Edge.NW()));
+
+		assertTrue(tne_bsw.hasNbr(Orthant.BSW()));
+		assertTrue(tne_bsw.hasNbr(Orthant.BSE()));
+		assertTrue(tne_bsw.hasNbr(Orthant.BNW()));
+		assertTrue(tne_bsw.hasNbr(Orthant.BNE()));
+		assertTrue(tne_bsw.hasNbr(Orthant.TSW()));
+		assertTrue(tne_bsw.hasNbr(Orthant.TSE()));
+		assertTrue(tne_bsw.hasNbr(Orthant.TNW()));
+		assertTrue(tne_bsw.hasNbr(Orthant.TNE()));
+
+		assertEquals(bsw_tne.getId(), tne_bsw.getNbrId(Orthant.BSW()));
+		assertEquals(bse_tne.getId(), tne_bsw.getNbrId(Orthant.BSE()));
+		assertEquals(bnw_tne.getId(), tne_bsw.getNbrId(Orthant.BNW()));
+		assertEquals(bne_tne.getId(), tne_bsw.getNbrId(Orthant.BNE()));
+		assertEquals(tsw_tne.getId(), tne_bsw.getNbrId(Orthant.TSW()));
+		assertEquals(tse_tne.getId(), tne_bsw.getNbrId(Orthant.TSE()));
+		assertEquals(tnw_tne.getId(), tne_bsw.getNbrId(Orthant.TNW()));
+		assertEquals(tne_tne.getId(), tne_bsw.getNbrId(Orthant.TNE()));
 
 	}
 

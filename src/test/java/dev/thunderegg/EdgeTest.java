@@ -319,4 +319,64 @@ class EdgeTest {
 		});
 	}
 
+	@Test
+	void BSGetSides() {
+		assertArrayEquals(Edge.BS().getSides(), new Side[] { Side.BOTTOM(), Side.SOUTH() });
+	}
+
+	@Test
+	void TNGetSides() {
+		assertArrayEquals(Edge.TN().getSides(), new Side[] { Side.TOP(), Side.NORTH() });
+	}
+
+	@Test
+	void BNGetSides() {
+		assertArrayEquals(Edge.BN().getSides(), new Side[] { Side.BOTTOM(), Side.NORTH() });
+	}
+
+	@Test
+	void TSGetSides() {
+		assertArrayEquals(Edge.TS().getSides(), new Side[] { Side.TOP(), Side.SOUTH() });
+	}
+
+	@Test
+	void BWGetSides() {
+		assertArrayEquals(Edge.BW().getSides(), new Side[] { Side.BOTTOM(), Side.WEST() });
+	}
+
+	@Test
+	void TEGetSides() {
+		assertArrayEquals(Edge.TE().getSides(), new Side[] { Side.TOP(), Side.EAST() });
+	}
+
+	@Test
+	void BEGetSides() {
+		assertArrayEquals(Edge.BE().getSides(), new Side[] { Side.BOTTOM(), Side.EAST() });
+	}
+
+	@Test
+	void TWGetSides() {
+		assertArrayEquals(Edge.TW().getSides(), new Side[] { Side.TOP(), Side.WEST() });
+	}
+
+	@Test
+	void SWGetSides() {
+		assertArrayEquals(Edge.SW().getSides(), new Side[] { Side.SOUTH(), Side.WEST() });
+	}
+
+	@Test
+	void NEGetSides() {
+		assertArrayEquals(Edge.NE().getSides(), new Side[] { Side.NORTH(), Side.EAST() });
+	}
+
+	@Test
+	void SEGetSides() {
+		assertArrayEquals(Edge.SE().getSides(), new Side[] { Side.SOUTH(), Side.EAST() });
+	}
+
+	@Test
+	void NWGetSides() {
+		assertArrayEquals(Edge.NW().getSides(), new Side[] { Side.NORTH(), Side.WEST() });
+	}
+
 }

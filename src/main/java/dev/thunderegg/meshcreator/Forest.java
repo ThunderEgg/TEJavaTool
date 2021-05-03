@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import dev.thunderegg.Edge;
 import dev.thunderegg.Orthant;
 import dev.thunderegg.Side;
 
@@ -116,6 +118,11 @@ public class Forest {
 					refineNode(getNode(parent.getNbrId(s)));
 				}
 			}
+			for (Edge e : Edge.getValuesForDimension(dimension)) {
+				if (!node.hasNbr(e) && parent.hasNbr(e)) {
+					refineNode(getNode(parent.getNbrId(e)));
+				}
+			}
 			for (Orthant o : Orthant.getValuesForDimension(dimension)) {
 				if (!node.hasNbr(o) && parent.hasNbr(o)) {
 					refineNode(getNode(parent.getNbrId(o)));
@@ -137,8 +144,19 @@ public class Forest {
 
 		for (Orthant o : Orthant.getValuesForDimension(dimension)) {
 			Node child = children[o.getIndex()];
+			for (Edge e : Edge.getValuesForDimension(dimension)) {
+				Node child_nbr = getNbrOn(child, e.getSides());
+				if (child_nbr != null) {
+					child.setNbrId(e, child_nbr.getId());
+					child_nbr.setNbrId(e.getOpposite(), child.getId());
+				}
+			}
+		}
+
+		for (Orthant o : Orthant.getValuesForDimension(dimension)) {
+			Node child = children[o.getIndex()];
 			for (Orthant c : Orthant.getValuesForDimension(dimension)) {
-				Node child_nbr = getNbrOn(child, c);
+				Node child_nbr = getNbrOn(child, c.getExteriorSides());
 				if (child_nbr != null) {
 					child.setNbrId(c, child_nbr.getId());
 					child_nbr.setNbrId(c.getOpposite(), child.getId());
@@ -152,17 +170,16 @@ public class Forest {
 	 * Get the neighbor on an orthant, requires that side neighbor information is
 	 * complete
 	 * 
-	 * @param node the node that we are finding the neighbor of
-	 * @param o    the orthant
+	 * @param node  the node that we are finding the neighbor of
+	 * @param sides the sides
 	 * @return the neighbor, or null if there isn't one
 	 */
-	private Node getNbrOn(Node node, Orthant o) {
-		int[][][] permutations = { {}, {}, { { 0, 1 }, { 1, 0 } },
+	private Node getNbrOn(Node node, Side[] sides) {
+		int[][][] permutations = { {}, { { 0 } }, { { 0, 1 }, { 1, 0 } },
 				{ { 0, 1, 2 }, { 0, 2, 1 }, { 1, 0, 2 }, { 1, 2, 0 }, { 2, 0, 1 }, { 2, 1, 0 } } };
 
 		Node nbr = null;
-		Side[] sides = o.getExteriorSides();
-		for (int[] permutation : permutations[dimension]) {
+		for (int[] permutation : permutations[sides.length]) {
 			nbr = node;
 			for (int i : permutation) {
 				nbr = getNode(nbr.getNbrId(sides[i]));

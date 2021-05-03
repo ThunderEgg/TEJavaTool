@@ -257,4 +257,39 @@ public class Edge {
     public int getIndex() {
         return val;
     }
+
+    /**
+     * Get the sides that the edge is on
+     * 
+     * @return the sides
+     */
+    public Side[] getSides() {
+        Side[] sides = null;
+        if (equals(BS())) {
+            sides = new Side[] { Side.BOTTOM(), Side.SOUTH() };
+        } else if (equals(TN())) {
+            sides = new Side[] { Side.TOP(), Side.NORTH() };
+        } else if (equals(BN())) {
+            sides = new Side[] { Side.BOTTOM(), Side.NORTH() };
+        } else if (equals(TS())) {
+            sides = new Side[] { Side.TOP(), Side.SOUTH() };
+        } else if (equals(BW())) {
+            sides = new Side[] { Side.BOTTOM(), Side.WEST() };
+        } else if (equals(TE())) {
+            sides = new Side[] { Side.TOP(), Side.EAST() };
+        } else if (equals(BE())) {
+            sides = new Side[] { Side.BOTTOM(), Side.EAST() };
+        } else if (equals(TW())) {
+            sides = new Side[] { Side.TOP(), Side.WEST() };
+        } else if (equals(SW())) {
+            sides = new Side[] { Side.SOUTH(), Side.WEST() };
+        } else if (equals(NE())) {
+            sides = new Side[] { Side.NORTH(), Side.EAST() };
+        } else if (equals(SE())) {
+            sides = new Side[] { Side.SOUTH(), Side.EAST() };
+        } else if (equals(NW())) {
+            sides = new Side[] { Side.NORTH(), Side.WEST() };
+        }
+        return sides;
+    }
 }
