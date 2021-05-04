@@ -385,4 +385,43 @@ public class Orthant {
 	public int hashCode() {
 		return val;
 	}
+
+	/**
+	 * Get the values for a certain edge
+	 * 
+	 * @param dimension the dimension
+	 * @param e         the edge
+	 * @return the values
+	 */
+	public static Orthant[] GetValuesOnEdge(int dimension, Edge e) {
+		Orthant[] values = null;
+		if (dimension == 3) {
+			if (e.equals(Edge.BS())) {
+				values = new Orthant[] { BSW(), BSE() };
+			} else if (e.equals(Edge.TN())) {
+				values = new Orthant[] { TNW(), TNE() };
+			} else if (e.equals(Edge.BN())) {
+				values = new Orthant[] { BNW(), BNE() };
+			} else if (e.equals(Edge.TS())) {
+				values = new Orthant[] { TSW(), TSE() };
+			} else if (e.equals(Edge.BW())) {
+				values = new Orthant[] { BSW(), BNW() };
+			} else if (e.equals(Edge.TE())) {
+				values = new Orthant[] { TSE(), TNE() };
+			} else if (e.equals(Edge.BE())) {
+				values = new Orthant[] { BSE(), BNE() };
+			} else if (e.equals(Edge.TW())) {
+				values = new Orthant[] { TSW(), TNW() };
+			} else if (e.equals(Edge.SW())) {
+				values = new Orthant[] { BSW(), TSW() };
+			} else if (e.equals(Edge.NE())) {
+				values = new Orthant[] { BNE(), TNE() };
+			} else if (e.equals(Edge.SE())) {
+				values = new Orthant[] { BSE(), TSE() };
+			} else if (e.equals(Edge.NW())) {
+				values = new Orthant[] { BNW(), TNW() };
+			}
+		}
+		return values;
+	}
 }

@@ -565,6 +565,11 @@ class OrthantTest {
 	}
 
 	@Test
+	void GetNumOrthantsForDimension1() {
+		assertEquals(Orthant.getNumOrthantsForDimension(1), 2);
+	}
+
+	@Test
 	void GetNumOrthantsForDimension2() {
 		assertEquals(Orthant.getNumOrthantsForDimension(2), 4);
 	}
@@ -1101,6 +1106,71 @@ class OrthantTest {
 		assertThrows(IllegalArgumentException.class, () -> {
 			Orthant.Upper().collapseOnAxis(2);
 		});
+	}
+
+	@Test
+	void GetValuesOnEdge2D() {
+		assertNull(Orthant.GetValuesOnEdge(2, null));
+	}
+
+	@Test
+	void GetValuesOnEdgeBS() {
+		assertArrayEquals(new Orthant[] { Orthant.BSW(), Orthant.BSE() }, Orthant.GetValuesOnEdge(3, Edge.BS()));
+	}
+
+	@Test
+	void GetValuesOnEdgeTN() {
+		assertArrayEquals(new Orthant[] { Orthant.TNW(), Orthant.TNE() }, Orthant.GetValuesOnEdge(3, Edge.TN()));
+	}
+
+	@Test
+	void GetValuesOnEdgeBN() {
+		assertArrayEquals(new Orthant[] { Orthant.BNW(), Orthant.BNE() }, Orthant.GetValuesOnEdge(3, Edge.BN()));
+	}
+
+	@Test
+	void GetValuesOnEdgeTS() {
+		assertArrayEquals(new Orthant[] { Orthant.TSW(), Orthant.TSE() }, Orthant.GetValuesOnEdge(3, Edge.TS()));
+	}
+
+	@Test
+	void GetValuesOnEdgeBW() {
+		assertArrayEquals(new Orthant[] { Orthant.BSW(), Orthant.BNW() }, Orthant.GetValuesOnEdge(3, Edge.BW()));
+	}
+
+	@Test
+	void GetValuesOnEdgeTE() {
+		assertArrayEquals(new Orthant[] { Orthant.TSE(), Orthant.TNE() }, Orthant.GetValuesOnEdge(3, Edge.TE()));
+	}
+
+	@Test
+	void GetValuesOnEdgeBE() {
+		assertArrayEquals(new Orthant[] { Orthant.BSE(), Orthant.BNE() }, Orthant.GetValuesOnEdge(3, Edge.BE()));
+	}
+
+	@Test
+	void GetValuesOnEdgeTW() {
+		assertArrayEquals(new Orthant[] { Orthant.TSW(), Orthant.TNW() }, Orthant.GetValuesOnEdge(3, Edge.TW()));
+	}
+
+	@Test
+	void GetValuesOnEdgeSW() {
+		assertArrayEquals(new Orthant[] { Orthant.BSW(), Orthant.TSW() }, Orthant.GetValuesOnEdge(3, Edge.SW()));
+	}
+
+	@Test
+	void GetValuesOnEdgeNE() {
+		assertArrayEquals(new Orthant[] { Orthant.BNE(), Orthant.TNE() }, Orthant.GetValuesOnEdge(3, Edge.NE()));
+	}
+
+	@Test
+	void GetValuesOnEdgeSE() {
+		assertArrayEquals(new Orthant[] { Orthant.BSE(), Orthant.TSE() }, Orthant.GetValuesOnEdge(3, Edge.SE()));
+	}
+
+	@Test
+	void GetValuesOnEdgeNW() {
+		assertArrayEquals(new Orthant[] { Orthant.BNW(), Orthant.TNW() }, Orthant.GetValuesOnEdge(3, Edge.NW()));
 	}
 
 }

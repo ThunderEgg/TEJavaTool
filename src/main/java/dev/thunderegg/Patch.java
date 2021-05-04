@@ -15,6 +15,8 @@ public class Patch {
 	public double[] lengths;
 
 	public ArrayList<Neighbor> nbrs = new ArrayList<Neighbor>();
+	public ArrayList<EdgeNeighbor> edge_nbrs = new ArrayList<EdgeNeighbor>();
+	public ArrayList<CornerNeighbor> corner_nbrs = new ArrayList<CornerNeighbor>();
 
 	public Patch(int dimension) {
 		child_ids = new int[Orthant.getNumOrthantsForDimension(dimension)];

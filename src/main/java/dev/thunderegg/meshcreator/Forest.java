@@ -142,8 +142,7 @@ public class Forest {
 			}
 		}
 
-		for (Orthant o : Orthant.getValuesForDimension(dimension)) {
-			Node child = children[o.getIndex()];
+		for (Node child : children) {
 			for (Edge e : Edge.getValuesForDimension(dimension)) {
 				Node child_nbr = getNbrOn(child, e.getSides());
 				if (child_nbr != null) {
@@ -151,12 +150,11 @@ public class Forest {
 					child_nbr.setNbrId(e.getOpposite(), child.getId());
 				}
 			}
-		}
-
-		for (Orthant o : Orthant.getValuesForDimension(dimension)) {
-			Node child = children[o.getIndex()];
 			for (Orthant c : Orthant.getValuesForDimension(dimension)) {
 				Node child_nbr = getNbrOn(child, c.getExteriorSides());
+				if (child_nbr == null) {
+					child_nbr = getNbrOn(child, c);
+				}
 				if (child_nbr != null) {
 					child.setNbrId(c, child_nbr.getId());
 					child_nbr.setNbrId(c.getOpposite(), child.getId());
@@ -164,6 +162,27 @@ public class Forest {
 			}
 		}
 
+	}
+
+	private Node getNbrOn(Node child, Orthant c) {
+		Node nbr = null;
+		Node parent = getNode(child.getParentId());
+		if (parent != null) {
+			Orthant orth_on_parent = null;
+			for (Orthant o : Orthant.getValuesForDimension(dimension)) {
+				if (parent.getChildId(o) == child.getId()) {
+					orth_on_parent = o;
+					break;
+				}
+			}
+			if (c == orth_on_parent) {
+				Node parent_nbr = getNode(parent.getNbrId(c));
+				if (parent_nbr != null) {
+					nbr = getNode(parent.getChildId(c.getOpposite()));
+				}
+			}
+		}
+		return nbr;
 	}
 
 	/**
@@ -230,6 +249,28 @@ public class Forest {
 						}
 						// set nbr ids to -1
 						child_nbr.setNbrId(s.getOpposite(), -1);
+					}
+				}
+				for (Edge e : Edge.getValuesForDimension(dimension)) {
+					if (child.hasNbr(e)) {
+						Node child_nbr = getNode(child.getNbrId(e));
+						// coarsen nbr if needed
+						if (child_nbr.hasChildren()) {
+							removeChildren(child_nbr);
+						}
+						// set nbr ids to -1
+						child_nbr.setNbrId(e.getOpposite(), -1);
+					}
+				}
+				for (Orthant c : Orthant.getValuesForDimension(dimension)) {
+					if (child.hasNbr(c)) {
+						Node child_nbr = getNode(child.getNbrId(c));
+						// coarsen nbr if needed
+						if (child_nbr.hasChildren()) {
+							removeChildren(child_nbr);
+						}
+						// set nbr ids to -1
+						child_nbr.setNbrId(c.getOpposite(), -1);
 					}
 				}
 				// remove child from nodes map
